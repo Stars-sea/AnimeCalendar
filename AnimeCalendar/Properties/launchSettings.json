@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "AnimeCalendar (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "AnimeCalendar (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
