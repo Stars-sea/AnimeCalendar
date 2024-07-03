@@ -10,25 +10,50 @@ public enum SubjectType: int {
     Reality = 6
 }
 
-public class BaseSubject {
-    public int          Id      { get; init; }
-    public SubjectType  Type    { get; init; }
-    public string       Name    { get; init; }
-    public string       NameCn  { get; init; }
-    public string       Summary { get; init; }
-    public RatingType   Rating  { get; init; }
-    public ImageURL     Images  { get; init; }
-    public Collection   Collection { get; init; }
-}
+public record BaseSubject(
+    int         Id,
+    SubjectType Type,
+    string      Name,
+    string      NameCn,
+    ImageURL    Images
+);
 
-public sealed class Subject : BaseSubject {
-    public DateTime     Date            { get; init; }
-    public int          Volumes         { get; init; }
-    public int          Eps             { get; init; }
-    public Tag[]        Tags            { get; init; }
-    public bool         Nsfw            { get; init; }
-    public bool         Locked          { get; init; }
-    public string       Platform        { get; init; }
-    public Infobox[]    Infobox         { get; init; }
-    public int          TotleEpisodes   { get; init; }
-}
+public record AbstractSubject(
+    int          Id,
+    SubjectType  Type,
+    string       Name,
+    string       NameCn,
+    string       Summary,
+    RatingType   Rating,
+    ImageURL     Images,
+    Collection   Collection
+) : BaseSubject(Id, Type, Name, NameCn, Images);
+
+public sealed record RelatedSubject(
+    int         Id,
+    SubjectType Type,
+    string      Name,
+    string      NameCn,
+    ImageURL    Images,
+    string      Relation
+) : BaseSubject(Id, Type, Name, NameCn, Images);
+
+public sealed record Subject(
+    int         Id,
+    SubjectType Type,
+    string      Name,
+    string      NameCn,
+    string      Summary,
+    RatingType  Rating,
+    ImageURL    Images,
+    Collection  Collection,
+    DateTime    Date,
+    int         Volumes,
+    int         Eps,
+    Tag[]       Tags,
+    bool        Nsfw,
+    bool        Locked,
+    string      Platform,
+    Infobox[]   Infobox,
+    int         TotleEpisodes
+) : AbstractSubject(Id, Type, Name, NameCn, Summary, Rating, Images, Collection);

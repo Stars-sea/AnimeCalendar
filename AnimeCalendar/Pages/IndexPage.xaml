@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView>
+    <NavigationView ItemInvoked="NavView_ItemInvoked">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="Collection" Icon="Favorite" Tag="CollectionPage" />
 
@@ -28,5 +28,7 @@
         <NavigationView.FooterMenuItems>
             <NavigationViewItem Content="Account" Icon="People" Tag="AccountSettingsPage" />
         </NavigationView.FooterMenuItems>
+
+        <Frame x:Name="ContentFrame" x:FieldModifier="Private" />
     </NavigationView>
 </Page>

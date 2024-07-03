@@ -28,7 +28,12 @@
     <None Remove="Assets\Square44x44Logo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
+    <None Remove="Pages\AccountSettingsPage.xaml" />
+    <None Remove="Pages\AnimeListPage.xaml" />
+    <None Remove="Pages\CalendarRootPage.xaml" />
+    <None Remove="Pages\CollectionPage.xaml" />
     <None Remove="Pages\IndexPage.xaml" />
+    <None Remove="Pages\SettingsPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +55,31 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AnimeCalendar.Api\AnimeCalendar.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\AnimeListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\CalendarRootPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\CollectionPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\AccountSettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\IndexPage.xaml">
