@@ -1,52 +1,45 @@
-﻿using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
+﻿using System;
+using System.Diagnostics;
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+using H.NotifyIcon;
 
-using Windows.ApplicationModel;
+using Microsoft.UI.Xaml;
+using Microsoft.Windows.AppLifecycle;
+
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+namespace AnimeCalendar;
 
-namespace AnimeCalendar
-{
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : Application
-    {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
-        {
-            this.InitializeComponent();
-        }
+public partial class App : Application {
 
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-        {
-            m_window = new MainWindow();
-            m_window.Activate();
-        }
-
-        private Window m_window;
+    public App() {
+        InitializeComponent();
     }
+
+    protected override async void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args) {
+        AppInstance instance = AppInstance.FindOrRegisterForKey("AnimeCalendar.Main");
+
+        if (instance.IsCurrent) {
+            MainWindow = new MainWindow();
+            MainWindow.Activate();
+
+            instance.Activated += Instance_Activated;
+            return;
+        }
+
+        var activatedArgs = AppInstance.GetCurrent().GetActivatedEventArgs();
+        await instance.RedirectActivationToAsync(activatedArgs);
+        Process.GetCurrentProcess().Kill();
+    }
+
+    private void Instance_Activated(object sender, AppActivationArguments e) {
+        MainWindow.Show();
+        var args = e.Data as ProtocolActivatedEventArgs;
+        if (args == null) return;
+
+        // TODO: Receive callback
+        Trace.WriteLine(args.Uri);
+    }
+
+    public static MainWindow MainWindow { get; private set; }
 }

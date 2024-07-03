@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="AnimeCalendar.Pages.IndexPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnimeCalendar.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <NavigationView>
+        <NavigationView.MenuItems>
+            <NavigationViewItem Content="Collection" Icon="Favorite" Tag="CollectionPage" />
+
+            <NavigationViewItem Content="Calendar" Icon="Calendar" Tag="CalendarRootPage">
+                <NavigationViewItem.MenuItems>
+                    <NavigationViewItem Tag="AnimeListPage#1" Content="Monday" />
+                    <NavigationViewItem Tag="AnimeListPage#2" Content="Tuesday" />
+                    <NavigationViewItem Tag="AnimeListPage#3" Content="Wednesday" />
+                    <NavigationViewItem Tag="AnimeListPage#4" Content="Thursday" />
+                    <NavigationViewItem Tag="AnimeListPage#5" Content="Friday" />
+                    <NavigationViewItem Tag="AnimeListPage#6" Content="Saturday" />
+                    <NavigationViewItem Tag="AnimeListPage#7" Content="Sunday" />
+                </NavigationViewItem.MenuItems>
+            </NavigationViewItem>
+        </NavigationView.MenuItems>
+
+        <NavigationView.FooterMenuItems>
+            <NavigationViewItem Content="Account" Icon="People" Tag="AccountSettingsPage" />
+        </NavigationView.FooterMenuItems>
+    </NavigationView>
+</Page>
