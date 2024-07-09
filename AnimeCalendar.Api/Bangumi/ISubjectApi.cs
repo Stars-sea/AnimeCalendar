@@ -6,10 +6,7 @@ using System.Threading.Tasks;
 
 namespace AnimeCalendar.Api.Bangumi;
 
-[Headers(
-    "Authorization: Bearer",
-    BangumiApp.USER_AGENT
-)]
+[Headers(BangumiApp.USER_AGENT)]
 public interface ISubjectApi {
     [Get("/calendar")]
     Task<Calendar[]> GetCalendar();

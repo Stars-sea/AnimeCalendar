@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AnimeCalendar.Api.Bangumi.Schemas;
+namespace AnimeCalendar.Api.Bangumi.Auth;
 
 public record AccessTokenRequest(
     string GrantType,
@@ -12,8 +12,9 @@ public record AccessTokenRequest(
     string ClientSecret,
     string Code,
     string RedirectUri
-    // string State
-) {
+// string State
+)
+{
     public static AccessTokenRequest Create(string code) => new(
         "authorization_code",
         BangumiApp.APP_ID,
@@ -29,8 +30,9 @@ public record AccessTokenRefreshRequest(
     string ClientSecret,
     string RefreshToken,
     string RedirectUri
-) {
-    public static AccessTokenRequest Create(string refreshToken) => new(
+)
+{
+    public static AccessTokenRefreshRequest Create(string refreshToken) => new(
         "refresh_token",
         BangumiApp.APP_ID,
         BangumiApp.APP_SECRET,
@@ -42,18 +44,18 @@ public record AccessTokenRefreshRequest(
 public record AccessTokenStatusRequest(string AccessToken);
 
 public record AccessTokenResponse(
-    string  AccessToken,
-    ulong   ExpiresIn,
-    string  TokenType,
-    string  Scope,
-    int     UserId,
-    string  RefreshToken
+    string AccessToken,
+    ulong ExpiresIn,
+    string TokenType,
+    string Scope,
+    int UserId,
+    string RefreshToken
 );
 
 public record AccessTokenStatusResponse(
-    string  AccessToken,
-    string  ClientId,
-    ulong   Expires,
-    int     UserId
-    // string Scope
+    string AccessToken,
+    string ClientId,
+    ulong Expires,
+    int UserId
+// string Scope
 );

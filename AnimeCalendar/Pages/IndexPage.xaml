@@ -29,6 +29,6 @@
             <NavigationViewItem Content="Account" Icon="People" Tag="AccountSettingsPage" />
         </NavigationView.FooterMenuItems>
 
-        <Frame x:Name="ContentFrame" x:FieldModifier="Private" />
+        <Frame x:Name="ContentFrame" x:FieldModifier="Private" Margin="48 0 0 0" />
     </NavigationView>
 </Page>

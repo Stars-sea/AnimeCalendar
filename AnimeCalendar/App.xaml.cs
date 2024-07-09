@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Threading.Channels;
+
+using AnimeCalendar.Data;
 
 using H.NotifyIcon;
 
@@ -32,14 +35,25 @@ public partial class App : Application {
         Process.GetCurrentProcess().Kill();
     }
 
-    private void Instance_Activated(object sender, AppActivationArguments e) {
+    private async void Instance_Activated(object sender, AppActivationArguments e) {
         MainWindow.Show();
         var args = e.Data as ProtocolActivatedEventArgs;
         if (args == null) return;
 
-        // TODO: Receive callback
-        Trace.WriteLine(args.Uri);
+        Uri uri = args.Uri;
+        Debug.WriteLine(uri);
+
+        try {
+            await CallbackUriChannel.Writer.WriteAsync(args.Uri);
+        } catch (Exception ex) {
+            Trace.TraceWarning(ex.ToString());
+            MainWindow.PostInfo(GlobalInfo.Warning("Warning", ex.ToString()));
+        }
     }
 
+    private static readonly Channel<CallbackUri> CallbackUriChannel = Channel.CreateBounded<CallbackUri>(3);
+
     public static MainWindow MainWindow { get; private set; }
+
+    internal static ChannelReader<CallbackUri> CallbackUri => CallbackUriChannel.Reader;
 }

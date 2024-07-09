@@ -14,7 +14,8 @@ public sealed partial class IndexPage : Page {
     }
 
     private void NavView_ItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args) {
-        string[] tags = ((string)args.InvokedItemContainer.Tag).Split('#');
+        string   header = args.InvokedItemContainer.Content as string;
+        string[] tags   = ((string)args.InvokedItemContainer.Tag).Split('#');
 
         Type page = tags[0] switch {
             "CollectionPage"        => typeof(CollectionPage),
@@ -24,7 +25,8 @@ public sealed partial class IndexPage : Page {
             "Settings"              => typeof(SettingsPage),
             _ => null
         };
-
+        
+        sender.Header = header;
         ContentFrame.Navigate(page, tags.Length > 1 ? tags[1] : null);
     }
 }

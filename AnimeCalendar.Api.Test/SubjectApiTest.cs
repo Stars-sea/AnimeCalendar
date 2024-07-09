@@ -16,23 +16,8 @@ public class SubjectApiTest {
     ISubjectApi Api { get; init; }
 
     public SubjectApiTest() {
-        JsonSerializerSettings jsonSerializer = new() {
-            ContractResolver = new DefaultContractResolver() {
-                NamingStrategy = new SnakeCaseNamingStrategy()
-            }
-        };
-
-        RefitSettings settings = new(new NewtonsoftJsonContentSerializer(jsonSerializer));
-
-        Api = RestService.For<ISubjectApi>("https://api.bgm.tv", settings);
-    }
-
-    [TestMethod]
-    public void GetSubjectNetworkTest() {
-        string url = "https://api.bgm.tv/v0/subjects/397604";
-        using HttpClient client = new();
-        client.DefaultRequestHeaders.Add("User-Agent", "Stras-sea/AnimeCalendar (https://github.com/Stars-sea/AnimeCalendar)");
-        client.GetStringAsync(url).GetAwaiter().GetResult();
+        BangumiApiServices.Init(null);
+        Api = BangumiApiServices.SubjectApi;
     }
 
     [TestMethod]

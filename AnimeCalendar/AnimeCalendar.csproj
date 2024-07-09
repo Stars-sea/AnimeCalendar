@@ -28,6 +28,7 @@
     <None Remove="Assets\Square44x44Logo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
+    <None Remove="Controls\LoginCard.xaml" />
     <None Remove="Pages\AccountSettingsPage.xaml" />
     <None Remove="Pages\AnimeListPage.xaml" />
     <None Remove="Pages\CalendarRootPage.xaml" />
@@ -83,6 +84,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\IndexPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\LoginCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

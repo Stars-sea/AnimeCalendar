@@ -4,10 +4,7 @@ using Refit;
 
 namespace AnimeCalendar.Api.Bangumi;
 
-[Headers(
-    "Authorization: Bearer",
-    BangumiApp.USER_AGENT
-)]
+[Headers(BangumiApp.USER_AGENT)]
 public interface IUserApi {
     [Get("/v0/users/{username}")]
     Task<User> GetUser(string username);
