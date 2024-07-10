@@ -12,21 +12,17 @@ internal class AuthHeaderHandler : DelegatingHandler {
         InnerHandler = handler ?? new HttpClientHandler();
     }
 
-    private async Task<string?> GetToken(CancellationToken? cancellation) {
+    private async Task<string?> GetToken() {
         if (tokenStorage == null)
             return null;
 
-        if (await tokenStorage.IsExpired(cancellation)) {
-            return await tokenStorage.RefreshTokenAsync(cancellation);
-        }
-
-        return await tokenStorage.GetTokenAsync(cancellation);
+        return await tokenStorage.IsExpired() 
+            ? await tokenStorage.RefreshTokenAsync()
+            : await tokenStorage.GetTokenAsync();
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
-        var token = await GetToken(cancellationToken);
-
-        if (token != null) {
+        if (await GetToken() is string token) {
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
         }
 

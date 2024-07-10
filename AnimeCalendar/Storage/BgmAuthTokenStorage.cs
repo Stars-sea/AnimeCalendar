@@ -6,8 +6,6 @@ using Newtonsoft.Json;
 using Refit;
 
 using System;
-using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 using Windows.Storage;
@@ -20,10 +18,9 @@ namespace AnimeCalendar.Storage;
 internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
 
     public const string FILE_NAME = "bgm_token.json";
-    private static StorageFolder StorageFolder => ApplicationData.Current.LocalFolder;
+    public static StorageFolder StorageFolder => ApplicationData.Current.LocalFolder;
 
     private AuthToken AuthToken { get; set; }
-    public bool Available => AuthToken != null;
 
     private BgmAuthTokenStorage(AuthToken token) => AuthToken = token;
 
@@ -39,40 +36,40 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
     }
 
     public static async Task<BgmAuthTokenStorage> Request(string callbackCode) {
-        var response = await api.RequestAccessToken(AccessTokenRequest.Create(callbackCode));
-        AuthToken token = new(response.AccessToken, response.RefreshToken, DateTime.Now);
+        var response = await api.RequestToken(AccessTokenRequest.Create(callbackCode));
+        AuthToken token = new(response.AccessToken, response.RefreshToken);
         
         BgmAuthTokenStorage storage = new(token);
         await storage.Store();
         return storage;
     }
 
-    public async Task<ulong?> GetExpires(CancellationToken? cancellation = null) {
+    public async Task<ulong?> GetExpires() {
         if (AuthToken == null) return null;
 
         // TODO: 减少访问次数
 
-        var response = await api.RequestAccessTokenStatus(new(AuthToken.AccessToken));
+        var response = await api.RequestStatus(new(AuthToken.AccessToken));
         return response.Expires;
     }
 
-    public Task<string?> GetTokenAsync(CancellationToken? cancellation = null)
+    public Task<string?> GetTokenAsync()
         => Task.FromResult(AuthToken?.AccessToken);
 
-    public async Task<string?> RefreshTokenAsync(CancellationToken? cancellation = null) {
+    public async Task<string?> RefreshTokenAsync() {
         if (AuthToken == null) return null;
 
         var request  = AccessTokenRefreshRequest.Create(AuthToken.RefreshToken);
-        var response = await api.RefreshAccessToken(request);
+        var response = await api.RefreshToken(request);
 
         AuthToken = AuthToken with {
             AccessToken = response.AccessToken,
         };
-        await Store(cancellation).ConfigureAwait(false);
+        await Store().ConfigureAwait(false);
         return response.AccessToken;
     }
 
-    public async Task<bool> Store(CancellationToken? cancellation = null) {
+    public async Task<bool> Store() {
         if (AuthToken == null) return false;
 
         IStorageItem? item = await StorageFolder.TryGetItemAsync(FILE_NAME);

@@ -8,7 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button Click="OnClick" Width="{x:Bind Width}" Height="{x:Bind Height}"
+    <Button Click="OnClicked" Width="{x:Bind Width}" Height="{x:Bind Height}"
             HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
         <Grid>
             <Grid.ColumnDefinitions>

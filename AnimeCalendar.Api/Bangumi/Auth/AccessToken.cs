@@ -56,6 +56,6 @@ public record AccessTokenStatusResponse(
     string AccessToken,
     string ClientId,
     ulong Expires,
-    int UserId
-// string Scope
+    int UserId,
+    string Scope
 );

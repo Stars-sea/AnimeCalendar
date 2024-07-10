@@ -37,14 +37,13 @@ public partial class App : Application {
 
     private async void Instance_Activated(object sender, AppActivationArguments e) {
         MainWindow.Show();
-        var args = e.Data as ProtocolActivatedEventArgs;
-        if (args == null) return;
+        if (e.Data is not ProtocolActivatedEventArgs args) return;
 
         Uri uri = args.Uri;
-        Debug.WriteLine(uri);
+        Trace.TraceInformation($"Received activation uri: {uri}");
 
         try {
-            await CallbackUriChannel.Writer.WriteAsync(args.Uri);
+            await CallbackUriChannel.Writer.WriteAsync(uri);
         } catch (Exception ex) {
             Trace.TraceWarning(ex.ToString());
             MainWindow.PostInfo(GlobalInfo.Warning("Warning", ex.ToString()));
@@ -53,7 +52,6 @@ public partial class App : Application {
 
     private static readonly Channel<CallbackUri> CallbackUriChannel = Channel.CreateBounded<CallbackUri>(3);
 
-    public static MainWindow MainWindow { get; private set; }
-
+    internal static MainWindow MainWindow { get; private set; }
     internal static ChannelReader<CallbackUri> CallbackUri => CallbackUriChannel.Reader;
 }
