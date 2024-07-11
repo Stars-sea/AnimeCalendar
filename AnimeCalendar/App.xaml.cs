@@ -23,7 +23,7 @@ public partial class App : Application {
         AppInstance instance = AppInstance.FindOrRegisterForKey("AnimeCalendar.Main");
 
         if (instance.IsCurrent) {
-            MainWindow = new MainWindow();
+            mainWindow = new MainWindow();
             MainWindow.Activate();
 
             instance.Activated += Instance_Activated;
@@ -35,7 +35,7 @@ public partial class App : Application {
         Process.GetCurrentProcess().Kill();
     }
 
-    private async void Instance_Activated(object sender, AppActivationArguments e) {
+    private async void Instance_Activated(object? sender, AppActivationArguments e) {
         MainWindow.Show();
         if (e.Data is not ProtocolActivatedEventArgs args) return;
 
@@ -50,8 +50,9 @@ public partial class App : Application {
         }
     }
 
+    private static MainWindow? mainWindow;
     private static readonly Channel<CallbackUri> CallbackUriChannel = Channel.CreateBounded<CallbackUri>(3);
 
-    internal static MainWindow MainWindow { get; private set; }
+    internal static MainWindow MainWindow => mainWindow ?? throw new ArgumentNullException(nameof(mainWindow));
     internal static ChannelReader<CallbackUri> CallbackUri => CallbackUriChannel.Reader;
 }

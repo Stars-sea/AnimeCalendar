@@ -1,6 +1,5 @@
 ﻿namespace AnimeCalendar.Api.Storage;
 
-#nullable enable
 public interface IAuthTokenStorage {
     Task<ulong?> GetExpires();
     async Task<bool> IsExpired() {
@@ -15,6 +14,12 @@ public interface IAuthTokenStorage {
     /// </summary>
     /// <returns>Auth token</returns>
     Task<string?> RefreshTokenAsync();
+
+    async Task<string?> RefreshIfExpired() {
+        if (await IsExpired())
+            return await RefreshTokenAsync();
+        return await GetTokenAsync();
+    }
 
     Task<bool> Store();
 }

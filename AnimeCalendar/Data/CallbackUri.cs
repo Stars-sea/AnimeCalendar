@@ -7,7 +7,7 @@ internal partial record CallbackUri(Uri Uri, string Code) {
     public static CallbackUri Create(Uri uri) {
         Match match = BangumiCallbackRegex().Match(uri.ToString());
 
-        if (match.Success && match.Groups.TryGetValue("code", out Group codeGroup))
+        if (match.Groups.TryGetValue("code", out Group? codeGroup))
             return new CallbackUri(uri, codeGroup.Value);
         throw new ArgumentException($"Invalid callback uri. [{uri}]");
     }

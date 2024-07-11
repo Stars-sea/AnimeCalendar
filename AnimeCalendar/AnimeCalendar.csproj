@@ -14,6 +14,7 @@
     <PlatformTarget>x64</PlatformTarget>
     <SupportedOSPlatformVersion>10.0.22000.0</SupportedOSPlatformVersion>
     <ApplicationIcon>Assets\Icon.ico</ApplicationIcon>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <Content Remove="Assets\Square44x44Logo.targetsize-48.png" />
@@ -28,8 +29,8 @@
     <None Remove="Assets\Square44x44Logo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
-    <None Remove="Controls\LoginCard.xaml" />
-    <None Remove="Controls\UserInfoCard.xaml" />
+    <None Remove="Controls\ImageCard.xaml" />
+    <None Remove="Controls\UserInfo.xaml" />
     <None Remove="Pages\AccountSettingsPage.xaml" />
     <None Remove="Pages\AnimeListPage.xaml" />
     <None Remove="Pages\CalendarRootPage.xaml" />
@@ -59,7 +60,12 @@
     <ProjectReference Include="..\AnimeCalendar.Api\AnimeCalendar.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\UserInfoCard.xaml">
+    <Page Update="Controls\UserInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ImageCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -90,11 +96,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\IndexPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\LoginCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

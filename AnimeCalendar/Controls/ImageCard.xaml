@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentControl
+    x:Class="AnimeCalendar.Controls.ImageCard"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnimeCalendar.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ContentControl.Template>
+        <ControlTemplate TargetType="local:ImageCard">
+            <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                    Width="{x:Bind Width}" Height="{x:Bind Height}" Click="OnClicked">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="{x:Bind IconWidth}" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="16" />
+                    </Grid.ColumnDefinitions>
+
+                    <Border Grid.Column="0" Margin="8" CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Image Source="{x:Bind IconSource, Mode=OneWay}" />
+                    </Border>
+
+                    <ContentPresenter Grid.Column="1" Margin="8 0" VerticalAlignment="Center" />
+
+                    <FontIcon Glyph="&#xE76C;" Grid.Column="2" />
+                </Grid>
+            </Button>
+        </ControlTemplate>
+    </ContentControl.Template>
+</ContentControl>

@@ -16,8 +16,7 @@ public class SubjectApiTest {
     ISubjectApi Api { get; init; }
 
     public SubjectApiTest() {
-        BangumiApiServices.Init(null);
-        Api = BangumiApiServices.SubjectApi;
+        Api = BgmApiServices.SubjectApi;
     }
 
     [TestMethod]

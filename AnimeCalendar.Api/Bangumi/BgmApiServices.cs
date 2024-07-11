@@ -1,0 +1,38 @@
+﻿using Newtonsoft.Json.Serialization;
+using Newtonsoft.Json;
+using Refit;
+using AnimeCalendar.Api.Bangumi.Auth;
+using AnimeCalendar.Api.Storage;
+
+namespace AnimeCalendar.Api.Bangumi;
+
+#nullable enable
+public static class BgmApiServices {
+    public static readonly ISubjectApi SubjectApi;
+    public static readonly IUserApi    UserApi;
+
+    public const string BASE_ADDRESS = "https://api.bgm.tv";
+
+    public static readonly RefitSettings ServiceSettings;
+
+    public static readonly JsonSerializerSettings SerializerSettings = new() {
+        ContractResolver = new DefaultContractResolver() {
+            NamingStrategy = new SnakeCaseNamingStrategy()
+        }
+    };
+
+    static BgmApiServices() {
+        ServiceSettings = new(new NewtonsoftJsonContentSerializer(SerializerSettings));
+
+        HttpClient client = new(new AuthHeaderHandler()) {
+            BaseAddress = new Uri(BASE_ADDRESS)
+        };
+
+        SubjectApi  = RestService.For<ISubjectApi>(client, ServiceSettings);
+        UserApi     = RestService.For<IUserApi>(client, ServiceSettings);
+    }
+
+    public static void UpdateTokenStorage(IAuthTokenStorage? tokenStorage) {
+        AuthHeaderHandler.TokenStorage = tokenStorage;
+    }
+}

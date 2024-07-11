@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AnimeCalendar.Api.Bangumi.Schemas;
+﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
 
 public enum SubjectType: int {
     Book    = 1,

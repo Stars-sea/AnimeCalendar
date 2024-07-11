@@ -10,7 +10,7 @@ public record GlobalInfo(
     InfoBarSeverity Severity,
     TimeSpan Duration
 ) {
-    public static readonly TimeSpan DefaultDuration = TimeSpan.FromSeconds(1.5);
+    public static readonly TimeSpan DefaultDuration = TimeSpan.FromSeconds(2.5);
 
     public static GlobalInfo Information(string title, string message, TimeSpan duration)
         => new(title, message, InfoBarSeverity.Informational, duration);
@@ -35,4 +35,24 @@ public record GlobalInfo(
 
     public static GlobalInfo Error(string title, string message)
         => new(title, message, InfoBarSeverity.Error, DefaultDuration);
+
+    public static GlobalInfo Error(string title, string message, Exception exception)
+        => Error(title, $"{message}\n{exception.GetType().Name}: {exception.Message}");
+
+    public static GlobalInfo Error(string title, Exception exception)
+        => Error(title, $"{exception.GetType().Name}: {exception.Message}");
+
+    public static GlobalInfo Error(Exception exception)
+        => Error(exception.GetType().Name, exception.Message);
+
+    public override string ToString() {
+        string severityText = Severity switch {
+            InfoBarSeverity.Success         => "[SUCC]",
+            InfoBarSeverity.Informational   => "[INFO]",
+            InfoBarSeverity.Warning         => "[WARN]",
+            InfoBarSeverity.Error           => "[FAIL]",
+            _                               => "[NONE]"
+        };
+        return $"{severityText} {Title}: {Message.Replace('\n', ' ')}";
+    }
 }

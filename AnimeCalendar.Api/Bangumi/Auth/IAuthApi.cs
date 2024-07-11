@@ -3,11 +3,9 @@
 namespace AnimeCalendar.Api.Bangumi.Auth;
 
 [Headers(BangumiApp.USER_AGENT)]
-public interface IAuthApi {
-    public const string AuthorizePageUrl = $"https://bgm.tv/oauth/authorize?response_type=code&client_id={BangumiApp.APP_ID}";
-
+internal interface IAuthApi {
     [Post("/oauth/access_token")]
-    public Task<AccessTokenResponse> RequestToken([Body] AccessTokenRequest _);
+    public Task<AccessTokenResponse> RequestToken([Body(BodySerializationMethod.Serialized, false)] AccessTokenRequest _);
 
     [Post("/oauth/access_token")]
     public Task<AccessTokenResponse> RefreshToken([Body] AccessTokenRefreshRequest _);

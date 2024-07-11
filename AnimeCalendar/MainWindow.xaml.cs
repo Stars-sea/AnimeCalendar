@@ -1,4 +1,5 @@
 using AnimeCalendar.Api.Bangumi;
+using AnimeCalendar.Api.Storage;
 using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
 
@@ -9,11 +10,21 @@ using H.NotifyIcon;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace AnimeCalendar;
 
 public sealed partial class MainWindow : Window {
+    private static IAuthTokenStorage? _AuthTokenStorage;
+    internal static IAuthTokenStorage? BgmTokenStorage { 
+        get => _AuthTokenStorage;
+        set {
+            _AuthTokenStorage = value;
+            BgmApiServices.UpdateTokenStorage(value);
+        }
+    }
+
     public MainWindow() {
         InitializeComponent();
 
@@ -25,12 +36,15 @@ public sealed partial class MainWindow : Window {
     }
 
     public async void PostInfo(GlobalInfo info) {
+        Trace.WriteLine(info);
+
         InfoBar infoBar = new() {
             Title       = info.Title,
             Message     = info.Message,
             Severity    = info.Severity,
             IsOpen      = true,
         };
+
         InfoQueue.Children.Add(infoBar);
 
         await Task.Delay(info.Duration);
@@ -38,7 +52,14 @@ public sealed partial class MainWindow : Window {
     }
 
     private async void MainWindow_Activated(object sender, WindowActivatedEventArgs args) {
-        BangumiApiServices.Init(await BgmAuthTokenStorage.Load());
+        BgmTokenStorage = await BgmAuthTokenStorage.Load();
+        try {
+            if (BgmTokenStorage != null)
+                await BgmTokenStorage.RefreshIfExpired();
+        } catch {
+            GlobalInfo warn = GlobalInfo.Warning("Bangumi ÁîÅÆË¢ÐÂ", "Ë¢ÐÂÊ§°Ü");
+            PostInfo(warn);
+        }
     }
 
     private void MainWindow_Closed(object sender, WindowEventArgs args) {
@@ -48,19 +69,15 @@ public sealed partial class MainWindow : Window {
 
     [RelayCommand]
     public void ShowHideWindow() {
-        if (Visible) {
+        if (Visible)
             this.Hide();
-        }
-        else {
-            this.Show();
-        }
+        else this.Show();
+       
     }
 
     [RelayCommand]
     public void ShowWindow() {
-        if (!Visible) {
-            this.Show();
-        }
+        if (!Visible) this.Show();
     }
 
     [RelayCommand]

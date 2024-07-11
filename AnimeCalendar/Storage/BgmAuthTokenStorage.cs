@@ -3,18 +3,13 @@ using AnimeCalendar.Api.Storage;
 
 using Newtonsoft.Json;
 
-using Refit;
-
 using System;
 using System.Threading.Tasks;
 
 using Windows.Storage;
 
-using static AnimeCalendar.Api.Bangumi.BangumiApiServices;
-
 namespace AnimeCalendar.Storage;
 
-#nullable enable
 internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
 
     public const string FILE_NAME = "bgm_token.json";
@@ -36,8 +31,9 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
     }
 
     public static async Task<BgmAuthTokenStorage> Request(string callbackCode) {
-        var response = await api.RequestToken(AccessTokenRequest.Create(callbackCode));
-        AuthToken token = new(response.AccessToken, response.RefreshToken);
+        var response = await AuthService.Request(callbackCode);
+
+        var token = AuthToken.Create(response);
         
         BgmAuthTokenStorage storage = new(token);
         await storage.Store();
@@ -47,11 +43,12 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
     public async Task<ulong?> GetExpires() {
         if (AuthToken == null) return null;
 
-        // TODO: 减少访问次数
-
-        var response = await api.RequestStatus(new(AuthToken.AccessToken));
+        var response = await AuthService.Status(AuthToken.AccessToken);
+        AuthToken = AuthToken.UpdateStatus(response);
         return response.Expires;
     }
+
+    Task<bool> IAuthTokenStorage.IsExpired() => Task.FromResult(AuthToken.IsExpired());
 
     public Task<string?> GetTokenAsync()
         => Task.FromResult(AuthToken?.AccessToken);
@@ -59,12 +56,9 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
     public async Task<string?> RefreshTokenAsync() {
         if (AuthToken == null) return null;
 
-        var request  = AccessTokenRefreshRequest.Create(AuthToken.RefreshToken);
-        var response = await api.RefreshToken(request);
+        var response = await AuthService.Refresh(AuthToken.RefreshToken);
 
-        AuthToken = AuthToken with {
-            AccessToken = response.AccessToken,
-        };
+        AuthToken = AuthToken.Create(response);
         await Store().ConfigureAwait(false);
         return response.AccessToken;
     }
@@ -83,13 +77,4 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
 
         return true;
     }
-
-    #region Init
-    private static readonly IAuthApi api;
-
-    static BgmAuthTokenStorage() {
-        RefitSettings settings = new(new NewtonsoftJsonContentSerializer(SerializerSettings));
-        api = RestService.For<IAuthApi>(BASE_ADDRESS, settings);
-    }
-    #endregion
 }

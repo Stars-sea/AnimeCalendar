@@ -9,12 +9,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <Style x:Key="CardStyle" TargetType="controls:ImageCard">
+            <Setter Property="Margin" Value="0 5" />
+            <Setter Property="Width" Value="380" />
+            <Setter Property="Height" Value="96" />
+            <Setter Property="IconWidth" Value="80" />
+        </Style>
+    </Page.Resources>
+
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:LoginCard Margin="0 5" Width="320" Height="64"
-                            DisplayText="在浏览器上登录 Bangumi 并授权" Click="BangumiLoginCard_Click"
-                            IconSource="https://bgm.tv/img/favicon.ico" />
-        <controls:LoginCard Margin="0 5" Width="320" Height="64" 
-                            DisplayText="登录 Mikanime" Click="MikanimeLoginCard_Click"
+        <controls:ImageCard x:Name="BgmCard" Style="{StaticResource CardStyle}" Click="BangumiLoginCard_Click">
+            <ProgressRing />
+        </controls:ImageCard>
+        <controls:ImageCard x:Name="MikanCard" Style="{StaticResource CardStyle}"
+                            Content="登录 Mikanime" Click="MikanimeLoginCard_Click"
                             IconSource="https://mikanime.tv/images/favicon.ico?v=2" />
     </StackPanel>
 </Page>

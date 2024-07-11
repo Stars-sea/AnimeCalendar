@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AnimeCalendar.Api.Bangumi.Schemas;
+﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
 
 public sealed record AirSubject(
     int         Id,

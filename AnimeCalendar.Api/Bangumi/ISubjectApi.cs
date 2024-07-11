@@ -2,8 +2,6 @@
 
 using Refit;
 
-using System.Threading.Tasks;
-
 namespace AnimeCalendar.Api.Bangumi;
 
 [Headers(BangumiApp.USER_AGENT)]

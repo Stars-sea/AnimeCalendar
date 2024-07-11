@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UserControl
-    x:Class="AnimeCalendar.Controls.UserInfoCard"
+    x:Class="AnimeCalendar.Controls.UserInfo"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Controls"
@@ -8,9 +8,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Button
-        Click="OnClicked"
-        Width="{x:Bind Width}" Height="{x:Bind Height}">
-        
-    </Button>
+    <StackPanel>
+        <TextBlock>
+            <Run Text="{x:Bind User.Nickname}" />
+            <Run Text="{x:Bind username}" Foreground="{ThemeResource TextFillColorTertiary}" />
+        </TextBlock>
+
+        <TextBlock Text="{x:Bind User.Sign}" FontSize="12" Foreground="Gray" />
+    </StackPanel>
 </UserControl>

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace AnimeCalendar.Api.Bangumi.Schemas;
+﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
 
 public record ImageURL(
     string Large,

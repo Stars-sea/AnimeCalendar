@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AnimeCalendar.Api.Bangumi.Auth;
+﻿namespace AnimeCalendar.Api.Bangumi.Auth;
 
 public record AccessTokenRequest(
     string GrantType,
@@ -13,16 +7,7 @@ public record AccessTokenRequest(
     string Code,
     string RedirectUri
 // string State
-)
-{
-    public static AccessTokenRequest Create(string code) => new(
-        "authorization_code",
-        BangumiApp.APP_ID,
-        BangumiApp.APP_SECRET,
-        code,
-        BangumiApp.REDIRECT_URI
-    );
-}
+);
 
 public record AccessTokenRefreshRequest(
     string GrantType,
@@ -30,16 +15,7 @@ public record AccessTokenRefreshRequest(
     string ClientSecret,
     string RefreshToken,
     string RedirectUri
-)
-{
-    public static AccessTokenRefreshRequest Create(string refreshToken) => new(
-        "refresh_token",
-        BangumiApp.APP_ID,
-        BangumiApp.APP_SECRET,
-        refreshToken,
-        BangumiApp.REDIRECT_URI
-    );
-}
+);
 
 public record AccessTokenStatusRequest(string AccessToken);
 
