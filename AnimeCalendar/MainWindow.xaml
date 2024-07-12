@@ -29,6 +29,7 @@
             </StackPanel>
         </Border>
 
+
         <Frame Grid.Row="1">
             <Frame.Transitions>
                 <TransitionCollection>
@@ -41,10 +42,19 @@
 
         <StackPanel
             x:Name="InfoQueue" x:FieldModifier="Private"
-            Grid.Row="1" MaxHeight="250" MaxWidth="450"
+            MaxWidth="450" Grid.Row="1"
             Margin="8" Background="Transparent"
             VerticalAlignment="Bottom"
-            HorizontalAlignment="Right" />
+            HorizontalAlignment="Right">
+            <StackPanel.ChildrenTransitions>
+                <TransitionCollection>
+                    <EntranceThemeTransition
+                        IsStaggeringEnabled="True"
+                        FromHorizontalOffset="450"
+                        FromVerticalOffset="0" />
+                </TransitionCollection>
+            </StackPanel.ChildrenTransitions>
+        </StackPanel>
 
         <tb:TaskbarIcon
             x:Name="TrayIcon"

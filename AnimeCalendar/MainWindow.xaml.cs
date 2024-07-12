@@ -3,6 +3,7 @@ using AnimeCalendar.Api.Storage;
 using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
 
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 using H.NotifyIcon;
@@ -15,15 +16,10 @@ using System.Threading.Tasks;
 
 namespace AnimeCalendar;
 
+[ObservableObject]
 public sealed partial class MainWindow : Window {
-    private static IAuthTokenStorage? _AuthTokenStorage;
-    internal static IAuthTokenStorage? BgmTokenStorage { 
-        get => _AuthTokenStorage;
-        set {
-            _AuthTokenStorage = value;
-            BgmApiServices.UpdateTokenStorage(value);
-        }
-    }
+    [ObservableProperty]
+    private IAuthTokenStorage? bgmTokenStorage;
 
     public MainWindow() {
         InitializeComponent();
@@ -35,7 +31,7 @@ public sealed partial class MainWindow : Window {
         Closed      += MainWindow_Closed;
     }
 
-    public async void PostInfo(GlobalInfo info) {
+    internal async void Pop(PopInfo info) {
         Trace.WriteLine(info);
 
         InfoBar infoBar = new() {
@@ -43,12 +39,21 @@ public sealed partial class MainWindow : Window {
             Message     = info.Message,
             Severity    = info.Severity,
             IsOpen      = true,
+            TranslationTransition = new Vector3Transition()
         };
 
         InfoQueue.Children.Add(infoBar);
 
-        await Task.Delay(info.Duration);
-        InfoQueue.Children.Remove(infoBar);
+        if (info.Duration != System.TimeSpan.Zero) {
+            await Task.Delay(info.Duration);
+            infoBar.Translation = new System.Numerics.Vector3(450, 0 , 0);
+            await Task.Delay(300);
+            InfoQueue.Children.Remove(infoBar);
+        }
+    }
+
+    partial void OnBgmTokenStorageChanged(IAuthTokenStorage? value) {
+        BgmApiServices.UpdateTokenStorage(value);
     }
 
     private async void MainWindow_Activated(object sender, WindowActivatedEventArgs args) {
@@ -57,8 +62,7 @@ public sealed partial class MainWindow : Window {
             if (BgmTokenStorage != null)
                 await BgmTokenStorage.RefreshIfExpired();
         } catch {
-            GlobalInfo warn = GlobalInfo.Warning("Bangumi ÁîÅÆË¢ÐÂ", "Ë¢ÐÂÊ§°Ü");
-            PostInfo(warn);
+            Pop(PopInfo.Warn("Bangumi ÊÚÈ¨", "ÁîÅÆË¢ÐÂÊ§°Ü"));
         }
     }
 

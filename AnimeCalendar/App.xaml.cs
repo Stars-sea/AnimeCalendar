@@ -46,7 +46,7 @@ public partial class App : Application {
             await CallbackUriChannel.Writer.WriteAsync(uri);
         } catch (Exception ex) {
             Trace.TraceWarning(ex.ToString());
-            MainWindow.PostInfo(GlobalInfo.Warning("Warning", ex.ToString()));
+            MainWindow.Pop(PopInfo.Warn("Warning", ex.ToString()));
         }
     }
 
