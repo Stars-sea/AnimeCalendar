@@ -11,7 +11,7 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ItemsView x:Name="SubjectList" x:FieldModifier="Private" SelectionMode="None">
+        <ItemsView x:Name="SubjectList" SelectionMode="None">
             <ItemsView.ItemTemplate>
                 <DataTemplate x:DataType="schemas:AirSubject">
                     <ItemContainer AutomationProperties.Name="{x:Bind NameCn}" Margin="8 4 24 4">

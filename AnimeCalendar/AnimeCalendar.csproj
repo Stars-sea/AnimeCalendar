@@ -34,7 +34,6 @@
     <None Remove="Controls\ImageCard.xaml" />
     <None Remove="Pages\AccountSettingsPage.xaml" />
     <None Remove="Pages\AnimeListPage.xaml" />
-    <None Remove="Pages\CalendarRootPage.xaml" />
     <None Remove="Pages\CollectionPage.xaml" />
     <None Remove="Pages\IndexPage.xaml" />
     <None Remove="Pages\SettingsPage.xaml" />
@@ -82,11 +81,6 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Pages\AnimeListPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Pages\CalendarRootPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

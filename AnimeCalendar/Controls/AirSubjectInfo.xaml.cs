@@ -17,11 +17,10 @@ public sealed partial class AirSubjectInfo : UserControl {
     }
 
     partial void OnSubjectChanged(AirSubject? value) {
-        if (value == null) { 
-            RankText.Visibility = Visibility.Collapsed;
-            ScoreText.Visibility = Visibility.Collapsed;
-            return;
-        }
+        RankText.Visibility = Visibility.Collapsed;
+        ScoreText.Visibility = Visibility.Collapsed;
+
+        if (value == null) return;
         
         if (value.Rank != 0)
             RankText.Visibility = Visibility.Visible;

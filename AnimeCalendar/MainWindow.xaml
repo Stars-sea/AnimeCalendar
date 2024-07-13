@@ -40,18 +40,11 @@
             <pages:IndexPage />
         </Frame>
 
-        <StackPanel
-            x:Name="InfoQueue" x:FieldModifier="Private"
-            MaxWidth="450" Grid.Row="1"
-            Margin="8" Background="Transparent"
-            VerticalAlignment="Bottom"
-            HorizontalAlignment="Right">
+        <StackPanel x:Name="InfoQueue" MaxWidth="450" Grid.Row="1" Background="Transparent"
+                    Margin="8" VerticalAlignment="Bottom" HorizontalAlignment="Right">
             <StackPanel.ChildrenTransitions>
                 <TransitionCollection>
-                    <EntranceThemeTransition
-                        IsStaggeringEnabled="True"
-                        FromHorizontalOffset="450"
-                        FromVerticalOffset="0" />
+                    <EntranceThemeTransition IsStaggeringEnabled="True" FromHorizontalOffset="450" FromVerticalOffset="0" />
                 </TransitionCollection>
             </StackPanel.ChildrenTransitions>
         </StackPanel>

@@ -24,7 +24,7 @@ public sealed partial class AnimeListPage : Page {
     public AnimeListPage() {
         InitializeComponent();
 
-        Loaded  += async (_, _) => await Reload();
+        Loaded += async (_, _) => await Reload();
     }
 
     private static async Task<Calendar[]?> UpdateCalendar() {

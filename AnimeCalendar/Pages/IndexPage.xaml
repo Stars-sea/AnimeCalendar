@@ -8,11 +8,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView ItemInvoked="NavView_ItemInvoked">
+    <NavigationView x:Name="NavView" SelectionChanged="NavView_SelectionChanged" IsBackButtonVisible="Collapsed">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="收藏" Icon="Favorite" Tag="Collection" />
 
-            <NavigationViewItem Content="新番时间表" Icon="Calendar" Tag="CalendarRoot">
+            <NavigationViewItem x:Name="Calendar" Content="新番时间表" Icon="Calendar" IsExpanded="True">
                 <NavigationViewItem.MenuItems>
                     <NavigationViewItem Tag="AnimeList#1" Content="周一" />
                     <NavigationViewItem Tag="AnimeList#2" Content="周二" />
@@ -29,6 +29,6 @@
             <NavigationViewItem Content="账户" Icon="People" Tag="AccountSettings" />
         </NavigationView.FooterMenuItems>
 
-        <Frame x:Name="ContentFrame" x:FieldModifier="Private" Margin="48 0 0 0" />
+        <Frame x:Name="ContentFrame" Margin="48 0 0 0" />
     </NavigationView>
 </Page>

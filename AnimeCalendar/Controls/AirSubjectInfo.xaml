@@ -29,7 +29,5 @@
                 </TextBlock>
             </Border>
         </StackPanel>
-
-        <TextBlock Text="{x:Bind Subject.Summary}" />
     </StackPanel>
 </UserControl>
