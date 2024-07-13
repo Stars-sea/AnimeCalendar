@@ -1,14 +1,5 @@
 using AnimeCalendar.Api.Bangumi;
 
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-using Refit;
-
-using System.Diagnostics;
-
 namespace AnimeCalendar.Api.Test;
 
 [TestClass]
@@ -20,8 +11,8 @@ public class SubjectApiTest {
     }
 
     [TestMethod]
-    public void GetSubjectTest() {  // 奇怪, 为什么非要同步方法...
-        var subject = Api.GetSubject(397604).GetAwaiter().GetResult();
+    public async Task GetSubjectTest() {
+        var subject = await Api.GetSubject(397604);
         Assert.AreEqual(subject.Name, "ATRI -My Dear Moments-");
     }
 
