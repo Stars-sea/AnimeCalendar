@@ -10,8 +10,10 @@
 
     <ContentControl.Template>
         <ControlTemplate TargetType="local:ImageCard">
-            <Button VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
-                    Width="{x:Bind Width}" Height="{x:Bind Height}" Click="OnClicked">
+            <Button
+                VerticalAlignment="{x:Bind VerticalAlignment}" HorizontalAlignment="{x:Bind HorizontalAlignment}"
+                VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"
+                Padding="{x:Bind Padding}" Width="{x:Bind Width}" Height="{x:Bind Height}" Click="OnClicked">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{x:Bind IconWidth}" />
@@ -19,11 +21,11 @@
                         <ColumnDefinition Width="16" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" Margin="8" CornerRadius="{StaticResource ControlCornerRadius}">
+                    <Border Grid.Column="0" CornerRadius="{StaticResource ControlCornerRadius}">
                         <Image Source="{x:Bind IconSource, Mode=OneWay}" />
                     </Border>
 
-                    <ContentPresenter Grid.Column="1" Margin="8 0" VerticalAlignment="Center" />
+                    <ContentPresenter Grid.Column="1" Margin="8 0" />
 
                     <FontIcon Glyph="&#xE76C;" Grid.Column="2" />
                 </Grid>

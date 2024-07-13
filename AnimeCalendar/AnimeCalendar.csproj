@@ -29,8 +29,9 @@
     <None Remove="Assets\Square44x44Logo.scale-200.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
+    <None Remove="Controls\AirSubjectInfo.xaml" />
+    <None Remove="Controls\BgmUserInfo.xaml" />
     <None Remove="Controls\ImageCard.xaml" />
-    <None Remove="Controls\UserInfo.xaml" />
     <None Remove="Pages\AccountSettingsPage.xaml" />
     <None Remove="Pages\AnimeListPage.xaml" />
     <None Remove="Pages\CalendarRootPage.xaml" />
@@ -60,7 +61,12 @@
     <ProjectReference Include="..\AnimeCalendar.Api\AnimeCalendar.Api.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\UserInfo.xaml">
+    <Page Update="Controls\AirSubjectInfo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\BgmUserInfo.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

@@ -11,7 +11,7 @@ public record Person(
     PersonType  Type,
     string      Name,
     string      Relation,
-    ImageURL    Images,
+    Images      Images,
     string[]    Career
 );
 
@@ -20,7 +20,7 @@ public record Actor(
     PersonType  Type,
     string      Name,
     string      Relation,
-    ImageURL    Images,
+    Images      Images,
     string[]    Career,
     string      ShortSummary,
     bool        Locked

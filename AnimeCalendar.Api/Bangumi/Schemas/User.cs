@@ -1,6 +1,6 @@
 ﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
 
-public enum UserGroup: int {
+public enum UserGroup : int {
     Admin           = 1,    // 管理员
     BangumiOp       = 2,    // Bangumi 管理猿
     DoujinOp        = 3,    // 天窗管理猿
@@ -12,11 +12,17 @@ public enum UserGroup: int {
     WikiMan         = 11,   // 维基人
 }
 
+public record Avatar(
+    Uri Large,
+    Uri Medium,
+    Uri Small
+);
+
 public record User(
-    Avatar Avatar,
-    string Sign,
-    string Username,
-    string Nickname,
-    int Id,
-    UserGroup UserGroup
+    Avatar      Avatar,
+    string      Sign,
+    string      Username,
+    string      Nickname,
+    int         Id,
+    UserGroup   UserGroup
 );

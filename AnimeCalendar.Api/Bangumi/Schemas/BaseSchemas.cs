@@ -1,6 +1,6 @@
 ﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
 
-public record ImageURL(
+public record Images(
     string Large,
     string Common,
     string Medium,

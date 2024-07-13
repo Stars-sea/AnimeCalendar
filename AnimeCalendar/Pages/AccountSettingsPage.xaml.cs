@@ -1,7 +1,6 @@
 using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Auth;
 using AnimeCalendar.Api.Bangumi.Schemas;
-using AnimeCalendar.Api.Storage;
 using AnimeCalendar.Controls;
 using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
@@ -14,7 +13,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
 
 using System;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -32,7 +30,7 @@ public sealed partial class AccountSettingsPage : Page {
     }
 
     public void ResetBgmCard() {
-        BgmCard.Content    = "在浏览器上登录 Bangumi 并授权";
+        BgmCard.Content    = new TextBlock { Text = "在浏览器上登录 Bangumi 并授权", VerticalAlignment = VerticalAlignment.Center };
         BgmCard.IconSource = new BitmapImage(new Uri("https://bgm.tv/img/favicon.ico"));
     }
 
@@ -49,8 +47,8 @@ public sealed partial class AccountSettingsPage : Page {
             return;
         }
 
-        BgmCard.IconSource = new BitmapImage(new Uri(BgmUser.Avatar.Medium));
-        BgmCard.Content    = new UserInfo() { User = BgmUser };
+        BgmCard.IconSource = new BitmapImage(BgmUser.Avatar.Medium);
+        BgmCard.Content    = new BgmUserInfo() { User = BgmUser };
     }
 
     private async Task StartBgmAuth() {

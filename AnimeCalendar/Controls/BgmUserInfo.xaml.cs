@@ -7,13 +7,11 @@ using Microsoft.UI.Xaml.Controls;
 namespace AnimeCalendar.Controls;
 
 [ObservableObject]
-public sealed partial class UserInfo : UserControl {
+public sealed partial class BgmUserInfo : UserControl {
     [ObservableProperty]
     private User? user;
 
-    private string? username => User != null ? $"@{User.Username}" : null;
-
-    public UserInfo() {
+    public BgmUserInfo() {
         InitializeComponent();
     }
 }

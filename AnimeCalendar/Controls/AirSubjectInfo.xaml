@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UserControl
+    x:Class="AnimeCalendar.Controls.AirSubjectInfo"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnimeCalendar.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{x:Bind Subject.Name}" Style="{ThemeResource BodyTextBlockStyle}"
+                       ToolTipService.ToolTip="{x:Bind Subject.NameCn}" />
+
+            <StackPanel x:Name="ScoreText" Margin="16 0" Orientation="Horizontal" Visibility="Collapsed">
+                <Viewbox Height="12" Margin="0 0 4 0">
+                    <FontIcon Glyph="&#xE735;" Foreground="Gold" />
+                </Viewbox>
+                <TextBlock Text="{x:Bind Subject.Rating.Score}" Style="{ThemeResource BodyTextBlockStyle}" />
+            </StackPanel>
+
+            <Border x:Name="RankText" Padding="4 0" Visibility="Collapsed"
+                    CornerRadius="{ThemeResource ControlCornerRadius}"
+                    Background="{ThemeResource AccentFillColorDefaultBrush}">
+                <TextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}">
+                    <Run Text="Rank" />
+                    <Run Text="{x:Bind Subject.Rank}" />
+                </TextBlock>
+            </Border>
+        </StackPanel>
+
+        <TextBlock Text="{x:Bind Subject.Summary}" />
+    </StackPanel>
+</UserControl>

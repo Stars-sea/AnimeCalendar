@@ -13,26 +13,41 @@ public record BaseSubject(
     SubjectType Type,
     string      Name,
     string      NameCn,
-    ImageURL    Images
+    Images      Images
 );
 
 public record AbstractSubject(
-    int          Id,
-    SubjectType  Type,
-    string       Name,
-    string       NameCn,
-    string       Summary,
-    RatingType   Rating,
-    ImageURL     Images,
-    Collection   Collection
+    int         Id,
+    SubjectType Type,
+    string      Name,
+    string      NameCn,
+    string      Summary,
+    RatingType  Rating,
+    Images      Images,
+    Collection  Collection
 ) : BaseSubject(Id, Type, Name, NameCn, Images);
+
+public sealed record AirSubject(
+    int         Id,
+    SubjectType Type,
+    string      Name,
+    string      NameCn,
+    string      Summary,
+    RatingType  Rating,
+    Images      Images,
+    Collection  Collection,
+    Uri         Url,
+    string      AirDate,
+    int         AirWeekday,
+    int         Rank
+) : AbstractSubject(Id, Type, Name, NameCn, Summary, Rating, Images, Collection);
 
 public sealed record RelatedSubject(
     int         Id,
     SubjectType Type,
     string      Name,
     string      NameCn,
-    ImageURL    Images,
+    Images      Images,
     string      Relation
 ) : BaseSubject(Id, Type, Name, NameCn, Images);
 
@@ -43,7 +58,7 @@ public sealed record Subject(
     string      NameCn,
     string      Summary,
     RatingType  Rating,
-    ImageURL    Images,
+    Images      Images,
     Collection  Collection,
     DateTime    Date,
     int         Volumes,
