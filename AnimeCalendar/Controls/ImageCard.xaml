@@ -16,13 +16,13 @@
                 Padding="{x:Bind Padding}" Width="{x:Bind Width}" Height="{x:Bind Height}" Click="OnClicked">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="{x:Bind IconWidth}" />
+                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="1*" />
                         <ColumnDefinition Width="16" />
                     </Grid.ColumnDefinitions>
 
-                    <Border Grid.Column="0" CornerRadius="{StaticResource ControlCornerRadius}">
-                        <Image Source="{x:Bind IconSource, Mode=OneWay}" />
+                    <Border x:Name="ImageBox" Grid.Column="0" CornerRadius="{StaticResource ControlCornerRadius}">
+                        <Image Source="{x:Bind IconSource, Mode=OneWay}" CacheMode="BitmapCache" />
                     </Border>
 
                     <ContentPresenter Grid.Column="1" Margin="8 0" />

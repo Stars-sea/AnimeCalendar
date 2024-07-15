@@ -14,16 +14,6 @@ public sealed partial class ImageCard : ContentControl {
         DependencyProperty.Register("IconSource", typeof(ImageSource),
             typeof(ImageCard), new PropertyMetadata(null));
 
-    public GridLength IconWidth {
-        get { return (GridLength)GetValue(IconWidthProperty); }
-        set { SetValue(IconWidthProperty, value); }
-    }
-
-    public static readonly DependencyProperty IconWidthProperty =
-        DependencyProperty.Register("IconWidth", typeof(GridLength), 
-            typeof(ImageCard), new PropertyMetadata(GridLength.Auto));
-
-
     public event RoutedEventHandler? Click;
 
     public ImageCard() {

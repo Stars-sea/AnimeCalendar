@@ -15,7 +15,6 @@
             <Setter Property="Width" Value="380" />
             <Setter Property="Height" Value="80" />
             <Setter Property="Padding" Value="8" />
-            <Setter Property="IconWidth" Value="64" />
         </Style>
     </Page.Resources>
 

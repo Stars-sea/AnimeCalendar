@@ -8,26 +8,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{x:Bind Subject.Name}" Style="{ThemeResource BodyTextBlockStyle}"
-                       ToolTipService.ToolTip="{x:Bind Subject.NameCn}" />
 
-            <StackPanel x:Name="ScoreText" Margin="16 0" Orientation="Horizontal" Visibility="Collapsed">
-                <Viewbox Height="12" Margin="0 0 4 0">
-                    <FontIcon Glyph="&#xE735;" Foreground="Gold" />
-                </Viewbox>
-                <TextBlock Text="{x:Bind Subject.Rating.Score}" Style="{ThemeResource BodyTextBlockStyle}" />
-            </StackPanel>
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+        <TextBlock Text="{x:Bind Subject.Name}" Style="{ThemeResource BodyTextBlockStyle}"
+                   ToolTipService.ToolTip="{x:Bind Subject.NameCn}" />
 
-            <Border x:Name="RankText" Padding="4 0" Visibility="Collapsed"
-                    CornerRadius="{ThemeResource ControlCornerRadius}"
-                    Background="{ThemeResource AccentFillColorDefaultBrush}">
-                <TextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}">
-                    <Run Text="Rank" />
-                    <Run Text="{x:Bind Subject.Rank}" />
-                </TextBlock>
-            </Border>
+        <StackPanel x:Name="ScoreText" Margin="16 0" Orientation="Horizontal" Visibility="Collapsed">
+            <Viewbox Height="12" Margin="0 0 4 0">
+                <FontIcon Glyph="&#xE735;" Foreground="Gold" />
+            </Viewbox>
+            <TextBlock Text="{x:Bind Subject.Rating.Score}" Style="{ThemeResource BodyTextBlockStyle}" />
         </StackPanel>
+
+        <Border x:Name="RankText" Padding="4 0" Visibility="Collapsed"
+                CornerRadius="{ThemeResource ControlCornerRadius}"
+                Background="{ThemeResource AccentFillColorDefaultBrush}">
+            <TextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}">
+                <Run Text="Rank" />
+                <Run Text="{x:Bind Subject.Rank}" />
+            </TextBlock>
+        </Border>
     </StackPanel>
 </UserControl>

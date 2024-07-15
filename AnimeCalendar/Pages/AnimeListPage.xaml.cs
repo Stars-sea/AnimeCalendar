@@ -5,17 +5,18 @@ using AnimeCalendar.Data;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
 using System;
 using System.Linq;
 using System.Threading.Tasks;
 
-using Windows.System;
-
 namespace AnimeCalendar.Pages;
 
 public sealed partial class AnimeListPage : Page {
+    public const string NAV_DETAIL_CA = "NavigateSubjectDetail";
+
     internal static Cache<Calendar[]> CalendarCache = new(null, UpdateCalendar, TimeSpan.FromHours(1));
     
     public Calendar? Calendar { get; private set; }
@@ -23,7 +24,6 @@ public sealed partial class AnimeListPage : Page {
 
     public AnimeListPage() {
         InitializeComponent();
-
         Loaded += async (_, _) => await Reload();
     }
 
@@ -40,7 +40,7 @@ public sealed partial class AnimeListPage : Page {
         LoadingRing.Visibility = Visibility.Visible;
         SubjectList.Visibility = Visibility.Collapsed;
 
-        Calendar = (await CalendarCache.Update())?.First(c => c.Weekday.Id == Weekday.ToString());
+        Calendar = (await CalendarCache.Update())!.First(c => c.Weekday.Id == Weekday.ToString());
         if (Calendar == null) return;
 
         LoadingRing.Visibility = Visibility.Collapsed;
@@ -57,9 +57,12 @@ public sealed partial class AnimeListPage : Page {
         Weekday = Convert.ToInt32(e.Parameter);
     }
 
-    private async void ImageCard_Click(object sender, RoutedEventArgs e) {
-        ImageCard  card = (ImageCard)sender;
-        AirSubject tag  = (AirSubject)card.Tag;
-        await Launcher.LaunchUriAsync(tag.Url);
+    private void SubjectList_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args) {
+        AirSubject tag = (AirSubject)args.InvokedItem;
+
+        NavigationInfo navigationInfo = new(
+            typeof(SubjectDetialPage), null, tag.Id
+        );
+        IndexPage.Current?.Navigate(navigationInfo);
     }
 }

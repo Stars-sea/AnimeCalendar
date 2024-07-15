@@ -4,27 +4,43 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
-    xmlns:controls="using:AnimeCalendar.Controls"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
+    xmlns:controls="using:AnimeCalendar.Controls"
+    xmlns:animation="using:CommunityToolkit.WinUI.UI.Animations"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <ItemsView x:Name="SubjectList" SelectionMode="None">
-            <ItemsView.ItemTemplate>
-                <DataTemplate x:DataType="schemas:AirSubject">
-                    <ItemContainer AutomationProperties.Name="{x:Bind NameCn}" Margin="8 4 24 4">
-                        <controls:ImageCard IconSource="{x:Bind Images.Small}" Height="80" IconWidth="48" 
-                                            HorizontalAlignment="Stretch" Padding="8" Tag="{x:Bind}"
-                                            Click="ImageCard_Click">
-                            <controls:AirSubjectInfo Subject="{x:Bind}" />
-                        </controls:ImageCard>
-                    </ItemContainer>
-                </DataTemplate>
-            </ItemsView.ItemTemplate>
-        </ItemsView>
+    <Page.Resources>
+        <DataTemplate x:Key="AirSubjectTemplate" x:DataType="schemas:AirSubject">
+            <ItemContainer Margin="8 4 24 4" Tag="{x:Bind}">
+                <Grid Height="80" Padding="8" Background="{ThemeResource CardBackgroundFillColorDefault}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" MinWidth="65" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
+                    <Border animation:Connected.Key="NavigateToDetail" Grid.Column="0"
+                            Background="{ThemeResource CardBackgroundFillColorDefault}"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
+                            HorizontalAlignment="Center">
+                        <Image Source="{x:Bind Images.Common}" CacheMode="BitmapCache" />
+                    </Border>
+
+                    <controls:AirSubjectInfo Grid.Column="1" Margin="12 0" Subject="{x:Bind}" />
+
+                    <FontIcon Glyph="&#xE76C;" Grid.Column="2" />
+                </Grid>
+            </ItemContainer>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Padding="36 0 0 0">
+        <ItemsView x:Name="SubjectList" SelectionMode="None" IsItemInvokedEnabled="True"
+                   ItemTemplate="{StaticResource AirSubjectTemplate}"
+                   ItemInvoked="SubjectList_ItemInvoked" />
+        
         <ProgressRing x:Name="LoadingRing" />
     </Grid>
 </Page>

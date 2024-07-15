@@ -4,11 +4,14 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
+    xmlns:data="using:AnimeCalendar.Data"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <NavigationView x:Name="NavView" SelectionChanged="NavView_SelectionChanged" IsBackButtonVisible="Collapsed">
+    <NavigationView x:Name="NavView" SelectionChanged="NavView_SelectionChanged"
+                    IsBackEnabled="{x:Bind navigations.CanGoBack, Mode=OneWay}"
+                    BackRequested="NavView_BackRequested" KeyUp="NavView_KeyUp">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="收藏" Icon="Favorite" Tag="Collection" />
 
@@ -29,6 +32,6 @@
             <NavigationViewItem Content="账户" Icon="People" Tag="AccountSettings" />
         </NavigationView.FooterMenuItems>
 
-        <Frame x:Name="ContentFrame" Margin="48 0 0 0" />
+        <Frame x:Name="ContentFrame" />
     </NavigationView>
 </Page>
