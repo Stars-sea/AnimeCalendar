@@ -16,6 +16,14 @@ H.NotifyIcon: <https://github.com/HavenDV/H.NotifyIcon>
 
 [![H.NotifyIcon](https://github-readme-stats.vercel.app/api/pin/?username=HavenDV&repo=H.NotifyIcon)](https://github.com/HavenDV/H.NotifyIcon)
 
+CommunityToolkit.Mvvm: <https://github.com/CommunityToolkit/MVVM-Samples>
+
+[![CommunityToolkit.Mvvm](https://github-readme-stats.vercel.app/api/pin/?username=CommunityToolkit&repo=MVVM-Samples)](https://github.com/CommunityToolkit/MVVM-Samples)
+
+CommunityToolkit.WinUI: <https://github.com/CommunityToolkit/WindowsCommunityToolkit>
+
+[![CommunityToolkit.WinUI](https://github-readme-stats.vercel.app/api/pin/?username=CommunityToolkit&repo=WindowsCommunityToolkit)](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
+
 ### API
 
 [Bangumi API](https://github.com/bangumi/api): <https://bangumi.github.io/api/>
