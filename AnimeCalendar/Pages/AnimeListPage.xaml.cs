@@ -1,11 +1,9 @@
 using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
-using AnimeCalendar.Controls;
 using AnimeCalendar.Data;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media.Animation;
 using Microsoft.UI.Xaml.Navigation;
 
 using System;
@@ -15,10 +13,8 @@ using System.Threading.Tasks;
 namespace AnimeCalendar.Pages;
 
 public sealed partial class AnimeListPage : Page {
-    public const string NAV_DETAIL_CA = "NavigateSubjectDetail";
+    private static Calendar[]? cache;
 
-    internal static Cache<Calendar[]> CalendarCache = new(null, UpdateCalendar, TimeSpan.FromHours(1));
-    
     public Calendar? Calendar { get; private set; }
     public int       Weekday  { get; private set; }
 
@@ -27,9 +23,12 @@ public sealed partial class AnimeListPage : Page {
         Loaded += async (_, _) => await Reload();
     }
 
-    private static async Task<Calendar[]?> UpdateCalendar() {
+    private static async Task<Calendar?> UpdateCalendar(int weekday) {
         try {
-            return await BgmApiServices.SubjectApi.GetCalendar();
+            if (cache == null) {
+                cache = await BgmApiServices.SubjectApi.GetCalendar();
+            }
+            return cache.First(c => c.Weekday.Id == weekday.ToString());
         } catch (Exception ex) {
             App.MainWindow.Pop(PopInfo.Fail("新番时间表", "拉取数据失败", ex));
         }
@@ -40,7 +39,7 @@ public sealed partial class AnimeListPage : Page {
         LoadingRing.Visibility = Visibility.Visible;
         SubjectList.Visibility = Visibility.Collapsed;
 
-        Calendar = (await CalendarCache.Update())!.First(c => c.Weekday.Id == Weekday.ToString());
+        Calendar = await UpdateCalendar(Weekday);
         if (Calendar == null) return;
 
         LoadingRing.Visibility = Visibility.Collapsed;
