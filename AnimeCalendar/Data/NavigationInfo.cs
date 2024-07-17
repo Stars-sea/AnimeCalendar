@@ -9,5 +9,6 @@ internal record NavigationInfo(
     string? Title, 
  // bool    Inherited, 
     object? Param,
+    object? Tag,
     NavigationTransitionInfo? TransitionInfo = null
 );

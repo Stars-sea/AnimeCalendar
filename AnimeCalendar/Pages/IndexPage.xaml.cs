@@ -1,5 +1,6 @@
 using AnimeCalendar.Data;
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Input;
 
@@ -12,6 +13,8 @@ public sealed partial class IndexPage : Page {
     public static IndexPage? Current { get; private set; }
 
     private NavigationInfoCollection navigations = [];
+
+    private bool ignoreSelectionChangedOnce = false;
 
     public IndexPage() {
         InitializeComponent();
@@ -30,7 +33,14 @@ public sealed partial class IndexPage : Page {
     }
 
     internal void Navigate(NavigationInfo navigation, bool newPage = true) {
-        var (page, title, param, transitionInfo) = navigation;
+        var (page, title, param, tag, transitionInfo) = navigation;
+
+        if (tag is string itemTag) {
+            ignoreSelectionChangedOnce = true;
+            NavView.SelectedItem = Calendar.MenuItems.Cast<NavigationViewItem>()
+                .First(i => itemTag.Equals(i.Tag));
+            ignoreSelectionChangedOnce = false; // 必要操作
+        }
         
         NavView.Header = title;
         ContentFrame.Navigate(page, param, transitionInfo);
@@ -54,6 +64,11 @@ public sealed partial class IndexPage : Page {
     }
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
+        if (ignoreSelectionChangedOnce) {
+            ignoreSelectionChangedOnce = false;
+            return;
+        }
+
         NavigationViewItemBase container = args.SelectedItemContainer;
 
         if (container == Calendar) return;
@@ -63,20 +78,27 @@ public sealed partial class IndexPage : Page {
         Type    page  = Type.GetType($"AnimeCalendar.Pages.{tags[0]}Page", true)!;
         string? param = tags.Length > 1 ? tags[1] : null;
 
-        Navigate(new NavigationInfo(page, (string)container.Content, param));
+        Navigate(new NavigationInfo(page, (string)container.Content, param, null));
     }
 
     private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) {
         GoBack();
     }
 
-    private void NavView_KeyUp(object sender, KeyRoutedEventArgs e) {
-        // TODO: 修复不检测按键
-        if (e.Key == Windows.System.VirtualKey.GoForward && ContentFrame.CanGoForward)
-            GoForward();
-        else if (e.Key == Windows.System.VirtualKey.GoBack && ContentFrame.CanGoBack)
-            GoBack();
-        else if (e.Key == Windows.System.VirtualKey.GoHome)
-            SelectAnimeList(DateTime.Today.DayOfWeek);
+    private void NavView_PointerPressed(object sender, PointerRoutedEventArgs e) {
+        PointerPointProperties properties = e.GetCurrentPoint(NavView).Properties;
+
+        if (properties.IsLeftButtonPressed || 
+            properties.IsRightButtonPressed ||
+            properties.IsMiddleButtonPressed)
+            return;
+
+        bool backPressed = properties.IsXButton1Pressed;
+        bool forwardPressed = properties.IsXButton2Pressed;
+        if (backPressed ^ forwardPressed) {
+            e.Handled = true;
+            if (backPressed) GoBack();
+            if (forwardPressed) GoForward();
+        }
     }
 }

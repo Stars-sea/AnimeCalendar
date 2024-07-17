@@ -1,10 +1,20 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 
 namespace AnimeCalendar.Data;
 
-internal class NavigationInfoCollection : Collection<NavigationInfo> {
-
-    public int Index { get; private set; } = -1;
+internal class NavigationInfoCollection : ObservableCollection<NavigationInfo>, INotifyPropertyChanged {
+    private int index = -1;
+    public int Index { 
+        get => index;
+        private set {
+            index = value;
+            OnPropertyChanged(new(nameof(Index)));
+            OnPropertyChanged(new(nameof(CanGoForward)));
+            OnPropertyChanged(new(nameof(CanGoBack)));
+            OnPropertyChanged(new(nameof(Current)));
+        }
+    }
 
     public NavigationInfo Current => this[Index];
 

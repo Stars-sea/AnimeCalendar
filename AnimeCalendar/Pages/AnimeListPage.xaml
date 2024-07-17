@@ -37,9 +37,9 @@
     </Page.Resources>
 
     <Grid Padding="36 0 0 0">
-        <ItemsView x:Name="SubjectList" SelectionMode="None" IsItemInvokedEnabled="True"
+        <ItemsView x:Name="SubjectList" SelectionMode="Single"
                    ItemTemplate="{StaticResource AirSubjectTemplate}"
-                   ItemInvoked="SubjectList_ItemInvoked" />
+                   SelectionChanged="SubjectList_SelectionChanged" />
         
         <ProgressRing x:Name="LoadingRing" />
     </Grid>

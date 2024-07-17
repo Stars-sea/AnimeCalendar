@@ -11,7 +11,7 @@
 
     <NavigationView x:Name="NavView" SelectionChanged="NavView_SelectionChanged"
                     IsBackEnabled="{x:Bind navigations.CanGoBack, Mode=OneWay}"
-                    BackRequested="NavView_BackRequested" KeyUp="NavView_KeyUp">
+                    BackRequested="NavView_BackRequested" PointerPressed="NavView_PointerPressed">
         <NavigationView.MenuItems>
             <NavigationViewItem Content="收藏" Icon="Favorite" Tag="Collection" />
 

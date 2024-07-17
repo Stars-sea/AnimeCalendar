@@ -2,8 +2,10 @@ using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Data;
 
+using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
 using System;
@@ -56,11 +58,11 @@ public sealed partial class AnimeListPage : Page {
         Weekday = Convert.ToInt32(e.Parameter);
     }
 
-    private void SubjectList_ItemInvoked(ItemsView sender, ItemsViewItemInvokedEventArgs args) {
-        AirSubject tag = (AirSubject)args.InvokedItem;
+    private void SubjectList_SelectionChanged(ItemsView sender, ItemsViewSelectionChangedEventArgs args) {
+        if (sender.SelectedItem is not AirSubject tag) return;
 
         NavigationInfo navigationInfo = new(
-            typeof(SubjectDetialPage), null, tag.Id
+            typeof(SubjectDetialPage), null, tag.Id, $"AnimeList#{tag.AirWeekday}"
         );
         IndexPage.Current?.Navigate(navigationInfo);
     }
