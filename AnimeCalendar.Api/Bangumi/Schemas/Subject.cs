@@ -51,6 +51,21 @@ public sealed record RelatedSubject(
     string      Relation
 ) : BaseSubject(Id, Type, Name, NameCn, Images);
 
+public record SlimSubject(
+    int         Id,
+    SubjectType Type,
+    string      Name,
+    string      NameCn,
+    Images      Images,
+    string      ShortSummary,
+    DateOnly    Date,
+    int         Volumes,
+    int         Eps,
+    int         CollectionTotal,
+    double      Score,
+    Tag[]       Tags
+) : BaseSubject(Id, Type, Name, NameCn, Images);
+
 public sealed record Subject(
     int         Id,
     SubjectType Type,

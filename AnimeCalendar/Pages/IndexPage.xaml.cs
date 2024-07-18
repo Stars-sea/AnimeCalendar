@@ -21,15 +21,15 @@ public sealed partial class IndexPage : Page {
 
         Current = this;
 
-        Loaded += (_, _) => SelectAnimeList(DateTime.Today.DayOfWeek);
+        Loaded += (_, _) => SelectTimeline(DateTime.Today.DayOfWeek);
     }
 
-    public void SelectAnimeList(DayOfWeek dayOfWeek) {
+    public void SelectTimeline(DayOfWeek dayOfWeek) {
         int weekday = (int)dayOfWeek;
         if (weekday == 0) weekday = 7;
 
         NavView.SelectedItem = Calendar.MenuItems.Cast<NavigationViewItem>()
-            .First(i => $"AnimeList#{weekday}".Equals(i.Tag));
+            .First(i => $"{nameof(TimelinePage)}#{weekday}".Equals(i.Tag));
     }
 
     internal void Navigate(NavigationInfo navigation, bool newPage = true) {
@@ -75,7 +75,12 @@ public sealed partial class IndexPage : Page {
 
         string[] tags = ((string)container.Tag).Split('#');
 
-        Type    page  = Type.GetType($"AnimeCalendar.Pages.{tags[0]}Page", true)!;
+        Type page = Type.GetType(
+            tags[0].EndsWith("Page") 
+                ? $"AnimeCalendar.Pages.{tags[0]}"
+                : $"AnimeCalendar.Pages.{tags[0]}Page", 
+            true
+        )!;
         string? param = tags.Length > 1 ? tags[1] : null;
 
         Navigate(new NavigationInfo(page, (string)container.Content, param, null));

@@ -4,11 +4,43 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
+    xmlns:controls="using:AnimeCalendar.Controls"
+    xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
+    <Page.Resources>
+        <DataTemplate x:Key="SubjectItemTemplate" x:DataType="schemas:Subject">
+            <ItemContainer>
+                <controls:SubjectListItem Subject="{x:Bind}" />
+            </ItemContainer>
+        </DataTemplate>
+    </Page.Resources>
 
+    <Grid Padding="36 0 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
+        <SelectorBar Grid.Row="0">
+            <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="Do" IsSelected="True" />
+            <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="Wish" />
+            <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="Collect" />
+            <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="OnHold" />
+            <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="Dropped" />
+        </SelectorBar>
+
+        <StackPanel Grid.Row="1">
+            <StackPanel MinHeight="150">
+                <TextBlock Text="最近更新" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                <ItemsView />
+            </StackPanel>
+
+            <TextBlock Text="番剧列表" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <ItemsView ItemTemplate="{StaticResource SubjectItemTemplate}" />
+        </StackPanel>
     </Grid>
 </Page>

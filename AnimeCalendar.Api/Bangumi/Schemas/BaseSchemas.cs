@@ -26,3 +26,10 @@ public record Collection(
 );
 
 public record Tag(string Name, int Count);
+
+public record PagedObject<T>(
+    int Total,
+    int Limit,
+    int Offset,
+    T[] Data
+);

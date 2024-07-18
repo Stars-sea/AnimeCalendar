@@ -17,13 +17,13 @@
 
             <NavigationViewItem x:Name="Calendar" Content="新番时间表" Icon="Calendar" IsExpanded="True">
                 <NavigationViewItem.MenuItems>
-                    <NavigationViewItem Tag="AnimeList#1" Content="周一" />
-                    <NavigationViewItem Tag="AnimeList#2" Content="周二" />
-                    <NavigationViewItem Tag="AnimeList#3" Content="周三" />
-                    <NavigationViewItem Tag="AnimeList#4" Content="周四" />
-                    <NavigationViewItem Tag="AnimeList#5" Content="周五" />
-                    <NavigationViewItem Tag="AnimeList#6" Content="周六" />
-                    <NavigationViewItem Tag="AnimeList#7" Content="周日" />
+                    <NavigationViewItem Tag="TimelinePage#1" Content="周一" />
+                    <NavigationViewItem Tag="TimelinePage#2" Content="周二" />
+                    <NavigationViewItem Tag="TimelinePage#3" Content="周三" />
+                    <NavigationViewItem Tag="TimelinePage#4" Content="周四" />
+                    <NavigationViewItem Tag="TimelinePage#5" Content="周五" />
+                    <NavigationViewItem Tag="TimelinePage#6" Content="周六" />
+                    <NavigationViewItem Tag="TimelinePage#7" Content="周日" />
                 </NavigationViewItem.MenuItems>
             </NavigationViewItem>
         </NavigationView.MenuItems>
