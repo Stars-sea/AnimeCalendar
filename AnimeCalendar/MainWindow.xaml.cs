@@ -11,6 +11,7 @@ using H.NotifyIcon;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
+using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
 
@@ -20,6 +21,8 @@ namespace AnimeCalendar;
 public sealed partial class MainWindow : Window {
     [ObservableProperty]
     private IAuthTokenStorage? bgmTokenStorage;
+
+    internal event Action<IAuthTokenStorage?>? BgmTokenChanged;
 
     public MainWindow() {
         InitializeComponent();
@@ -54,6 +57,7 @@ public sealed partial class MainWindow : Window {
 
     partial void OnBgmTokenStorageChanged(IAuthTokenStorage? value) {
         BgmApiServices.UpdateTokenStorage(value);
+        BgmTokenChanged?.Invoke(value);
     }
 
     private async void MainWindow_Activated(object sender, WindowActivatedEventArgs args) {

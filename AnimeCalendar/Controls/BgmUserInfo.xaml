@@ -11,8 +11,8 @@
     <StackPanel>
         <TextBlock Style="{ThemeResource BodyStrongTextBlockStyle}" Margin="0 0 0 4">
             <Run Text="{x:Bind User.Nickname}" />
-            <Span Foreground="{ThemeResource TextFillColorTertiary}"> @</Span>
-            <Run Foreground="{ThemeResource TextFillColorTertiary}" Text="{x:Bind User.Username}" />
+            <Run Foreground="{ThemeResource TextFillColorTertiary}"
+                 Text="{x:Bind User.Username, Converter={StaticResource FormatConverter}, ConverterParameter='{}@{0}'}" />
         </TextBlock>
 
         <TextBlock Text="{x:Bind User.Sign}"

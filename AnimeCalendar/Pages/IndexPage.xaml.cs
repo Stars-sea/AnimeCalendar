@@ -14,7 +14,7 @@ public sealed partial class IndexPage : Page {
 
     private NavigationInfoCollection navigations = [];
 
-    private bool ignoreSelectionChangedOnce = false;
+    private bool ignoreSelectionChanged = false;
 
     public IndexPage() {
         InitializeComponent();
@@ -36,10 +36,10 @@ public sealed partial class IndexPage : Page {
         var (page, title, param, tag, transitionInfo) = navigation;
 
         if (tag is string itemTag) {
-            ignoreSelectionChangedOnce = true;
+            ignoreSelectionChanged = true;
             NavView.SelectedItem = Calendar.MenuItems.Cast<NavigationViewItem>()
                 .First(i => itemTag.Equals(i.Tag));
-            ignoreSelectionChangedOnce = false; // 必要操作
+            ignoreSelectionChanged = false; // 必要操作
         }
         
         NavView.Header = title;
@@ -64,8 +64,8 @@ public sealed partial class IndexPage : Page {
     }
 
     private void NavView_SelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args) {
-        if (ignoreSelectionChangedOnce) {
-            ignoreSelectionChangedOnce = false;
+        if (ignoreSelectionChanged) {
+            ignoreSelectionChanged = false;
             return;
         }
 

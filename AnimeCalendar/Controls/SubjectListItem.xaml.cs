@@ -7,25 +7,10 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace AnimeCalendar.Controls;
 
+[ObservableObject]
 public sealed partial class SubjectListItem : ContentControl {
-    public AbstractSubject? Subject {
-        get { return (AbstractSubject)GetValue(SubjectProperty); }
-        set { SetValue(SubjectProperty, value); }
-    }
-
-    public static readonly DependencyProperty SubjectProperty =
-        DependencyProperty.Register("Subject", typeof(AbstractSubject), 
-            typeof(SubjectListItem), new PropertyMetadata(null));
-
-
-    public string? IconAnimationKey {
-        get { return (string?)GetValue(IconAnimationKeyProperty); }
-        set { SetValue(IconAnimationKeyProperty, value); }
-    }
-
-    public static readonly DependencyProperty IconAnimationKeyProperty =
-        DependencyProperty.Register("IconAnimationKey", typeof(string),
-            typeof(SubjectListItem), new PropertyMetadata(null));
+    [ObservableProperty]
+    private AbstractSubject? subject;
 
     public SubjectListItem() {
         InitializeComponent();

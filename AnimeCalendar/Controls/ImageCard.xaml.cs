@@ -1,18 +1,15 @@
+using CommunityToolkit.Mvvm.ComponentModel;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
 namespace AnimeCalendar.Controls;
 
+[ObservableObject]
 public sealed partial class ImageCard : ContentControl {
-    public ImageSource? IconSource {
-        get { return (ImageSource?)GetValue(IconSourceProperty); }
-        set { SetValue(IconSourceProperty, value); }
-    }
-
-    public static readonly DependencyProperty IconSourceProperty =
-        DependencyProperty.Register("IconSource", typeof(ImageSource),
-            typeof(ImageCard), new PropertyMetadata(null));
+    [ObservableProperty]
+    private ImageSource? iconSource;
 
     public event RoutedEventHandler? Click;
 
