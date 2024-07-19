@@ -15,40 +15,40 @@ public interface ICollectionApi {
         SubjectType subjectType = SubjectType.Anime
     );
 
-    [Get("/v0/users/{username}/collections/{subjectId}")]
+    [Get("/v0/users/{username}/collections/{subject_id}")]
     Task<UserCollection> GetCollection(
         string username,
-        int    subjectId
+        int    subject_id
     );
 
     /* 不能修改剧集条目的完成度 */
-    [Post("/v0/users/-/collections/{subjectId}")]
+    [Post("/v0/users/-/collections/{subject_id}")]
     Task PostCollection(
-        int subjectId, 
+        int subject_id, 
         [Body] ModifyCollectionRequest _
     );
 
     /* 不能修改剧集条目的完成度 */
-    [Patch("/v0/users/-/collections/{subjectId}")]
+    [Patch("/v0/users/-/collections/{subject_id}")]
     Task PatchCollection(
-        int subjectId,
+        int subject_id,
         [Body] ModifyCollectionRequest _
     );
 
-    [Get("/v0/users/-/collections/{subjectId}/episodes")]
+    [Get("/v0/users/-/collections/{subject_id}/episodes")]
     Task<PagedObject<EpCollection>> GetEpisodes(
-        int subjectId,
+        int subject_id,
         int offset = 0,
         int limit  = 30,
         EpType? episodeType = null
     );
 
-    [Patch("/v0/users/-/collections/{subjectId}/episodes")]
-    Task PatchEpisodes(int subjectId, [Body] ModifyEpRequest _);
+    [Patch("/v0/users/-/collections/{subject_id}/episodes")]
+    Task PatchEpisodes(int subject_id, [Body] ModifyEpRequest _);
 
-    [Get("/v0/users/-/collections/-/episodes/{episodeId}")]
-    Task<EpCollection> GetEpisode(int episodeId);
+    [Get("/v0/users/-/collections/-/episodes/{episode_id}")]
+    Task<EpCollection> GetEpisode(int episode_id);
 
-    [Put("/v0/users/-/collections/-/episodes/{episodeId}")]
-    Task PutEpCollectionType([Body] ModifyEpRequest _);
+    [Put("/v0/users/-/collections/-/episodes/{episode_id}")]
+    Task PutEpCollectionType(int episode_id, [Body] ModifyEpRequest _);
 }

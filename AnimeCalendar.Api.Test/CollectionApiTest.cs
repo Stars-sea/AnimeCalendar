@@ -1,5 +1,7 @@
 ﻿using AnimeCalendar.Api.Bangumi;
 
+using System.Diagnostics;
+
 namespace AnimeCalendar.Api.Test;
 
 [TestClass]
@@ -13,11 +15,9 @@ public class CollectionApiTest {
     }
 
     [TestMethod]
-    [DataRow(new object[] { "stars_sea", 424883, "時々ボソッとロシア語でデレる隣のアーリャさん" })]
+    [DataRow("stars_sea", 424883, "時々ボソッとロシア語でデレる隣のアーリャさん")]
     public async Task GetCollectionTest(string username, int subjectId, string subjectName) {
         var collection = await Api.GetCollection(username, subjectId);
         Assert.AreEqual(subjectName, collection.Subject.Name);
     }
-
-    // UNDONE
 }

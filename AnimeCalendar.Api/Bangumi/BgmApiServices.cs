@@ -24,7 +24,10 @@ public static class BgmApiServices {
     };
 
     static BgmApiServices() {
-        ServiceSettings = new(new NewtonsoftJsonContentSerializer(SerializerSettings));
+        ServiceSettings = new(
+            new NewtonsoftJsonContentSerializer(SerializerSettings),
+            new UrlParameterFormatter()
+        );
 
         HttpClient client = new(new AuthHeaderHandler()) {
             BaseAddress = new Uri(BASE_ADDRESS)

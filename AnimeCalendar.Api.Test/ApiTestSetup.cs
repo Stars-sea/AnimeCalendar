@@ -20,10 +20,9 @@ public class ApiTestSetup : IAuthTokenStorage {
 
     public Task<bool> Store() => Task.FromResult(true);
 
-    [TestInitialize]
-    public async void Init() {
-        BgmApiServices.UpdateTokenStorage(this);
+    static ApiTestSetup() {
+        BgmApiServices.UpdateTokenStorage(new ApiTestSetup());
 
-        User = await BgmApiServices.UserApi.GetMe();
+        User = BgmApiServices.UserApi.GetMe().Result;
     }
 }

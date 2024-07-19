@@ -11,9 +11,10 @@ public class SubjectApiTest {
     }
 
     [TestMethod]
-    public async Task GetSubjectTest() {
-        var subject = await Api.GetSubject(397604);
-        Assert.AreEqual(subject.Name, "ATRI -My Dear Moments-");
+    [DataRow(397604, "ATRI -My Dear Moments-")]
+    public async Task GetSubjectTest(int subjectId, string name) {
+        var subject = await Api.GetSubject(subjectId);
+        Assert.AreEqual(subject.Name, name);
     }
 
     [TestMethod]

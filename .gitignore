@@ -364,3 +364,4 @@ FodyWeavers.xsd
 
 # Custom
 AnimeCalendar.Api/Bangumi/BangumiApp.cs
+AnimeCalendar.Api.Test/ApiTestSetup.cs
