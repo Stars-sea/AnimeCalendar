@@ -1,4 +1,8 @@
-﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
+﻿using AnimeCalendar.Api.Converter;
+
+using Newtonsoft.Json;
+
+namespace AnimeCalendar.Api.Bangumi.Schemas;
 
 public enum SubjectType: int {
     Book    = 1,
@@ -58,12 +62,14 @@ public record SlimSubject(
     string      NameCn,
     Images      Images,
     string      ShortSummary,
-    DateOnly    Date,
     int         Volumes,
     int         Eps,
     int         CollectionTotal,
     double      Score,
-    Tag[]       Tags
+    Tag[]       Tags,
+
+    [JsonConverter(typeof(DateOnlyConverter))]
+    DateTime? Date
 ) : BaseSubject(Id, Type, Name, NameCn, Images);
 
 public sealed record Subject(

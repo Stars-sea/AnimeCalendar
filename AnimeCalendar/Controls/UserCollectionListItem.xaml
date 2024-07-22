@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentControl
+    x:Class="AnimeCalendar.Controls.UserCollectionListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:AnimeCalendar.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <ContentControl.Template>
+        <ControlTemplate TargetType="local:UserCollectionListItem">
+            <Grid Height="80" Padding="8" Background="{ThemeResource CardBackgroundFillColorDefault}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" MinWidth="50" />
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Background="{ThemeResource CardBackgroundFillColorDefault}"
+                        CornerRadius="{ThemeResource ControlCornerRadius}" HorizontalAlignment="Center">
+                    <Image Source="{x:Bind Collection.Subject.Images.Common, Mode=OneWay}" CacheMode="BitmapCache" />
+                </Border>
+
+                <StackPanel Grid.Column="1" Margin="12 0">
+                    <TextBlock
+                        Text="{x:Bind Collection.Subject.Name, Mode=OneWay}"
+                        Style="{ThemeResource BodyStrongTextBlockStyle}"
+                        ToolTipService.ToolTip="{x:Bind Collection.Subject.NameCn, Mode=OneWay}" />
+
+                    <ContentPresenter />
+                </StackPanel>
+                
+                <FontIcon Glyph="&#xE76C;" Grid.Column="2" />
+            </Grid>
+        </ControlTemplate>
+    </ContentControl.Template>
+</ContentControl>

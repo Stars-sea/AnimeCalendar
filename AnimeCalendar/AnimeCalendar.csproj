@@ -33,6 +33,7 @@
     <None Remove="Controls\BgmUserInfo.xaml" />
     <None Remove="Controls\ImageCard.xaml" />
     <None Remove="Controls\SubjectListItem.xaml" />
+    <None Remove="Controls\UserCollectionListItem.xaml" />
     <None Remove="Pages\AccountSettingsPage.xaml" />
     <None Remove="Pages\CollectionPage.xaml" />
     <None Remove="Pages\IndexPage.xaml" />
@@ -122,4 +123,10 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
+  <ItemGroup>
+    <CustomAdditionalCompileInputs Remove="Controls\UserCollectionListItem.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Remove="Controls\UserCollectionListItem.xaml" />
+  </ItemGroup>
 </Project>

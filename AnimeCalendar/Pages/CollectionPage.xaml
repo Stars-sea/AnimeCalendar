@@ -13,11 +13,13 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="SubjectItemTemplate" x:DataType="schemas:Subject">
-            <ItemContainer>
-                <controls:SubjectListItem Subject="{x:Bind}" />
+        <DataTemplate x:Key="CollectionItemTemplate" x:DataType="schemas:UserCollection">
+            <ItemContainer Margin="0 4 24 4">
+                <controls:UserCollectionListItem Collection="{x:Bind}" />
             </ItemContainer>
         </DataTemplate>
+
+        <converters:CollectionVisibilityConverter x:Key="VisibilityConverter" />
     </Page.Resources>
 
     <Grid Padding="36 0 0 0">
@@ -26,22 +28,30 @@
             <RowDefinition Height="1*" />
         </Grid.RowDefinitions>
         
-        <SelectorBar Grid.Row="0">
-            <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="Do" IsSelected="True" />
-            <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="Wish" />
-            <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="Collect" />
-            <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="OnHold" />
-            <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="Dropped" />
+        <SelectorBar Grid.Row="0" SelectionChanged="SelectorBar_SelectionChanged">
+            <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="3" IsSelected="True" />
+            <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="1" />
+            <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="2" />
+            <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="4" />
+            <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
         </SelectorBar>
 
-        <StackPanel Grid.Row="1">
-            <StackPanel MinHeight="150">
-                <TextBlock Text="最近更新" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                <ItemsView />
-            </StackPanel>
+        <ScrollView Grid.Row="1">
+            <StackPanel Margin="12 0 0 0">
+                <!-- TODO: 从 Mikanime 获取 -->
+                <StackPanel MinHeight="150" Visibility="Collapsed">
+                    <TextBlock Text="最近更新" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ItemsView />
+                </StackPanel>
 
-            <TextBlock Text="番剧列表" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <ItemsView ItemTemplate="{StaticResource SubjectItemTemplate}" />
-        </StackPanel>
+                <StackPanel>
+                    <TextBlock Text="番剧列表" Margin="0 16" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                    <ItemsView
+                        SelectionMode="Single"
+                        ItemsSource="{x:Bind Collections, Mode=OneWay}"
+                        ItemTemplate="{StaticResource CollectionItemTemplate}" />
+                </StackPanel>
+            </StackPanel>
+        </ScrollView>
     </Grid>
 </Page>
