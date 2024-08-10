@@ -24,6 +24,10 @@ CommunityToolkit.WinUI: <https://github.com/CommunityToolkit/WindowsCommunityToo
 
 [![CommunityToolkit.WinUI](https://github-readme-stats.vercel.app/api/pin/?username=CommunityToolkit&repo=WindowsCommunityToolkit)](https://github.com/CommunityToolkit/WindowsCommunityToolkit)
 
+HtmlAgilityPack: <https://github.com/zzzprojects/html-agility-pack>
+
+[![HtmlAgilityPack](https://github-readme-stats.vercel.app/api/pin/?username=zzzprojects&repo=html-agility-pack)](https://github.com/zzzprojects/html-agility-pack)
+
 ### API
 
 [Bangumi API](https://github.com/bangumi/api): <https://bangumi.github.io/api/>
