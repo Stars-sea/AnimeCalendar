@@ -26,7 +26,7 @@ public static class BgmApiServices {
     static BgmApiServices() {
         ServiceSettings = new(
             new NewtonsoftJsonContentSerializer(SerializerSettings),
-            new UrlParameterFormatter()
+            new EnumUrlParameterFormatter()
         );
 
         HttpClient client = new(new AuthHeaderHandler()) {

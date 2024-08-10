@@ -1,17 +1,24 @@
-﻿using Refit;
+﻿using AnimeCalendar.Api.Converter;
+
+using Refit;
 
 namespace AnimeCalendar.Api.Mikanime;
 
 public class MikanimeServices {
-    public static readonly ISearchAnime SearchAnime;
+    public static readonly ISearchAnimeApi  SearchAnimeApi;
+    public static readonly IBangumiApi      BangumiApi;
 
     public static readonly RefitSettings ServiceSettings;
 
     public const string BASE_ADDRESS = "https://mikanime.tv";
 
     static MikanimeServices() {
-        ServiceSettings = new(new XmlContentSerializer());
+        ServiceSettings = new(
+            new XmlContentSerializer(),
+            urlParameterKeyFormatter: new LowerUrlParameterKeyFormatter()
+        );
 
-        SearchAnime = RestService.For<ISearchAnime>(BASE_ADDRESS, ServiceSettings);
+        SearchAnimeApi  = RestService.For<ISearchAnimeApi>(BASE_ADDRESS, ServiceSettings);
+        BangumiApi      = RestService.For<IBangumiApi>(BASE_ADDRESS, ServiceSettings);
     }
 }

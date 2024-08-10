@@ -1,6 +1,6 @@
 using AnimeCalendar.Api.Bangumi;
 
-namespace AnimeCalendar.Api.Test;
+namespace AnimeCalendar.Api.Test.Bangumi;
 
 [TestClass]
 public class SubjectApiTest {

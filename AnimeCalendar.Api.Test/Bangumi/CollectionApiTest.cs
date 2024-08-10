@@ -1,8 +1,6 @@
 ﻿using AnimeCalendar.Api.Bangumi;
 
-using System.Diagnostics;
-
-namespace AnimeCalendar.Api.Test;
+namespace AnimeCalendar.Api.Test.Bangumi;
 
 [TestClass]
 public class CollectionApiTest {
