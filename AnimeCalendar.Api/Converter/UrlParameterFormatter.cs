@@ -2,7 +2,7 @@
 
 using System.Reflection;
 
-namespace AnimeCalendar.Api.Bangumi;
+namespace AnimeCalendar.Api.Converter;
 
 internal class UrlParameterFormatter : DefaultUrlParameterFormatter {
     public override string? Format(object? parameterValue, ICustomAttributeProvider attributeProvider, Type type)

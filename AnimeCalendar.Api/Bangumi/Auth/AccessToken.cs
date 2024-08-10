@@ -6,7 +6,7 @@ public record AccessTokenRequest(
     string ClientSecret,
     string Code,
     string RedirectUri
-// string State
+//  string State
 );
 
 public record AccessTokenRefreshRequest(
@@ -20,18 +20,18 @@ public record AccessTokenRefreshRequest(
 public record AccessTokenStatusRequest(string AccessToken);
 
 public record AccessTokenResponse(
-    string AccessToken,
-    ulong ExpiresIn,
-    string TokenType,
-    string Scope,
-    int UserId,
-    string RefreshToken
+    string  AccessToken,
+    ulong   ExpiresIn,
+    string  TokenType,
+    string  Scope,
+    int     UserId,
+    string  RefreshToken
 );
 
 public record AccessTokenStatusResponse(
-    string AccessToken,
-    string ClientId,
-    ulong Expires,
-    int UserId,
-    string Scope
+    string  AccessToken,
+    string  ClientId,
+    ulong   Expires,
+    int     UserId,
+    string  Scope
 );

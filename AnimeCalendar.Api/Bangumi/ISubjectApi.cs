@@ -4,7 +4,7 @@ using Refit;
 
 namespace AnimeCalendar.Api.Bangumi;
 
-[Headers(BangumiApp.USER_AGENT)]
+[Headers(ModuleSettings.USER_AGENT)]
 public interface ISubjectApi {
     [Get("/calendar")]
     Task<Calendar[]> GetCalendar();

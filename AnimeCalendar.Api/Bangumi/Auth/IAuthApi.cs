@@ -2,7 +2,7 @@
 
 namespace AnimeCalendar.Api.Bangumi.Auth;
 
-[Headers(BangumiApp.USER_AGENT)]
+[Headers(ModuleSettings.USER_AGENT)]
 internal interface IAuthApi {
     [Post("/oauth/access_token")]
     public Task<AccessTokenResponse> RequestToken([Body(BodySerializationMethod.Serialized, false)] AccessTokenRequest _);

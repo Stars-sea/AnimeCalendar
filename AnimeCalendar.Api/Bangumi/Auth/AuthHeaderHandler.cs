@@ -3,7 +3,6 @@ using System.Net.Http.Headers;
 
 namespace AnimeCalendar.Api.Bangumi.Auth;
 
-#nullable enable
 internal class AuthHeaderHandler : DelegatingHandler {
     public static IAuthTokenStorage? TokenStorage { get; set; }
 

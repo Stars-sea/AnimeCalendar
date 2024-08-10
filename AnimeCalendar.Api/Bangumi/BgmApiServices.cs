@@ -3,10 +3,10 @@ using Newtonsoft.Json;
 using Refit;
 using AnimeCalendar.Api.Bangumi.Auth;
 using AnimeCalendar.Api.Storage;
+using AnimeCalendar.Api.Converter;
 
 namespace AnimeCalendar.Api.Bangumi;
 
-#nullable enable
 public static class BgmApiServices {
     public static readonly ISubjectApi    SubjectApi;
     public static readonly IUserApi       UserApi;

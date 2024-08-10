@@ -4,7 +4,7 @@ using Refit;
 
 namespace AnimeCalendar.Api.Bangumi;
 
-[Headers(BangumiApp.USER_AGENT)]
+[Headers(ModuleSettings.USER_AGENT)]
 public interface ICollectionApi {
     [Get("/v0/users/{username}/collections")]
     Task<PagedObject<UserCollection>> GetCollections(
