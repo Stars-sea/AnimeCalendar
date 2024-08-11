@@ -14,12 +14,12 @@
 
     <Page.Resources>
         <DataTemplate x:Key="CollectionItemTemplate" x:DataType="schemas:UserCollection">
-            <ItemContainer Margin="0 4 24 4">
+            <ListViewItem Margin="0 2 20 2" Padding="4 2">
                 <controls:UserCollectionListItem Collection="{x:Bind}" />
-            </ItemContainer>
+            </ListViewItem>
         </DataTemplate>
 
-        <converters:CollectionVisibilityConverter x:Key="VisibilityConverter" />
+        <converters:BoolToVisibilityConverter x:Name="VisibilityConverter" />
     </Page.Resources>
 
     <Grid Padding="36 0 0 0">
@@ -36,21 +36,13 @@
             <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
         </SelectorBar>
 
-        <ScrollView Grid.Row="1">
-            <StackPanel Margin="12 0 0 0">
-                <!-- TODO: 从 Mikanime 获取 -->
-                <StackPanel MinHeight="150" Visibility="Collapsed">
-                    <TextBlock Text="最近更新" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ItemsView />
-                </StackPanel>
-
-                <StackPanel>
-                    <TextBlock Text="番剧列表" Margin="0 16" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                    <ItemsView
-                        SelectionMode="Single"
-                        ItemsSource="{x:Bind Collections, Mode=OneWay}"
-                        ItemTemplate="{StaticResource CollectionItemTemplate}" />
-                </StackPanel>
+        <ScrollView Grid.Row="1" x:Name="ScrollView" VerticalContentAlignment="Stretch">
+            <StackPanel Margin="8 0 0 0" VerticalAlignment="Center">
+                <ProgressRing Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+                <ListView
+                    SelectionMode="Single" ItemsSource="{x:Bind Collections, Mode=OneWay}" ItemTemplate="{StaticResource CollectionItemTemplate}"
+                    Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}">
+                </ListView>
             </StackPanel>
         </ScrollView>
     </Grid>

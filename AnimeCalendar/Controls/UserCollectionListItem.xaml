@@ -10,7 +10,9 @@
 
     <ContentControl.Template>
         <ControlTemplate TargetType="local:UserCollectionListItem">
-            <Grid Height="80" Padding="8" Background="{ThemeResource CardBackgroundFillColorDefault}">
+            <Grid Height="80" Padding="8"
+                  CornerRadius="{ThemeResource ControlCornerRadius}"
+                  Background="{ThemeResource CardBackgroundFillColorDefault}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" MinWidth="50" />
                     <ColumnDefinition Width="1*" />

@@ -43,12 +43,16 @@ public sealed partial class AccountSettingsPage : Page {
     }
 
     public async void FetchBgmUser(IAuthTokenStorage? token) {
-        if (token == null || await token.IsExpired()) return;
+        if (token == null || await token.IsExpired()) {
+            BgmUser = null;
+            return;
+        }
 
         try {
             BgmUser = await BgmApiServices.UserApi.GetMe();
         } catch (Exception ex) {
             App.MainWindow.Pop(PopInfo.Fail("Bangumi 登录", "拉取用户信息错误", ex));
+            BgmUser = null;
         }
     }
 
