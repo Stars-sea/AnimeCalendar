@@ -1,12 +1,12 @@
-﻿using AnimeCalendar.Api.Mikanime.Rss;
+﻿using AnimeCalendar.Api.Converter;
+
+using AnimeCalendar.Api.Mikanime.Rss;
 
 using HtmlAgilityPack;
 
 using Refit;
 
 using System.Collections.Frozen;
-
-using static AnimeCalendar.Api.Converter.HtmlDecoder;
 
 namespace AnimeCalendar.Api.Mikanime;
 
@@ -27,7 +27,7 @@ public interface ISearchAnimeApi {
 
         /* //*[@id="sk-container"]/div[2]/ul/li/a */
         return document.DocumentNode.SelectNodes("//ul[@class=\"list-inline an-ul\"]/li/a").ToFrozenDictionary(
-            node => HtmlDecode(node.SelectSingleNode("//div[@class=\"an-text\"]").InnerText).Trim(),
+            node => node.SelectSingleNode("//div[@class=\"an-text\"]").InnerText.Trim().UnicodeUnescape(),
             node => {
                 string path = node.Attributes["href"].Value;
                 return int.Parse(path[(path.LastIndexOf('/') + 1)..]);

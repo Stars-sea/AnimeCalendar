@@ -11,18 +11,18 @@ public class BangumiApiTest {
     [DataRow(3386)]
     public async Task BgmNameTest(int bangumiId) {
         BangumiPage page = await Api.BangumiPage(bangumiId);
-        int? subjectId = page.GetBgmSubjectId();
+        int? subjectId = page.BgmSubjectId;
         Assert.IsNotNull(subjectId);
 
         var bgmSubject = await BgmApiServices.SubjectApi.GetSubject((int)subjectId);
-        Assert.AreEqual(bgmSubject.NameCn.Trim(), page.GetBangumiName());
+        Assert.AreEqual(bgmSubject.NameCn.Trim(), page.BangumiName);
     }
 
     [TestMethod]
     [DataRow(3386)]
     public async Task SubgroupTest(int bangumiId) {
         BangumiPage page = await Api.BangumiPage(bangumiId);
-        var subgroups = page.GetSubgroups();
+        var subgroups = page.Subgroups;
         Assert.IsNotNull(subgroups);
     }
 }
