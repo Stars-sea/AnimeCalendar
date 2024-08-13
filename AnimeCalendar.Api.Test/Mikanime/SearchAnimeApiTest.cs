@@ -1,5 +1,5 @@
 ﻿using AnimeCalendar.Api.Mikanime;
-using AnimeCalendar.Api.Mikanime.Rss;
+using AnimeCalendar.Api.Mikanime.Schemas;
 
 namespace AnimeCalendar.Api.Test.Mikanime;
 

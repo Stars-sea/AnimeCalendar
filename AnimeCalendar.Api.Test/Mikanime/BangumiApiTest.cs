@@ -31,6 +31,8 @@ public class BangumiApiTest {
     public async Task EpisodesTest(int bangumiId, int subgroupId) {
         BangumiPage page = await Api.BangumiPage(bangumiId);
         var episodes = page.GetEpisodes(subgroupId);
+        var tags = episodes[0].Tags;
+        var pureName = episodes[1].PureName;
         Assert.IsNotNull(episodes);
     }
 }

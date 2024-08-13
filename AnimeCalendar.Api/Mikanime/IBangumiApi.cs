@@ -1,4 +1,4 @@
-﻿using AnimeCalendar.Api.Mikanime.Rss;
+﻿using AnimeCalendar.Api.Mikanime.Schemas;
 
 using HtmlAgilityPack;
 

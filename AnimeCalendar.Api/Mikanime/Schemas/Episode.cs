@@ -2,7 +2,7 @@
 
 using System.Xml.Serialization;
 
-namespace AnimeCalendar.Api.Mikanime.Rss;
+namespace AnimeCalendar.Api.Mikanime.Schemas;
 
 public class Enclosure {
     [XmlAttribute("type")]

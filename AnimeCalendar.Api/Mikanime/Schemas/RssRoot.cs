@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 using System.Xml.Serialization;
 
-namespace AnimeCalendar.Api.Mikanime.Rss;
+namespace AnimeCalendar.Api.Mikanime.Schemas;
 
 [XmlRoot("rss")]
 public class RssRoot {

@@ -1,6 +1,6 @@
 ﻿using AnimeCalendar.Api.Converter;
 using AnimeCalendar.Api.Data;
-using AnimeCalendar.Api.Mikanime.Rss;
+using AnimeCalendar.Api.Mikanime.Schemas;
 
 using HtmlAgilityPack;
 
