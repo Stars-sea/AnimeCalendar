@@ -4,10 +4,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
+    xmlns:data="using:AnimeCalendar.Api.Data"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -16,61 +16,80 @@
         <converters:BoolToObjectConverter
             x:Key="ExpanderHeaderConverter"
             TrueValue="收起标签" FalseValue="展开标签" />
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-    <Grid Padding="36 36 0 0">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="185" />
-                <ColumnDefinition Width="1*" />
-            </Grid.ColumnDefinitions>
+    <ScrollView>
+        <StackPanel>
+            <ProgressBar
+                IsIndeterminate="{x:Bind IsLoading, Mode=OneWay}"
+                Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
 
-            <Border Grid.Column="0" Background="{ThemeResource CardBackgroundFillColorDefault}"
-                    VerticalAlignment="Top" CornerRadius="{ThemeResource ControlCornerRadius}">
-                <Image Source="{x:Bind Subject.Images.Common, Mode=OneWay}" CacheMode="BitmapCache"
-                       PointerPressed="Image_PointerPressed" MinHeight="260" />
-            </Border>
+            <Grid Padding="36 36 36 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="185" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1" Margin="12 0">
-                <TextBlock Text="{x:Bind Subject.NameCn, Mode=OneWay}" Margin="0 0 0 8"
-                           Style="{ThemeResource TitleTextBlockStyle}" />
+                <Border Grid.Column="0" Background="{ThemeResource CardBackgroundFillColorDefault}"
+                        VerticalAlignment="Top" CornerRadius="{ThemeResource ControlCornerRadius}">
+                    <Image Source="{x:Bind Subject.Images.Common, Mode=OneWay}" MinHeight="260" />
+                </Border>
 
-                <StackPanel Orientation="Horizontal" Margin="0 0 0 36">
-                    <StackPanel x:Name="RatingText" Margin="4 0 16 0" Orientation="Horizontal">
-                        <Viewbox Height="12" Margin="0 0 4 0">
-                            <FontIcon Glyph="&#xE735;" Foreground="Gold" />
-                        </Viewbox>
-                        <TextBlock Text="{x:Bind Subject.Rating.Score, Mode=OneWay}"
-                                   Style="{ThemeResource BodyTextBlockStyle}" />
+                <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                    <TextBlock Text="{x:Bind Subject.NameCn, Mode=OneWay}" Margin="0 0 0 8"
+                               Style="{ThemeResource TitleTextBlockStyle}" />
+
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 36">
+                        <StackPanel x:Name="RatingText" Margin="4 0 16 0" Orientation="Horizontal">
+                            <Viewbox Height="12" Margin="0 0 4 0">
+                                <FontIcon Glyph="&#xE735;" Foreground="Gold" />
+                            </Viewbox>
+                            <TextBlock Text="{x:Bind Subject.Rating.Score, Mode=OneWay}"
+                                       Style="{ThemeResource BodyTextBlockStyle}" />
+                        </StackPanel>
+
+                        <Border x:Name="RankText" Padding="4 0" Visibility="Collapsed"
+                            CornerRadius="{ThemeResource ControlCornerRadius}"
+                            Background="{ThemeResource AccentFillColorDefaultBrush}">
+                            <TextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}">
+                            <Run Text="Rank" />
+                            <Run Text="{x:Bind Subject.Rating.Rank, Mode=OneWay}" />
+                            </TextBlock>
+                        </Border>
                     </StackPanel>
 
-                    <Border x:Name="RankText" Padding="4 0" Visibility="Collapsed"
-                        CornerRadius="{ThemeResource ControlCornerRadius}"
-                        Background="{ThemeResource AccentFillColorDefaultBrush}">
-                        <TextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}">
-                        <Run Text="Rank" />
-                        <Run Text="{x:Bind Subject.Rating.Rank, Mode=OneWay}" />
-                        </TextBlock>
-                    </Border>
+                    <Expander x:Name="Expander" HorizontalAlignment="Stretch"
+                              Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">
+                        <ItemsRepeater x:Name="Tags" ItemsSource="{x:Bind Subject.Tags, Mode=OneWay}">
+                            <ItemsRepeater.Layout>
+                                <controls:WrapLayout HorizontalSpacing="4" VerticalSpacing="6" />
+                            </ItemsRepeater.Layout>
+                            <ItemsRepeater.ItemTemplate>
+                                <DataTemplate x:DataType="schemas:Tag">
+                                    <Border Padding="4 0" CornerRadius="{ThemeResource ControlCornerRadius}"
+                                            Background="{ThemeResource SystemColorHotlightColor}">
+                                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsRepeater.ItemTemplate>
+                        </ItemsRepeater>
+                    </Expander>
                 </StackPanel>
+            </Grid>
 
-                <Expander x:Name="Expander" HorizontalAlignment="Stretch"
-                          Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">
-                    <ItemsRepeater x:Name="Tags" ItemsSource="{x:Bind Subject.Tags, Mode=OneWay}">
-                        <ItemsRepeater.Layout>
-                            <controls:WrapLayout HorizontalSpacing="4" VerticalSpacing="6" />
-                        </ItemsRepeater.Layout>
-                        <ItemsRepeater.ItemTemplate>
-                            <DataTemplate x:DataType="schemas:Tag">
-                                <Border Padding="4 0" CornerRadius="{ThemeResource ControlCornerRadius}"
-                                        Background="{ThemeResource SystemColorHotlightColor}">
-                                    <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
-                                </Border>
-                            </DataTemplate>
-                        </ItemsRepeater.ItemTemplate>
-                    </ItemsRepeater>
-                </Expander>
+            <StackPanel Orientation="Horizontal" Padding="36 16" Spacing="16">
+                <ComboBox x:Name="BangumiSelector" MinWidth="200"
+                          DisplayMemberPath="Name" Visibility="Collapsed"
+                          SelectionChanged="OnSelectedBangumiChanged" />
+
+                <ComboBox x:Name="SubgroupSelector" MinWidth="180"
+                          DisplayMemberPath="Name" Visibility="Collapsed"
+                          SelectionChanged="OnSelectedSubgroupChanged" />
             </StackPanel>
-        </Grid>
-    </Grid>
+
+            <ItemsView Padding="36 0" />
+        </StackPanel>
+    </ScrollView>
 </Page>

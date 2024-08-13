@@ -1,8 +1,8 @@
 ﻿using AnimeCalendar.Api.Converter;
+using AnimeCalendar.Api.Data;
 
 using HtmlAgilityPack;
 
-using System.Collections.Frozen;
 using System.Text.RegularExpressions;
 
 namespace AnimeCalendar.Api.Mikanime;
@@ -28,11 +28,13 @@ public partial class BangumiPage {
         }
     }
 
-    public FrozenDictionary<string, int> Subgroups
-        => RootNode.SelectNodes("//a[contains(@class, \"subgroup-name\")]").ToFrozenDictionary(
-            node => node.InnerText.Trim().UnicodeUnescape(),
-            node => int.Parse(node.Attributes["data-anchor"].Value[1..])
-        );
+    public Identifier[] Subgroups
+        => RootNode.SelectNodes("//a[contains(@class, \"subgroup-name\")]").Select(node =>
+            new Identifier(
+                node.InnerText.Trim().UnicodeUnescape(),
+                int.Parse(node.Attributes["data-anchor"].Value[1..])
+            )
+        ).ToArray();
 
     [GeneratedRegex(@"https://bgm.tv/subject/(?<subjectId>\d+)")]
     private static partial Regex BgmSubjectUrl();

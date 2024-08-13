@@ -1,12 +1,10 @@
 ﻿using AnimeCalendar.Api.Converter;
-
+using AnimeCalendar.Api.Data;
 using AnimeCalendar.Api.Mikanime.Rss;
 
 using HtmlAgilityPack;
 
 using Refit;
-
-using System.Collections.Frozen;
 
 namespace AnimeCalendar.Api.Mikanime;
 
@@ -22,17 +20,24 @@ public interface ISearchAnimeApi {
         return document;
     }
 
-    async Task<FrozenDictionary<string, int>> SearchBangumiIds(string searchStr) {
-        HtmlDocument document = await SearchHtml(searchStr);
+    async Task<Identifier[]> SearchBangumiIds(string searchStr) {
+        int spaceIndex = searchStr.IndexOf(' ');
+        if (spaceIndex != -1)
+            searchStr = searchStr[..spaceIndex];
 
-        /* //*[@id="sk-container"]/div[2]/ul/li/a */
-        return document.DocumentNode.SelectNodes("//ul[@class=\"list-inline an-ul\"]/li/a").ToFrozenDictionary(
-            node => node.SelectSingleNode("//div[@class=\"an-text\"]").InnerText.Trim().UnicodeUnescape(),
-            node => {
-                string path = node.Attributes["href"].Value;
-                return int.Parse(path[(path.LastIndexOf('/') + 1)..]);
-            }
-        );
+        HtmlDocument document = await SearchHtml(searchStr);
+        
+        var nodes = document.DocumentNode.SelectNodes("//ul[@class=\"list-inline an-ul\"]/li/a");
+        if (nodes == null) return [];
+
+        return nodes.Select(node => {
+            string name = node.SelectSingleNode(".//div[@class=\"an-text\"]").InnerText.Trim().UnicodeUnescape();
+
+            string path = node.Attributes["href"].Value;
+            int id = int.Parse(path[(path.LastIndexOf('/') + 1)..]);
+
+            return new Identifier(name, id);
+        }).ToArray();
     }
 
     [Get("/RSS/Search")]

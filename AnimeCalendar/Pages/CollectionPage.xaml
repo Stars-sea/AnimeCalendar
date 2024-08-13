@@ -41,8 +41,7 @@
                 <ProgressRing Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
                 <ListView
                     SelectionMode="Single" ItemsSource="{x:Bind Collections, Mode=OneWay}" ItemTemplate="{StaticResource CollectionItemTemplate}"
-                    Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}">
-                </ListView>
+                    Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}" />
             </StackPanel>
         </ScrollView>
     </Grid>
