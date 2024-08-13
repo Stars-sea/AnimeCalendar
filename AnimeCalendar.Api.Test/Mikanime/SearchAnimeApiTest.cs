@@ -17,9 +17,8 @@ public class SearchAnimeApiTest {
     [TestMethod]
     [DataRow("亚托莉 -我挚爱的时光-", (int[])[ 3386 ])]
     public async Task HtmlTest(string searchStr, int[] bangumiIds) {
-        var idPairs = await Api.SearchBangumiIds(searchStr);
-        var ids = idPairs.Values;
-        Assert.IsTrue(ids.Length == bangumiIds.Length);
+        var ids = (await Api.SearchBangumiIds(searchStr)).Select(id => id.Id);
+        Assert.IsTrue(ids.Count() == bangumiIds.Length);
         Assert.IsTrue(ids.All(i => bangumiIds.Contains(i)));
     }
 }

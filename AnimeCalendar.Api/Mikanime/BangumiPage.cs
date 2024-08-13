@@ -1,5 +1,6 @@
 ﻿using AnimeCalendar.Api.Converter;
 using AnimeCalendar.Api.Data;
+using AnimeCalendar.Api.Mikanime.Rss;
 
 using HtmlAgilityPack;
 
@@ -35,6 +36,20 @@ public partial class BangumiPage {
                 int.Parse(node.Attributes["data-anchor"].Value[1..])
             )
         ).ToArray();
+
+    public SimpleEpisode[] GetEpisodes(int subgroupId) {
+        HtmlNode table = RootNode.SelectSingleNode($"//div[@id=\"{subgroupId}\"]").NextSibling.NextSibling;
+        return table.SelectNodes(".//tr").Skip(1).Select(tr => {
+            HtmlNode wrapNode = tr.SelectSingleNode("./td[1]/a[1]");
+            return new SimpleEpisode {
+                Name    = wrapNode.InnerText.Trim().UnicodeUnescape(),
+                Link    = wrapNode.Attributes["href"].Value,
+                Size    = tr.SelectSingleNode("./td[2]").InnerText.Trim().UnicodeUnescape(),
+                Time    = tr.SelectSingleNode("./td[3]").InnerText.Trim().UnicodeUnescape(),
+                Magnet  = tr.SelectSingleNode("./td[1]/a[2]").Attributes["data-clipboard-text"].Value
+            };
+        }).ToArray();
+    }
 
     [GeneratedRegex(@"https://bgm.tv/subject/(?<subjectId>\d+)")]
     private static partial Regex BgmSubjectUrl();

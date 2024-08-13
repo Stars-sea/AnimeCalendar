@@ -25,4 +25,12 @@ public class BangumiApiTest {
         var subgroups = page.Subgroups;
         Assert.IsNotNull(subgroups);
     }
+
+    [TestMethod]
+    [DataRow(3386, 203)]
+    public async Task EpisodesTest(int bangumiId, int subgroupId) {
+        BangumiPage page = await Api.BangumiPage(bangumiId);
+        var episodes = page.GetEpisodes(subgroupId);
+        Assert.IsNotNull(episodes);
+    }
 }

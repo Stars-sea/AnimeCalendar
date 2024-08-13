@@ -1,4 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using AnimeCalendar.Api.Data;
+
+using System.Xml.Serialization;
 
 namespace AnimeCalendar.Api.Mikanime.Rss;
 
@@ -24,7 +26,7 @@ public class Torrent {
     public DateTime? PubDate { get; set; }
 }
 
-public class AnimeItem {
+public class Episode {
     [XmlElement("guid")]
     public string? Guid { get; set; }
 
@@ -42,4 +44,13 @@ public class AnimeItem {
 
     [XmlElement("torrent", Namespace = "https://mikanime.tv/0.1/")]
     public Torrent? Torrent { get; set; }
+
+    [XmlIgnore]
+    public SimpleEpisode Simple => new() {
+        Name    = Guid ?? throw new NullReferenceException(nameof(Guid)),
+        Link    = Link ?? throw new NullReferenceException(nameof(Link)),
+        Size    = Description != null ? Description![Description.LastIndexOf('[')..] : throw new NullReferenceException(nameof(Description)),
+        Time    = Torrent?.PubDate?.ToString("yyyy/MM/dd HH:mm") ?? throw new NullReferenceException(nameof(Torrent)),
+        Magnet  = Enclosure?.Url ?? throw new NullReferenceException(nameof(Enclosure)),
+    };
 }

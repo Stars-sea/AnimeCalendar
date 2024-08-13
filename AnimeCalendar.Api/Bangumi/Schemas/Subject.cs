@@ -1,4 +1,5 @@
 ﻿using AnimeCalendar.Api.Converter;
+using AnimeCalendar.Api.Data;
 
 using Newtonsoft.Json;
 
@@ -18,7 +19,21 @@ public record BaseSubject(
     string      Name,
     string      NameCn,
     Images      Images
-);
+) : IAnime, IEquatable<IAnime> {
+    [JsonIgnore] public Website Website => Website.Bangumi;
+    [JsonIgnore] int? IAnime.Id => Id;
+
+    public bool Equals(IAnime? other) {
+        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        if (Website == other.Website && Id == other.Id) 
+            return true;
+        return Website != other.Website &&
+            (string.Equals(Name.Trim(), other.Name.Trim()) ||
+             string.Equals(NameCn.Trim(), other.Name.Trim()));
+    }
+}
 
 public record AbstractSubject(
     int         Id,
