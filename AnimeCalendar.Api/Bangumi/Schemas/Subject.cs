@@ -20,6 +20,8 @@ public record BaseSubject(
     string      NameCn,
     Images      Images
 ) : IAnime, IEquatable<IAnime> {
+    [JsonIgnore] public string AutoName => string.IsNullOrEmpty(NameCn) ? Name : NameCn;
+
     [JsonIgnore] public Website Website => Website.Bangumi;
     [JsonIgnore] int? IAnime.Id => Id;
 

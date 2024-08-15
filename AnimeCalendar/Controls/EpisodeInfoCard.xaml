@@ -6,10 +6,15 @@
     xmlns:local="using:AnimeCalendar.Controls"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d"
     Background="{ThemeResource CardBackgroundFillColorDefault}">
+
+    <ItemContainer.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </ItemContainer.Resources>
 
     <Grid Padding="16">
         <Grid.ColumnDefinitions>
@@ -17,11 +22,14 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-
         <StackPanel Grid.Column="0">
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
-                       Text="{x:Bind Episode.PureName, Mode=OneWay}"
-                       ToolTipService.ToolTip="{x:Bind Episode.Name, Mode=OneWay}"/>
+                       Text="{x:Bind Episode.PureName, Mode=OneWay}" TextWrapping="NoWrap"
+                       ToolTipService.ToolTip="{x:Bind Episode.Name, Mode=OneWay}"
+                       Visibility="{x:Bind IsShowPureName, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}" />
+            <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
+                       Text="{x:Bind Episode.Name, Mode=OneWay}" TextWrapping="NoWrap"
+                       Visibility="{x:Bind IsShowPureName, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
 
             <controls:MetadataControl
                 Separator="  " FontSize="12"

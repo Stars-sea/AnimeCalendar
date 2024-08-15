@@ -7,13 +7,13 @@ public partial record struct SimpleEpisode(
     string Link,
     string Size,
     string Time,
-    string Magnet
+    string Magnet,
+    string? BangumiName = null
 ) {
     public string PureName {
         get {
-            string[] names = AttributeRegex()
-                .Split(SuffixRegex().Replace(Name, ""))
-                .Select(s => s.Trim()).ToArray();
+            string[] names = SuffixRegex().Replace(Name, "")
+                .Split(Attributes, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToArray();
 
             string? firstAttr = Attributes.FirstOrDefault();
 
@@ -24,7 +24,15 @@ public partial record struct SimpleEpisode(
         }
     }
 
-    public string[] Attributes => AttributeRegex().Matches(Name).Select(x => x.Value).ToArray();
+    public string[] Attributes => AttributeRegex().Matches(Name)
+        .Select(x => x.Value).Where(NotContainsBangumiName).Distinct().ToArray();
+
+    public static readonly char[] Brackets = ['[', ']', '(', ')', '【', '】', '（', '）', ' '];
+
+    private bool NotContainsBangumiName(string attr) {
+        if (BangumiName == null) return true;
+        return !BangumiName.Split(' ').Any(s => attr.Contains(s));
+    }
 
     [GeneratedRegex(@"(\[[^\n/]+?\])|(\([^\n/]+?\))|(【[^\n/]+?】)|(（[^\n/]+?）)")]
     private static partial Regex AttributeRegex();

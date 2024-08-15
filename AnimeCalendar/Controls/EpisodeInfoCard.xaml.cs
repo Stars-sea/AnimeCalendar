@@ -22,6 +22,9 @@ public sealed partial class EpisodeInfoCard : ItemContainer {
     [ObservableProperty]
     private SimpleEpisode episode;
 
+    [ObservableProperty]
+    private bool isShowPureName = true;
+
     private MetadataItem[] Metadatas { get; set; } = [];
 
     public EpisodeInfoCard() {
@@ -41,6 +44,10 @@ public sealed partial class EpisodeInfoCard : ItemContainer {
     }
 
     partial void OnEpisodeChanged(SimpleEpisode value) {
+        // TODO
+        //IsShowPureName = value.BangumiName == null ||
+        //    !SimpleEpisode.Brackets.SkipLast(1).Any(c => value.BangumiName.Contains(c));
+
         Metadatas = value.Attributes.Select(a => new MetadataItem {
             Label = a
         }).ToArray();

@@ -46,7 +46,8 @@ public partial class BangumiPage {
                 MikanimeServices.BASE_ADDRESS + wrapNode.Attributes["href"].Value,
                 tr.SelectSingleNode("./td[2]").InnerText.Decode(),
                 tr.SelectSingleNode("./td[3]").InnerText.Decode(),
-                tr.SelectSingleNode("./td[1]/a[2]").Attributes["data-clipboard-text"].Value
+                tr.SelectSingleNode("./td[1]/a[2]").Attributes["data-clipboard-text"].Value,
+                BangumiName
             );
         }).ToArray();
     }

@@ -3,21 +3,19 @@ using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Data;
 using AnimeCalendar.Api.Mikanime;
 using AnimeCalendar.Api.Mikanime.Schemas;
+using AnimeCalendar.Controls;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.WinUI;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
-using Newtonsoft.Json.Linq;
-
-using System;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Threading.Tasks;
-
-using Windows.System;
 
 namespace AnimeCalendar.Pages;
 
@@ -25,10 +23,6 @@ namespace AnimeCalendar.Pages;
 public sealed partial class SubjectDetialPage : Page {
     [ObservableProperty]
     private Subject? subject;
-
-    public string? SubjectName => Subject != null
-        ? string.IsNullOrEmpty(Subject.NameCn) ? Subject.Name : Subject.NameCn
-        : null;
 
     [ObservableProperty]
     private bool isLoading = true;
@@ -42,8 +36,13 @@ public sealed partial class SubjectDetialPage : Page {
     [ObservableProperty]
     private SimpleEpisode[] episodes = [];
 
+    private SimpleEpisode[] FilteredEpisodes = [];
+
+    private ObservableCollection<string> SelectedAttributes = new();
+
     public SubjectDetialPage() {
         InitializeComponent();
+        SelectedAttributes.CollectionChanged += OnSelectedAttributesChanged;
     }
 
     private async void UpdateMikanBangumisAsync() {
@@ -80,14 +79,19 @@ public sealed partial class SubjectDetialPage : Page {
             UpdateEpisodes(identifier.Id);
     }
 
-    private async void OnEpisodeItemDoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
-        var episode = (SimpleEpisode)((ItemContainer)sender).Tag;
-        await Launcher.LaunchUriAsync(new Uri(episode.Link));
+    private void OnSelectedAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e) {
+        if (SelectedAttributes.Count == 0)
+            FilteredEpisodes = Episodes;
+        else
+            FilteredEpisodes = Episodes.Where(e => {
+                var epAttri = e.Attributes.Select(a => a.Trim(SimpleEpisode.Brackets));
+                return SelectedAttributes.All(a => epAttri.Any(epA => epA.Contains(a)));
+            }).ToArray();
+
+        OnPropertyChanged(nameof(FilteredEpisodes));
     }
 
     partial void OnSubjectChanged(Subject? value) {
-        OnPropertyChanged(nameof(SubjectName));
-
         try {
             if (value == null) return;
 
@@ -123,5 +127,18 @@ public sealed partial class SubjectDetialPage : Page {
         SubgroupSelector.Visibility = subgroups.Length == 0
             ? Visibility.Collapsed
             : Visibility.Visible;
+    }
+
+    partial void OnEpisodesChanged(SimpleEpisode[] value) {
+        SelectedAttributes.Clear();
+
+        if (value.Length == 0) {
+            AttributeSelector.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        AttributeSelector.Visibility = Visibility.Visible;
+        AttributeSelector.SuggestedItemsSource = value.SelectMany(e => e.Attributes)
+            .Distinct().Select(a => a.Trim(SimpleEpisode.Brackets));
     }
 }

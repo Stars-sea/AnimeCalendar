@@ -22,7 +22,7 @@
 
     <StackPanel Orientation="{x:Bind Wrap, Converter={StaticResource Bool2OrientationConverter}}" VerticalAlignment="Center">
         <TextBlock Text="{x:Bind Subject.Name}" Style="{ThemeResource BodyTextBlockStyle}"
-                   ToolTipService.ToolTip="{x:Bind Subject.NameCn}" />
+                   ToolTipService.ToolTip="{x:Bind Subject.AutoName}" />
 
         <StackPanel Orientation="Horizontal">
             <StackPanel x:Name="ScoreText" Margin="16 0" Orientation="Horizontal" Visibility="Collapsed">
