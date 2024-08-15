@@ -31,6 +31,7 @@
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
     <None Remove="Controls\AbstractSubjectTitle.xaml" />
     <None Remove="Controls\BgmUserInfo.xaml" />
+    <None Remove="Controls\EpisodeInfoCard.xaml" />
     <None Remove="Controls\ImageCard.xaml" />
     <None Remove="Controls\SubjectListItem.xaml" />
     <None Remove="Controls\UserCollectionListItem.xaml" />
@@ -45,10 +46,11 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
     <PackageReference Include="CommunityToolkit.WinUI" Version="7.1.2" />
+    <PackageReference Include="CommunityToolkit.WinUI.Controls.MetadataControl" Version="8.0.240109" />
     <PackageReference Include="CommunityToolkit.WinUI.UI.Controls.Primitives" Version="7.1.2" />
     <PackageReference Include="H.NotifyIcon.WinUI" Version="2.1.0" />
     <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240802000" />
     <PackageReference Include="Refit" Version="7.1.2" />
     <Manifest Include="$(ApplicationManifest)" />
   </ItemGroup>
@@ -128,5 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\UserCollectionListItem.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\EpisodeInfoCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

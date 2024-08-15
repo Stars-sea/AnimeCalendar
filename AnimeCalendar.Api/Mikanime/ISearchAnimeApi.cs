@@ -31,7 +31,7 @@ public interface ISearchAnimeApi {
         if (nodes == null) return [];
 
         return nodes.Select(node => {
-            string name = node.SelectSingleNode(".//div[@class=\"an-text\"]").InnerText.Trim().UnicodeUnescape();
+            string name = node.SelectSingleNode(".//div[@class=\"an-text\"]").InnerText.Decode();
 
             string path = node.Attributes["href"].Value;
             int id = int.Parse(path[(path.LastIndexOf('/') + 1)..]);

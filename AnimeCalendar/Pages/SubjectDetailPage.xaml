@@ -4,9 +4,10 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
-    xmlns:ms="using:AnimeCalendar.Api.Mikanime.Schemas"
     xmlns:bs="using:AnimeCalendar.Api.Bangumi.Schemas"
-    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:ms="using:AnimeCalendar.Api.Mikanime.Schemas"
+    xmlns:winui="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:controls="using:AnimeCalendar.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -20,9 +21,7 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <DataTemplate x:Key="EpisodeTemplate" x:DataType="ms:SimpleEpisode">
-            <ItemContainer>
-                
-            </ItemContainer>
+            <controls:EpisodeInfoCard Episode="{x:Bind}" Margin="0 4" />
         </DataTemplate>
     </Page.Resources>
 
@@ -44,7 +43,7 @@
                 </Border>
 
                 <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                    <TextBlock Text="{x:Bind Subject.NameCn, Mode=OneWay}" Margin="0 0 0 8"
+                    <TextBlock Text="{x:Bind SubjectName, Mode=OneWay}" Margin="0 0 0 8"
                                Style="{ThemeResource TitleTextBlockStyle}" />
 
                     <StackPanel Orientation="Horizontal" Margin="0 0 0 36">
@@ -70,7 +69,7 @@
                               Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">
                         <ItemsRepeater x:Name="Tags" ItemsSource="{x:Bind Subject.Tags, Mode=OneWay}">
                             <ItemsRepeater.Layout>
-                                <controls:WrapLayout HorizontalSpacing="4" VerticalSpacing="6" />
+                                <winui:WrapLayout HorizontalSpacing="4" VerticalSpacing="6" />
                             </ItemsRepeater.Layout>
                             <ItemsRepeater.ItemTemplate>
                                 <DataTemplate x:DataType="bs:Tag">
@@ -95,7 +94,9 @@
                           SelectionChanged="OnSelectedSubgroupChanged" />
             </StackPanel>
 
-            <ItemsView x:Name="EpisodesList" Padding="36 0" />
+            <ItemsView Padding="36 0" SelectionMode="Single"
+                       ItemsSource="{x:Bind Episodes, Mode=OneWay}"
+                       ItemTemplate="{StaticResource EpisodeTemplate}" />
         </StackPanel>
     </ScrollView>
 </Page>

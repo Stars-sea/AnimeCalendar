@@ -18,7 +18,7 @@ public partial class BangumiPage {
     }
 
     public string BangumiName
-        => RootNode.SelectSingleNode("//p[@class=\"bangumi-title\"]").InnerText.Trim().UnicodeUnescape();
+        => RootNode.SelectSingleNode("//p[@class=\"bangumi-title\"]").InnerText.Decode();
 
     public int? BgmSubjectId {
         get {
@@ -32,7 +32,7 @@ public partial class BangumiPage {
     public Identifier[] Subgroups
         => RootNode.SelectNodes("//a[contains(@class, \"subgroup-name\")]").Select(node =>
             new Identifier(
-                node.InnerText.Trim().UnicodeUnescape(),
+                node.InnerText.Decode(),
                 int.Parse(node.Attributes["data-anchor"].Value[1..])
             )
         ).ToArray();
@@ -41,13 +41,13 @@ public partial class BangumiPage {
         HtmlNode table = RootNode.SelectSingleNode($"//div[@id=\"{subgroupId}\"]").NextSibling.NextSibling;
         return table.SelectNodes(".//tr").Skip(1).Select(tr => {
             HtmlNode wrapNode = tr.SelectSingleNode("./td[1]/a[1]");
-            return new SimpleEpisode {
-                Name    = wrapNode.InnerText.Trim().UnicodeUnescape(),
-                Link    = wrapNode.Attributes["href"].Value,
-                Size    = tr.SelectSingleNode("./td[2]").InnerText.Trim().UnicodeUnescape(),
-                Time    = tr.SelectSingleNode("./td[3]").InnerText.Trim().UnicodeUnescape(),
-                Magnet  = tr.SelectSingleNode("./td[1]/a[2]").Attributes["data-clipboard-text"].Value
-            };
+            return new SimpleEpisode(
+                wrapNode.InnerText.Decode(),
+                MikanimeServices.BASE_ADDRESS + wrapNode.Attributes["href"].Value,
+                tr.SelectSingleNode("./td[2]").InnerText.Decode(),
+                tr.SelectSingleNode("./td[3]").InnerText.Decode(),
+                tr.SelectSingleNode("./td[1]/a[2]").Attributes["data-clipboard-text"].Value
+            );
         }).ToArray();
     }
 

@@ -1,6 +1,4 @@
-﻿using AnimeCalendar.Api.Data;
-
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 
 namespace AnimeCalendar.Api.Mikanime.Schemas;
 
@@ -46,11 +44,11 @@ public class Episode {
     public Torrent? Torrent { get; set; }
 
     [XmlIgnore]
-    public SimpleEpisode Simple => new() {
-        Name    = Guid ?? throw new NullReferenceException(nameof(Guid)),
-        Link    = Link ?? throw new NullReferenceException(nameof(Link)),
-        Size    = Description != null ? Description![Description.LastIndexOf('[')..] : throw new NullReferenceException(nameof(Description)),
-        Time    = Torrent?.PubDate?.ToString("yyyy/MM/dd HH:mm") ?? throw new NullReferenceException(nameof(Torrent)),
-        Magnet  = Enclosure?.Url ?? throw new NullReferenceException(nameof(Enclosure)),
-    };
+    public SimpleEpisode Simple => new SimpleEpisode(
+        Guid ?? throw new NullReferenceException(nameof(Guid)),
+        Link ?? throw new NullReferenceException(nameof(Link)),
+        Description != null ? Description![Description.LastIndexOf('[')..] : throw new NullReferenceException(nameof(Description)),
+        Torrent?.PubDate?.ToString("yyyy/MM/dd HH:mm") ?? throw new NullReferenceException(nameof(Torrent)),
+        Enclosure?.Url ?? throw new NullReferenceException(nameof(Enclosure))
+    );
 }

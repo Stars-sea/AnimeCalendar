@@ -2,15 +2,22 @@ using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Data;
 using AnimeCalendar.Api.Mikanime;
+using AnimeCalendar.Api.Mikanime.Schemas;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 
+using Newtonsoft.Json.Linq;
+
+using System;
 using System.Linq;
 using System.Threading.Tasks;
+
+using Windows.System;
 
 namespace AnimeCalendar.Pages;
 
@@ -18,6 +25,10 @@ namespace AnimeCalendar.Pages;
 public sealed partial class SubjectDetialPage : Page {
     [ObservableProperty]
     private Subject? subject;
+
+    public string? SubjectName => Subject != null
+        ? string.IsNullOrEmpty(Subject.NameCn) ? Subject.Name : Subject.NameCn
+        : null;
 
     [ObservableProperty]
     private bool isLoading = true;
@@ -27,6 +38,9 @@ public sealed partial class SubjectDetialPage : Page {
 
     [ObservableProperty]
     private BangumiPage? bangumiPage;
+
+    [ObservableProperty]
+    private SimpleEpisode[] episodes = [];
 
     public SubjectDetialPage() {
         InitializeComponent();
@@ -46,6 +60,9 @@ public sealed partial class SubjectDetialPage : Page {
         IsLoading = false;
     }
 
+    private void UpdateEpisodes(int subgroupId)
+        => Episodes = BangumiPage?.GetEpisodes(subgroupId) ?? [];
+
     protected async override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
 
@@ -59,10 +76,18 @@ public sealed partial class SubjectDetialPage : Page {
     }
 
     private void OnSelectedSubgroupChanged(object sender, SelectionChangedEventArgs e) {
+        if (SubgroupSelector.SelectedItem is Identifier identifier)
+            UpdateEpisodes(identifier.Id);
+    }
 
+    private async void OnEpisodeItemDoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
+        var episode = (SimpleEpisode)((ItemContainer)sender).Tag;
+        await Launcher.LaunchUriAsync(new Uri(episode.Link));
     }
 
     partial void OnSubjectChanged(Subject? value) {
+        OnPropertyChanged(nameof(SubjectName));
+
         try {
             if (value == null) return;
 

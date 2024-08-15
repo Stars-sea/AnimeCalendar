@@ -2,17 +2,36 @@
 
 namespace AnimeCalendar.Api.Mikanime.Schemas;
 
-public partial struct SimpleEpisode {
-    public string Name      { get; init; }
-    public string Link      { get; init; }
-    public string Size      { get; init; }
-    public string Time      { get; init; }
-    public string Magnet    { get; init; }
+public partial record struct SimpleEpisode(
+    string Name,
+    string Link,
+    string Size,
+    string Time,
+    string Magnet
+) {
+    public string PureName {
+        get {
+            string[] names = AttributeRegex()
+                .Split(SuffixRegex().Replace(Name, ""))
+                .Select(s => s.Trim()).ToArray();
 
-    public string PureName => TagRegex().Replace(Name, "").Trim();
+            string? firstAttr = Attributes.FirstOrDefault();
 
-    public string[] Tags => TagRegex().Matches(Name).Select(x => x.Value).ToArray();
+            return names
+                .Where(n => !string.Equals(firstAttr, n))
+                .Where(n => !ResolutionRegex().IsMatch(n))
+                .MaxBy(n => n.Length) ?? string.Join(' ', names);
+        }
+    }
 
-    [GeneratedRegex(@"[\[\(【].+?[】\)\]]")]
-    private partial Regex TagRegex();
+    public string[] Attributes => AttributeRegex().Matches(Name).Select(x => x.Value).ToArray();
+
+    [GeneratedRegex(@"(\[[^\n/]+?\])|(\([^\n/]+?\))|(【[^\n/]+?】)|(（[^\n/]+?）)")]
+    private static partial Regex AttributeRegex();
+
+    [GeneratedRegex(@"\.\w+$")]
+    private static partial Regex SuffixRegex();
+
+    [GeneratedRegex(@"(\d{3,4}p)|(\d{3,4}[x×]\d{3,4})", RegexOptions.IgnoreCase)]
+    private static partial Regex ResolutionRegex();
 }
