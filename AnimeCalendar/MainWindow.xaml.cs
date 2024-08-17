@@ -1,7 +1,7 @@
 using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Storage;
-using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
+using AnimeCalendar.UI;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;

@@ -48,7 +48,7 @@
                     <TextBlock Text="{x:Bind Subject.AutoName, Mode=OneWay}" Margin="0 0 0 8"
                                Style="{ThemeResource TitleTextBlockStyle}" />
 
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 36">
+                    <StackPanel Orientation="Horizontal" Margin="0 0 0 12">
                         <StackPanel x:Name="RatingText" Margin="4 0 16 0" Orientation="Horizontal">
                             <Viewbox Height="12" Margin="0 0 4 0">
                                 <FontIcon Glyph="&#xE735;" Foreground="Gold" />
@@ -66,6 +66,8 @@
                             </TextBlock>
                         </Border>
                     </StackPanel>
+
+                    <controls:WatchProgressControl Margin="0 0 0 12" Episodes="{x:Bind CollectedEpisode, Mode=OneWay}" />
 
                     <Expander x:Name="Expander" HorizontalAlignment="Stretch"
                               Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">

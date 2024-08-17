@@ -1,4 +1,6 @@
-﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
+﻿using Newtonsoft.Json;
+
+namespace AnimeCalendar.Api.Bangumi.Schemas;
 
 public enum EpType : int {
     Feature = 0, // 本篇
@@ -15,20 +17,28 @@ public enum EpCollectionType : int {
 }
 
 public record Episode(
-    DateOnly    AirDate,
+    DateOnly    Airdate,
     string      Name,
     string      NameCn,
-    TimeSpan    Duration,
+    TimeSpan?   Duration,
     string      Desc,
-    int         Ep,
-    int         Sort,
+    float       Ep,
+    float       Sort,
     int         Id,
     int         SubjectId,
     int         Comment,
     EpType      Type,
     int         Disc, // 音乐曲目的碟片数
     int         DurationSeconds
-);
+) {
+    [JsonIgnore] public string EpString {
+        get {
+            if (Ep % 1 == 0 && Ep < 100)
+                return Ep.ToString("00");
+            return Ep.ToString();
+        }
+    }
+}
 
 public record EpCollection(
     Episode Episode,

@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="HtmlAgilityPack" Version="1.11.62" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.63" />
     <PackageReference Include="Refit" Version="7.1.2" />
     <PackageReference Include="Refit.Newtonsoft.Json" Version="7.1.2" />
     <PackageReference Include="Refit.Xml" Version="7.1.2" />

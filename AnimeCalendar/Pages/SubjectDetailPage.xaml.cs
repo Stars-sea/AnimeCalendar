@@ -3,15 +3,14 @@ using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Data;
 using AnimeCalendar.Api.Mikanime;
 using AnimeCalendar.Api.Mikanime.Schemas;
-using AnimeCalendar.Controls;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.WinUI;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -19,14 +18,21 @@ using System.Threading.Tasks;
 
 namespace AnimeCalendar.Pages;
 
+using Episode = Api.Bangumi.Schemas.Episode;
+
 [ObservableObject]
 public sealed partial class SubjectDetialPage : Page {
     [ObservableProperty]
-    private Subject? subject;
-
-    [ObservableProperty]
     private bool isLoading = true;
 
+    #region Bangumi
+    [ObservableProperty]
+    private Subject? subject;
+
+    private IEnumerable<EpCollection> CollectedEpisode { get; set; } = [];
+    #endregion
+
+    #region Mikanime
     [ObservableProperty]
     private Identifier[] mikanBangumis = [];
 
@@ -39,12 +45,26 @@ public sealed partial class SubjectDetialPage : Page {
     private SimpleEpisode[] FilteredEpisodes = [];
 
     private ObservableCollection<string> SelectedAttributes = new();
+    #endregion
 
     public SubjectDetialPage() {
         InitializeComponent();
         SelectedAttributes.CollectionChanged += OnSelectedAttributesChanged;
     }
 
+    #region Bangumi
+    private async void UpdateCollectedEpisode(int subjectId) {
+        IsLoading = true;
+
+        var pagedEpCollections = await BgmApiServices.CollectionApi.GetEpisodes(subjectId, episodeType: EpType.Feature);
+        CollectedEpisode = pagedEpCollections.Data;
+        OnPropertyChanged(nameof(CollectedEpisode));
+
+        IsLoading = false;
+    }
+    #endregion
+
+    #region Mikanime
     private async void UpdateMikanBangumisAsync() {
         IsLoading = true;
         MikanBangumis = Subject != null
@@ -61,6 +81,7 @@ public sealed partial class SubjectDetialPage : Page {
 
     private void UpdateEpisodes(int subgroupId)
         => Episodes = BangumiPage?.GetEpisodes(subgroupId) ?? [];
+    #endregion
 
     protected async override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
@@ -69,6 +90,7 @@ public sealed partial class SubjectDetialPage : Page {
         Subject = await BgmApiServices.SubjectApi.GetSubject(subjectId);
     }
 
+    #region Mikanime
     private async void OnSelectedBangumiChanged(object sender, SelectionChangedEventArgs e) {
         if (BangumiSelector.SelectedItem is Identifier identifier)
             await UpdateSubgroupsAsync(identifier.Id);
@@ -90,10 +112,14 @@ public sealed partial class SubjectDetialPage : Page {
 
         OnPropertyChanged(nameof(FilteredEpisodes));
     }
+    #endregion
 
+    #region Bangumi
     partial void OnSubjectChanged(Subject? value) {
         try {
             if (value == null) return;
+
+            UpdateCollectedEpisode(value.Id);
 
             RatingType rating = value.Rating;
             RatingText.Visibility = rating.Score != 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -102,7 +128,9 @@ public sealed partial class SubjectDetialPage : Page {
             UpdateMikanBangumisAsync();
         }
     }
+    #endregion
 
+    #region Mikanime
     partial void OnMikanBangumisChanged(Identifier[] value) {
         BangumiSelector.ItemsSource = value;
 
@@ -141,4 +169,5 @@ public sealed partial class SubjectDetialPage : Page {
         AttributeSelector.SuggestedItemsSource = value.SelectMany(e => e.Attributes)
             .Distinct().Select(a => a.Trim(SimpleEpisode.Brackets));
     }
+    #endregion
 }

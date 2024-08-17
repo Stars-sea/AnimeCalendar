@@ -84,9 +84,7 @@ public record SlimSubject(
     int         CollectionTotal,
     double      Score,
     Tag[]       Tags,
-
-    [JsonConverter(typeof(DateOnlyConverter))]
-    DateTime? Date
+    DateOnly?   Date
 ) : BaseSubject(Id, Type, Name, NameCn, Images);
 
 public sealed record Subject(
@@ -98,7 +96,7 @@ public sealed record Subject(
     RatingType  Rating,
     Images      Images,
     Collection  Collection,
-    DateTime    Date,
+    DateOnly?   Date,
     int         Volumes,
     int         Eps,
     Tag[]       Tags,

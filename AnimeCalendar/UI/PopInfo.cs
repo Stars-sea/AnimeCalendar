@@ -2,7 +2,7 @@
 
 using System;
 
-namespace AnimeCalendar.Data;
+namespace AnimeCalendar.UI;
 
 internal record PopInfo(
     string Title,

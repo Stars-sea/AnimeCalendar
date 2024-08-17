@@ -4,6 +4,7 @@ using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Storage;
 using AnimeCalendar.Controls;
 using AnimeCalendar.Data;
+using AnimeCalendar.UI;
 using AnimeCalendar.Storage;
 using AnimeCalendar.Utils;
 

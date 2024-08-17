@@ -1,6 +1,6 @@
 using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
-using AnimeCalendar.Data;
+using AnimeCalendar.UI;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;

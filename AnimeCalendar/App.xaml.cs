@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Threading.Channels;
 
 using AnimeCalendar.Data;
+using AnimeCalendar.UI;
 
 using H.NotifyIcon;
 

@@ -49,6 +49,7 @@ public interface ICollectionApi {
     [Get("/v0/users/-/collections/-/episodes/{episode_id}")]
     Task<EpCollection> GetEpisode(int episode_id);
 
+    [Headers("Content-Type: application/json")]
     [Put("/v0/users/-/collections/-/episodes/{episode_id}")]
     Task PutEpCollectionType(int episode_id, [Body] ModifyEpRequest _);
 }
