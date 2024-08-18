@@ -17,7 +17,7 @@
 
         <ItemsRepeater.ItemTemplate>
             <DataTemplate x:DataType="schemas:EpCollection">
-                <local:EpCollectionButton EpCollection="{x:Bind}" />
+                <local:EpCollectionButton EpCollection="{x:Bind}" Syncing="OnSyncing" Synced="OnSynced" />
             </DataTemplate>
         </ItemsRepeater.ItemTemplate>
     </ItemsRepeater>

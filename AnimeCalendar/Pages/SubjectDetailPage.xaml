@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Page
-    x:Class="AnimeCalendar.Pages.SubjectDetialPage"
+    x:Class="AnimeCalendar.Pages.SubjectDetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
@@ -29,10 +29,12 @@
 
     <ScrollView>
         <StackPanel>
-            <ProgressBar
-                IsIndeterminate="{x:Bind IsLoading, Mode=OneWay}"
-                Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
-
+            <Border Height="3">
+                <ProgressBar
+                    IsIndeterminate="{x:Bind IsLoading, Mode=OneWay}"
+                    Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </Border>
+            
             <Grid Padding="36 36 36 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="185" />
@@ -67,7 +69,9 @@
                         </Border>
                     </StackPanel>
 
-                    <controls:WatchProgressControl Margin="0 0 0 12" Episodes="{x:Bind CollectedEpisode, Mode=OneWay}" />
+                    <controls:WatchProgressControl
+                        Margin="0 0 0 12" Episodes="{x:Bind CollectedEpisode, Mode=OneWay}"
+                        RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}" />
 
                     <Expander x:Name="Expander" HorizontalAlignment="Stretch"
                               Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">

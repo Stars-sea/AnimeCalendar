@@ -3,6 +3,7 @@ using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Data;
 using AnimeCalendar.Api.Mikanime;
 using AnimeCalendar.Api.Mikanime.Schemas;
+using AnimeCalendar.UI;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -10,6 +11,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -21,9 +23,11 @@ namespace AnimeCalendar.Pages;
 using Episode = Api.Bangumi.Schemas.Episode;
 
 [ObservableObject]
-public sealed partial class SubjectDetialPage : Page {
+public sealed partial class SubjectDetailPage : Page {
     [ObservableProperty]
-    private bool isLoading = true;
+    [NotifyPropertyChangedFor(nameof(IsLoading))]
+    private int runningTasksCount;
+    public bool IsLoading => RunningTasksCount > 0;
 
     #region Bangumi
     [ObservableProperty]
@@ -47,36 +51,44 @@ public sealed partial class SubjectDetialPage : Page {
     private ObservableCollection<string> SelectedAttributes = new();
     #endregion
 
-    public SubjectDetialPage() {
+    public SubjectDetailPage() {
         InitializeComponent();
         SelectedAttributes.CollectionChanged += OnSelectedAttributesChanged;
     }
 
     #region Bangumi
     private async void UpdateCollectedEpisode(int subjectId) {
-        IsLoading = true;
-
+        RunningTasksCount++;
         var pagedEpCollections = await BgmApiServices.CollectionApi.GetEpisodes(subjectId, episodeType: EpType.Feature);
         CollectedEpisode = pagedEpCollections.Data;
         OnPropertyChanged(nameof(CollectedEpisode));
-
-        IsLoading = false;
+        RunningTasksCount--;
     }
     #endregion
 
     #region Mikanime
     private async void UpdateMikanBangumisAsync() {
-        IsLoading = true;
-        MikanBangumis = Subject != null
-            ? await MikanimeServices.SearchAnimeApi.SearchBangumiIds(Subject.NameCn)
-            : [];
-        IsLoading = false;
+        RunningTasksCount++;
+        try {
+            MikanBangumis = Subject != null
+                ? await MikanimeServices.SearchAnimeApi.SearchBangumiIds(Subject.AutoName)
+                : [];
+        }
+        catch (Exception ex) {
+            App.MainWindow.Pop(PopInfo.Fail("拉取 Mikanime 数据出错", ex));
+        }
+        RunningTasksCount--;
     }
 
     private async Task UpdateSubgroupsAsync(int mikanBangumiId) {
-        IsLoading = true;
-        BangumiPage = await MikanimeServices.BangumiApi.BangumiPage(mikanBangumiId);
-        IsLoading = false;
+        RunningTasksCount++;
+        try {
+            BangumiPage = await MikanimeServices.BangumiApi.BangumiPage(mikanBangumiId);
+        }
+        catch (Exception ex) {
+            App.MainWindow.Pop(PopInfo.Fail("拉取 Mikanime 数据出错", ex));
+        }
+        RunningTasksCount--;
     }
 
     private void UpdateEpisodes(int subgroupId)
@@ -86,8 +98,14 @@ public sealed partial class SubjectDetialPage : Page {
     protected async override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
 
-        int subjectId = (int)e.Parameter;
-        Subject = await BgmApiServices.SubjectApi.GetSubject(subjectId);
+        RunningTasksCount++;
+        try {
+            Subject = await BgmApiServices.SubjectApi.GetSubject((int)e.Parameter);
+        }
+        catch (Exception ex) {
+            App.MainWindow.Pop(PopInfo.Fail("拉取 Bangumi 数据出错", ex));
+        }
+        RunningTasksCount--;
     }
 
     #region Mikanime

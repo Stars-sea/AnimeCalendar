@@ -60,7 +60,7 @@ public sealed partial class TimelinePage : Page {
         if (sender.SelectedItem is not AirSubject tag) return;
 
         NavigationInfo navigationInfo = new(
-            typeof(SubjectDetialPage), null, tag.Id, $"{nameof(TimelinePage)}#{tag.AirWeekday}"
+            typeof(SubjectDetailPage), null, tag.Id, $"{nameof(TimelinePage)}#{tag.AirWeekday}"
         );
         IndexPage.Current?.Navigate(navigationInfo);
     }

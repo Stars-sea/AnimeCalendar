@@ -22,6 +22,9 @@ public sealed partial class EpCollectionButton : UserControl {
 
     private static ICollectionApi Api => BgmApiServices.CollectionApi;
 
+    public event RoutedEventHandler? Syncing;
+    public event RoutedEventHandler? Synced;
+
     public EpCollectionButton() {
         InitializeComponent();
     }
@@ -32,6 +35,7 @@ public sealed partial class EpCollectionButton : UserControl {
 
         int epId = EpCollection.Episode.Id;
 
+        Syncing?.Invoke(this, new());
         try {
             await Api.PutEpCollectionType(epId, new(null, type));
             EpCollection = await Api.GetEpisode(epId);
@@ -40,6 +44,7 @@ public sealed partial class EpCollectionButton : UserControl {
             App.MainWindow.Pop(PopInfo.Fail("²Ù×÷Ê§°Ü", ex));
             OnPropertyChanged(nameof(EpCollection));
         }
+        Synced?.Invoke(this, new());
     }
 
     partial void OnEpCollectionChanged(EpCollection? value) {
