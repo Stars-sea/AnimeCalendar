@@ -20,7 +20,8 @@ public static class BgmApiServices {
         NullValueHandling = NullValueHandling.Ignore,
         ContractResolver = new DefaultContractResolver() {
             NamingStrategy = new SnakeCaseNamingStrategy()
-        }
+        },
+        Converters = [ new DateOnlyConverter(), new TimeSpanConverter() ]
     };
 
     static BgmApiServices() {

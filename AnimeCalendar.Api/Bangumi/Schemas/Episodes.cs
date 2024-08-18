@@ -17,7 +17,7 @@ public enum EpCollectionType : int {
 }
 
 public record Episode(
-    DateOnly    Airdate,
+    DateOnly?   Airdate,
     string      Name,
     string      NameCn,
     TimeSpan?   Duration,

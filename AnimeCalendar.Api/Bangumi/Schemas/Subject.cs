@@ -1,5 +1,4 @@
-﻿using AnimeCalendar.Api.Converter;
-using AnimeCalendar.Api.Data;
+﻿using AnimeCalendar.Api.Data;
 
 using Newtonsoft.Json;
 

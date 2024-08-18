@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Collections.Immutable;
+using System.Text.RegularExpressions;
 
 namespace AnimeCalendar.Api.Mikanime.Schemas;
 
@@ -13,33 +14,35 @@ public partial record struct SimpleEpisode(
     public string PureName {
         get {
             string[] names = SuffixRegex().Replace(Name, "")
-                .Split(Attributes, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToArray();
-
-            string? firstAttr = Attributes.FirstOrDefault();
-
-            return names
-                .Where(n => !string.Equals(firstAttr, n))
-                .Where(n => !ResolutionRegex().IsMatch(n))
-                .MaxBy(n => n.Length) ?? string.Join(' ', names);
+                .Split(Attributes, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            return string.Join(' ', names);
         }
     }
 
-    public string[] Attributes => AttributeRegex().Matches(Name)
-        .Select(x => x.Value).Where(NotContainsBangumiName).Distinct().ToArray();
+    public string[] Attributes {
+        get {
+            string subgroup = SubgroupRegex().Match(Name).Value;
+            var    attrib   = AttributeRegex().Matches(Name.Replace(subgroup, ""))
+                .Select(x => x.Value).Distinct().Where(NotContainsBangumiName);
+            List<string> attributes = attrib.ToList();
+            attributes.Insert(0, subgroup);
+            return attributes.ToArray();
+        }
+    }
 
-    public static readonly char[] Brackets = ['[', ']', '(', ')', '【', '】', '（', '）', ' '];
+    public static readonly char[] Brackets = ['[', ']', '(', ')', '（', '）', ' '];
 
     private bool NotContainsBangumiName(string attr) {
         if (BangumiName == null) return true;
         return !BangumiName.Split(' ').Any(s => attr.Contains(s));
     }
 
-    [GeneratedRegex(@"(\[[^\n/]+?\])|(\([^\n/]+?\))|(【[^\n/]+?】)|(（[^\n/]+?）)")]
+    [GeneratedRegex(@"【[^\n/_]+?】|\[[^\n/_]+?\]")]
+    private static partial Regex SubgroupRegex();
+
+    [GeneratedRegex(@"\[[^\n/_]+?\]|\([^\n/_]+?\)|（[^\n/_]+?）|★[^\n/_]+?★")]
     private static partial Regex AttributeRegex();
 
     [GeneratedRegex(@"\.\w+$")]
     private static partial Regex SuffixRegex();
-
-    [GeneratedRegex(@"(\d{3,4}p)|(\d{3,4}[x×]\d{3,4})", RegexOptions.IgnoreCase)]
-    private static partial Regex ResolutionRegex();
 }
