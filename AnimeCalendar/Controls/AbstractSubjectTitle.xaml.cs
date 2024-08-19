@@ -10,10 +10,14 @@ namespace AnimeCalendar.Controls;
 [ObservableObject]
 public sealed partial class AbstractSubjectTitle : UserControl {
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SubjectRank))]
     private AbstractSubject? subject;
 
     [ObservableProperty]
     private bool wrap;
+
+    [ObservableProperty]
+    private bool isShowNameCn;
 
     public int SubjectRank => Subject switch {
         AirSubject airSubject => airSubject.Rank,
@@ -28,8 +32,6 @@ public sealed partial class AbstractSubjectTitle : UserControl {
     partial void OnSubjectChanged(AbstractSubject? value) {
         RankText.Visibility  = Visibility.Collapsed;
         ScoreText.Visibility = Visibility.Collapsed;
-
-        OnPropertyChanged(nameof(SubjectRank));
 
         if (value == null || value.Rating == null) return;
 

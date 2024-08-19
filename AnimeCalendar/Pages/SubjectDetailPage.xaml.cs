@@ -1,26 +1,17 @@
 using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
-using AnimeCalendar.Api.Data;
-using AnimeCalendar.Api.Mikanime;
-using AnimeCalendar.Api.Mikanime.Schemas;
+using AnimeCalendar.Data;
 using AnimeCalendar.UI;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AnimeCalendar.Pages;
-
-using Episode = Api.Bangumi.Schemas.Episode;
 
 [ObservableObject]
 public sealed partial class SubjectDetailPage : Page {
@@ -29,70 +20,43 @@ public sealed partial class SubjectDetailPage : Page {
     private int runningTasksCount;
     public bool IsLoading => RunningTasksCount > 0;
 
-    #region Bangumi
+    #region Fields & Props
     [ObservableProperty]
     private Subject? subject;
 
-    private IEnumerable<EpCollection> CollectedEpisode { get; set; } = [];
-    #endregion
+    private string CollectionStatus => SubjectCollection?.Type switch {
+        CollectionType.Do       => "在看",
+        CollectionType.Wish     => "想看",
+        CollectionType.Collect  => "看过",
+        CollectionType.OnHold   => "搁置",
+        CollectionType.Dropped  => "抛弃",
+        _ => ""
+    };
 
-    #region Mikanime
     [ObservableProperty]
-    private IEnumerable<Identifier> mikanBangumis = [];
-
-    [ObservableProperty]
-    private BangumiPage? bangumiPage;
-
-    [ObservableProperty]
-    private IEnumerable<SimpleEpisode> episodes = [];
-
-    private IEnumerable<SimpleEpisode> FilteredEpisodes = [];
-
-    private ObservableCollection<string> SelectedAttributes = new();
+    [NotifyPropertyChangedFor(nameof(CollectionStatus))]
+    private UserCollection? subjectCollection;
     #endregion
 
     public SubjectDetailPage() {
         InitializeComponent();
-        SelectedAttributes.CollectionChanged += OnSelectedAttributesChanged;
     }
 
-    #region Bangumi
-    private async void UpdateCollectedEpisode(int subjectId) {
-        RunningTasksCount++;
-        var pagedEpCollections = await BgmApiServices.CollectionApi.GetEpisodes(subjectId, episodeType: EpType.Feature);
-        CollectedEpisode = pagedEpCollections.Data;
-        OnPropertyChanged(nameof(CollectedEpisode));
-        RunningTasksCount--;
-    }
-    #endregion
+    #region Updaters
+    private async void UpdateSubjectCollection(int subjectId) {
+        if (BgmUserCache.Instance.User == null)
+            return;
+        string username = BgmUserCache.Instance.User.Username;
 
-    #region Mikanime
-    private async void UpdateMikanBangumisAsync() {
         RunningTasksCount++;
         try {
-            MikanBangumis = Subject != null
-                ? await MikanimeServices.SearchAnimeApi.SearchBangumiIds(Subject.AutoName)
-                : [];
+            SubjectCollection = await BgmApiServices.CollectionApi.GetCollection(username, subjectId);
         }
-        catch (Exception ex) {
-            App.MainWindow.Pop(PopInfo.Fail("拉取 Mikanime 数据出错", ex));
+        catch {
+            SubjectCollection = null;
         }
         RunningTasksCount--;
     }
-
-    private async Task UpdateSubgroupsAsync(int mikanBangumiId) {
-        RunningTasksCount++;
-        try {
-            BangumiPage = await MikanimeServices.BangumiApi.BangumiPage(mikanBangumiId);
-        }
-        catch (Exception ex) {
-            App.MainWindow.Pop(PopInfo.Fail("拉取 Mikanime 数据出错", ex));
-        }
-        RunningTasksCount--;
-    }
-
-    private void UpdateEpisodes(int subgroupId)
-        => Episodes = BangumiPage?.GetEpisodes(subgroupId) ?? [];
     #endregion
 
     protected async override void OnNavigatedTo(NavigationEventArgs e) {
@@ -108,83 +72,10 @@ public sealed partial class SubjectDetailPage : Page {
         RunningTasksCount--;
     }
 
-    #region Mikanime
-    private async void OnSelectedBangumiChanged(object sender, SelectionChangedEventArgs e) {
-        if (BangumiSelector.SelectedItem is Identifier identifier)
-            await UpdateSubgroupsAsync(identifier.Id);
-    }
-
-    private void OnSelectedSubgroupChanged(object sender, SelectionChangedEventArgs e) {
-        if (SubgroupSelector.SelectedItem is Identifier identifier)
-            UpdateEpisodes(identifier.Id);
-    }
-
-    private void OnSelectedAttributesChanged(object? sender, NotifyCollectionChangedEventArgs e) {
-        if (SelectedAttributes.Count == 0)
-            FilteredEpisodes = Episodes;
-        else
-            FilteredEpisodes = Episodes
-                .Where(e => SelectedAttributes.All(a => e.Name.Contains(a)))
-                .ToArray();
-
-        OnPropertyChanged(nameof(FilteredEpisodes));
-    }
-    #endregion
-
-    #region Bangumi
+    #region Listeners
     partial void OnSubjectChanged(Subject? value) {
-        try {
-            if (value == null) return;
-
-            UpdateCollectedEpisode(value.Id);
-
-            RatingType rating = value.Rating;
-            RatingText.Visibility = rating.Score != 0 ? Visibility.Visible : Visibility.Collapsed;
-            RankText.Visibility   = rating.Rank  != 0 ? Visibility.Visible : Visibility.Collapsed;
-        } finally {
-            UpdateMikanBangumisAsync();
-        }
-    }
-    #endregion
-
-    #region Mikanime
-    partial void OnMikanBangumisChanged(IEnumerable<Identifier> value) {
-        BangumiSelector.ItemsSource = value;
-
-        BangumiSelector.Visibility = value.Count() <= 1
-            ? Visibility.Visible
-            : Visibility.Collapsed;
-
-        if (!value.Any()) return;
-
-        BangumiSelector.SelectedItem = value.FirstOrDefault(
-            item => string.Equals(item.Name.Trim(), Subject?.NameCn.Trim()),
-            value.First()
-        );
-    }
-
-    partial void OnBangumiPageChanged(BangumiPage? value) {
-        Identifier[] subgroups = value?.Subgroups ?? [];
-
-        SubgroupSelector.ItemsSource = subgroups;
-        SubgroupSelector.SelectedItem = subgroups.FirstOrDefault();
-
-        SubgroupSelector.Visibility = subgroups.Length == 0
-            ? Visibility.Collapsed
-            : Visibility.Visible;
-    }
-
-    partial void OnEpisodesChanged(IEnumerable<SimpleEpisode> value) {
-        SelectedAttributes.Clear();
-
-        if (!value.Any()) {
-            AttributeSelector.Visibility = Visibility.Collapsed;
-            return;
-        }
-
-        AttributeSelector.Visibility = Visibility.Visible;
-        AttributeSelector.SuggestedItemsSource = value.SelectMany(e => e.Attributes)
-            .Distinct().Select(a => a.Trim(SimpleEpisode.Brackets));
+        if (value == null) return;
+        UpdateSubjectCollection(value.Id);
     }
     #endregion
 }

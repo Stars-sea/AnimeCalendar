@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<UserControl
+<base:TasksCountableControl
     x:Class="AnimeCalendar.Controls.WatchProgressControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Controls"
+    xmlns:base="using:AnimeCalendar.Controls.Base"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -21,4 +22,4 @@
             </DataTemplate>
         </ItemsRepeater.ItemTemplate>
     </ItemsRepeater>
-</UserControl>
+</base:TasksCountableControl>

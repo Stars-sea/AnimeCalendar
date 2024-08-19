@@ -18,25 +18,35 @@
                 <Orientation>Horizontal</Orientation>
             </converters:BoolToObjectConverter.FalseValue>
         </converters:BoolToObjectConverter>
+
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </UserControl.Resources>
 
-    <StackPanel Orientation="{x:Bind Wrap, Converter={StaticResource Bool2OrientationConverter}}" VerticalAlignment="Center">
-        <TextBlock Text="{x:Bind Subject.Name}" Style="{ThemeResource BodyTextBlockStyle}"
-                   ToolTipService.ToolTip="{x:Bind Subject.AutoName}" />
+    <StackPanel
+        Orientation="{x:Bind Wrap, Mode=OneWay, Converter={StaticResource Bool2OrientationConverter}}"
+        Padding="{x:Bind Padding, Mode=OneWay}" Margin="{x:Bind Margin, Mode=OneWay}" VerticalAlignment="Center">
+        
+        <TextBlock Visibility="{x:Bind IsShowNameCn, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}"
+                   Text="{x:Bind Subject.Name, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}"
+                   Margin="0 0 16 0" ToolTipService.ToolTip="{x:Bind Subject.AutoName, Mode=OneWay}" />
+        
+        <TextBlock Visibility="{x:Bind IsShowNameCn, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                   Text="{x:Bind Subject.AutoName, Mode=OneWay}" Style="{ThemeResource TitleTextBlockStyle}"
+                   Margin="0 0 0 8" />
 
-        <StackPanel Orientation="Horizontal">
-            <StackPanel x:Name="ScoreText" Margin="16 0" Orientation="Horizontal" Visibility="Collapsed">
+        <StackPanel Orientation="Horizontal" Spacing="16">
+            <StackPanel x:Name="ScoreText" Orientation="Horizontal" Visibility="Collapsed">
                 <Viewbox Height="12" Margin="0 0 4 0">
                     <FontIcon Glyph="&#xE735;" Foreground="Gold" />
                 </Viewbox>
-                <TextBlock Text="{x:Bind Subject.Rating.Score}" Style="{ThemeResource BodyTextBlockStyle}" />
+                <TextBlock Text="{x:Bind Subject.Rating.Score, Mode=OneWay}" Style="{ThemeResource BodyTextBlockStyle}" />
             </StackPanel>
 
             <Border x:Name="RankText" Padding="4 0" CornerRadius="{ThemeResource ControlCornerRadius}"
                     Background="{ThemeResource AccentFillColorDefaultBrush}" Visibility="Collapsed">
                 <TextBlock 
                     Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}"
-                    Text="{x:Bind SubjectRank, Converter={StaticResource FormatConverter}, ConverterParameter='{}Rank {0}', Mode=OneWay}" />
+                    Text="{x:Bind SubjectRank, Mode=OneWay, Converter={StaticResource FormatConverter}, ConverterParameter='{}Rank {0}'}" />
             </Border>
         </StackPanel>
     </StackPanel>

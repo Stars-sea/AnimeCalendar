@@ -6,27 +6,25 @@
     xmlns:local="using:AnimeCalendar.Pages"
     xmlns:controls="using:AnimeCalendar.Controls"
     xmlns:bs="using:AnimeCalendar.Api.Bangumi.Schemas"
-    xmlns:ms="using:AnimeCalendar.Api.Mikanime.Schemas"
-    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     xmlns:winui="using:CommunityToolkit.WinUI.UI.Controls"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
-    xmlns:wcontrols="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Resources>
+        <DataTemplate x:Key="TagTemplate" x:DataType="bs:Tag">
+            <Border Padding="4 0" CornerRadius="{ThemeResource ControlCornerRadius}"
+            Background="{ThemeResource SystemColorHotlightColor}">
+                <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
+            </Border>
+        </DataTemplate>
+
         <converters:BoolToObjectConverter
             x:Key="ExpanderHeaderConverter"
             TrueValue="收起标签" FalseValue="展开标签" />
 
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-
-        <DataTemplate x:Key="EpisodeTemplate" x:DataType="ms:SimpleEpisode">
-            <ListViewItem Margin="0 2" Padding="0">
-                <controls:EpisodeInfoCard Episode="{x:Bind}" Margin="4 2" />
-            </ListViewItem>
-        </DataTemplate>
     </Page.Resources>
 
     <ScrollView>
@@ -49,78 +47,29 @@
                 </Border>
 
                 <StackPanel Grid.Column="1" Margin="12 0 0 0">
-                    <TextBlock Text="{x:Bind Subject.AutoName, Mode=OneWay}" Margin="0 0 0 8"
-                               Style="{ThemeResource TitleTextBlockStyle}" />
-
-                    <StackPanel Orientation="Horizontal" Margin="0 0 0 12">
-                        <StackPanel x:Name="RatingText" Margin="4 0 16 0" Orientation="Horizontal">
-                            <Viewbox Height="12" Margin="0 0 4 0">
-                                <FontIcon Glyph="&#xE735;" Foreground="Gold" />
-                            </Viewbox>
-                            <TextBlock Text="{x:Bind Subject.Rating.Score, Mode=OneWay}"
-                                       Style="{ThemeResource BodyTextBlockStyle}" />
-                        </StackPanel>
-
-                        <Border x:Name="RankText" Padding="4 0" Visibility="Collapsed"
-                            CornerRadius="{ThemeResource ControlCornerRadius}"
-                            Background="{ThemeResource AccentFillColorDefaultBrush}">
-                            <TextBlock Foreground="{ThemeResource TextOnAccentFillColorPrimaryBrush}">
-                            <Run Text="Rank" />
-                            <Run Text="{x:Bind Subject.Rating.Rank, Mode=OneWay}" />
-                            </TextBlock>
-                        </Border>
-                    </StackPanel>
+                    <controls:AbstractSubjectTitle
+                        Subject="{x:Bind Subject, Mode=OneWay}"
+                        Wrap="True" IsShowNameCn="True" Padding="0 0 0 16" />
 
                     <controls:WatchProgressControl
-                        Margin="0 0 0 12" Episodes="{x:Bind CollectedEpisode, Mode=OneWay}"
+                        Margin="0 0 0 12" SubjectId="{x:Bind Subject.Id, Mode=OneWay}"
                         RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}" />
 
                     <Expander x:Name="Expander" HorizontalAlignment="Stretch"
                               Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">
-                        <ItemsRepeater x:Name="Tags" ItemsSource="{x:Bind Subject.Tags, Mode=OneWay}">
+                        <ItemsRepeater x:Name="Tags" ItemTemplate="{StaticResource TagTemplate}"
+                                       ItemsSource="{x:Bind Subject.Tags, Mode=OneWay}">
                             <ItemsRepeater.Layout>
                                 <winui:WrapLayout HorizontalSpacing="4" VerticalSpacing="6" />
                             </ItemsRepeater.Layout>
-                            <ItemsRepeater.ItemTemplate>
-                                <DataTemplate x:DataType="bs:Tag">
-                                    <Border Padding="4 0" CornerRadius="{ThemeResource ControlCornerRadius}"
-                                            Background="{ThemeResource SystemColorHotlightColor}">
-                                        <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsRepeater.ItemTemplate>
                         </ItemsRepeater>
                     </Expander>
                 </StackPanel>
             </Grid>
 
-            <Grid Padding="36 16">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="1*" />
-                </Grid.ColumnDefinitions>
-                
-                <StackPanel Grid.Column="0" Orientation="Horizontal"
-                            Margin="0 10 8 0" Spacing="8">
-                    <ComboBox x:Name="BangumiSelector" MinWidth="200"
-                              DisplayMemberPath="Name" Visibility="Collapsed"
-                              SelectionChanged="OnSelectedBangumiChanged" />
-
-                    <ComboBox x:Name="SubgroupSelector" MinWidth="140"
-                              DisplayMemberPath="Name" Visibility="Collapsed"
-                              SelectionChanged="OnSelectedSubgroupChanged" />
-                </StackPanel>
-
-                <wcontrols:TokenizingTextBox
-                    Grid.Column="1" x:Name="AttributeSelector" VerticalAlignment="Center"
-                    ItemsSource="{x:Bind SelectedAttributes, Mode=TwoWay}"
-                    IsItemClickEnabled="False" Visibility="Collapsed"
-                    PlaceholderText="键入 Tag 来筛选条目" />
-            </Grid>
-
-            <ListView x:Name="EpisodesList" Padding="32 0" SelectionMode="Single"
-                      ItemsSource="{x:Bind FilteredEpisodes, Mode=OneWay}"
-                      ItemTemplate="{StaticResource EpisodeTemplate}" />
+            <controls:MikanimeView
+                Padding="32 16" SubjectName="{x:Bind Subject.AutoName, Mode=OneWay}"
+                RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}" />
         </StackPanel>
     </ScrollView>
 </Page>
