@@ -38,15 +38,15 @@ public sealed partial class SubjectDetailPage : Page {
 
     #region Mikanime
     [ObservableProperty]
-    private Identifier[] mikanBangumis = [];
+    private IEnumerable<Identifier> mikanBangumis = [];
 
     [ObservableProperty]
     private BangumiPage? bangumiPage;
 
     [ObservableProperty]
-    private SimpleEpisode[] episodes = [];
+    private IEnumerable<SimpleEpisode> episodes = [];
 
-    private SimpleEpisode[] FilteredEpisodes = [];
+    private IEnumerable<SimpleEpisode> FilteredEpisodes = [];
 
     private ObservableCollection<string> SelectedAttributes = new();
     #endregion
@@ -123,10 +123,9 @@ public sealed partial class SubjectDetailPage : Page {
         if (SelectedAttributes.Count == 0)
             FilteredEpisodes = Episodes;
         else
-            FilteredEpisodes = Episodes.Where(e => {
-                var epAttri = e.Attributes.Select(a => a.Trim(SimpleEpisode.Brackets));
-                return SelectedAttributes.All(a => epAttri.Any(epA => epA.Contains(a)));
-            }).ToArray();
+            FilteredEpisodes = Episodes
+                .Where(e => SelectedAttributes.All(a => e.Name.Contains(a)))
+                .ToArray();
 
         OnPropertyChanged(nameof(FilteredEpisodes));
     }
@@ -149,18 +148,18 @@ public sealed partial class SubjectDetailPage : Page {
     #endregion
 
     #region Mikanime
-    partial void OnMikanBangumisChanged(Identifier[] value) {
+    partial void OnMikanBangumisChanged(IEnumerable<Identifier> value) {
         BangumiSelector.ItemsSource = value;
 
-        BangumiSelector.Visibility = value.Length <= 1
-            ? Visibility.Collapsed
-            : Visibility.Visible;
+        BangumiSelector.Visibility = value.Count() <= 1
+            ? Visibility.Visible
+            : Visibility.Collapsed;
 
-        if (value.Length == 0) return;
+        if (!value.Any()) return;
 
         BangumiSelector.SelectedItem = value.FirstOrDefault(
             item => string.Equals(item.Name.Trim(), Subject?.NameCn.Trim()),
-            value[0]
+            value.First()
         );
     }
 
@@ -175,10 +174,10 @@ public sealed partial class SubjectDetailPage : Page {
             : Visibility.Visible;
     }
 
-    partial void OnEpisodesChanged(SimpleEpisode[] value) {
+    partial void OnEpisodesChanged(IEnumerable<SimpleEpisode> value) {
         SelectedAttributes.Clear();
 
-        if (value.Length == 0) {
+        if (!value.Any()) {
             AttributeSelector.Visibility = Visibility.Collapsed;
             return;
         }

@@ -11,7 +11,7 @@ public interface ICollectionApi {
         string username,
         int offset = 0,
         int limit  = 30,
-        CollectionType type = CollectionType.Do,
+        CollectionType? type = null,
         SubjectType subjectType = SubjectType.Anime
     );
 

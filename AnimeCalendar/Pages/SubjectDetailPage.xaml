@@ -23,7 +23,9 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <DataTemplate x:Key="EpisodeTemplate" x:DataType="ms:SimpleEpisode">
-            <controls:EpisodeInfoCard Episode="{x:Bind}" Margin="0 4" />
+            <ListViewItem Margin="0 2" Padding="0">
+                <controls:EpisodeInfoCard Episode="{x:Bind}" Margin="4 2" />
+            </ListViewItem>
         </DataTemplate>
     </Page.Resources>
 
@@ -116,9 +118,9 @@
                     PlaceholderText="键入 Tag 来筛选条目" />
             </Grid>
 
-            <ItemsView x:Name="EpisodesList" Padding="36 0" SelectionMode="Single"
-                       ItemsSource="{x:Bind FilteredEpisodes, Mode=OneWay}"
-                       ItemTemplate="{StaticResource EpisodeTemplate}" />
+            <ListView x:Name="EpisodesList" Padding="32 0" SelectionMode="Single"
+                      ItemsSource="{x:Bind FilteredEpisodes, Mode=OneWay}"
+                      ItemTemplate="{StaticResource EpisodeTemplate}" />
         </StackPanel>
     </ScrollView>
 </Page>

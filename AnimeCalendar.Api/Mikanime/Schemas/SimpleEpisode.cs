@@ -3,7 +3,7 @@ using System.Text.RegularExpressions;
 
 namespace AnimeCalendar.Api.Mikanime.Schemas;
 
-public partial record struct SimpleEpisode(
+public partial record SimpleEpisode(
     string Name,
     string Link,
     string Size,
@@ -24,9 +24,7 @@ public partial record struct SimpleEpisode(
             string subgroup = SubgroupRegex().Match(Name).Value;
             var    attrib   = AttributeRegex().Matches(Name.Replace(subgroup, ""))
                 .Select(x => x.Value).Distinct().Where(NotContainsBangumiName);
-            List<string> attributes = attrib.ToList();
-            attributes.Insert(0, subgroup);
-            return attributes.ToArray();
+            return new string[] { subgroup }.Concat(attrib).ToArray();
         }
     }
 

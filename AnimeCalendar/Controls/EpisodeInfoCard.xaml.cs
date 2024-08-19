@@ -18,9 +18,9 @@ using Windows.System;
 namespace AnimeCalendar.Controls;
 
 [ObservableObject]
-public sealed partial class EpisodeInfoCard : ItemContainer {
+public sealed partial class EpisodeInfoCard : UserControl {
     [ObservableProperty]
-    private SimpleEpisode episode;
+    private SimpleEpisode? episode;
 
     [ObservableProperty]
     private bool isShowPureName = true;
@@ -35,7 +35,7 @@ public sealed partial class EpisodeInfoCard : ItemContainer {
     private async void OnDoubleTapped(object sender, DoubleTappedRoutedEventArgs e) {
         App.MainWindow.Pop(PopInfo.Info("", "正在打开磁力链接"));
         try {
-            await Launcher.LaunchUriAsync(new Uri(Episode.Magnet));
+            await Launcher.LaunchUriAsync(new Uri(Episode!.Magnet));
         }
         catch (Exception ex) {
             App.MainWindow.Pop(PopInfo.Fail("打开磁链错误", "尝试复制磁链到剪贴板", ex));
@@ -43,12 +43,12 @@ public sealed partial class EpisodeInfoCard : ItemContainer {
         }
     }
 
-    partial void OnEpisodeChanged(SimpleEpisode value) {
+    partial void OnEpisodeChanged(SimpleEpisode? value) {
         // TODO
         //IsShowPureName = value.BangumiName == null ||
         //    !SimpleEpisode.Brackets.SkipLast(1).Any(c => value.BangumiName.Contains(c));
 
-        Metadatas = value.Attributes.Select(a => new MetadataItem {
+        Metadatas = value!.Attributes.Select(a => new MetadataItem {
             Label = a
         }).ToArray();
         OnPropertyChanged(nameof(Metadatas));
@@ -57,7 +57,7 @@ public sealed partial class EpisodeInfoCard : ItemContainer {
     [RelayCommand]
     private void CopyMagnet() {
         DataPackage package = new();
-        package.SetText(Episode.Magnet);
+        package.SetText(Episode!.Magnet);
         Clipboard.SetContent(package);
         App.MainWindow.Pop(PopInfo.Succ("", "已复制磁力链接"));
     }
@@ -65,6 +65,6 @@ public sealed partial class EpisodeInfoCard : ItemContainer {
     [RelayCommand]
     private async Task OpenLinkInBrowser() {
         App.MainWindow.Pop(PopInfo.Info("", "正在从浏览器打开链接"));
-        await Launcher.LaunchUriAsync(new Uri(Episode.Link));
+        await Launcher.LaunchUriAsync(new Uri(Episode!.Link));
     }
 }

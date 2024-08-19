@@ -1,6 +1,6 @@
 ﻿namespace AnimeCalendar.Api.Data;
 
-public record struct Identifier(string Name, int Id) {
+public record Identifier(string Name, int Id) {
     public static implicit operator Identifier(KeyValuePair<string, int> pair)
         => new Identifier(pair.Key, pair.Value);
 
@@ -8,7 +8,7 @@ public record struct Identifier(string Name, int Id) {
         => new KeyValuePair<string, int>(identifier.Name, identifier.Id);
 }
 
-public record struct AnimeIdentifier(string Name, int? Id, Website Website) : IAnime, IEquatable<IAnime> {
+public record AnimeIdentifier(string Name, int? Id, Website Website) : IAnime, IEquatable<IAnime> {
     public AnimeIdentifier(IAnime anime) : this(anime.Name, anime.Id, anime.Website) { } 
 
     public bool Equals(IAnime? other) {
