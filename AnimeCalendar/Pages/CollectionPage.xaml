@@ -23,26 +23,42 @@
     </Page.Resources>
 
     <Grid Padding="36 0 0 0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="1*" />
-        </Grid.RowDefinitions>
+        <Grid Visibility="{x:Bind LoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="1*" />
+            </Grid.RowDefinitions>
         
-        <SelectorBar Grid.Row="0" SelectionChanged="SelectorBar_SelectionChanged">
-            <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="3" IsSelected="True" />
-            <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="1" />
-            <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="2" />
-            <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="4" />
-            <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
-        </SelectorBar>
+            <SelectorBar Grid.Row="0" SelectionChanged="SelectorBar_SelectionChanged">
+                <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="3" IsSelected="True" />
+                <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="1" />
+                <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="2" />
+                <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="4" />
+                <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
+            </SelectorBar>
 
-        <ScrollView Grid.Row="1" x:Name="ScrollView" VerticalContentAlignment="Stretch">
-            <StackPanel Margin="8 0 0 0" VerticalAlignment="Center">
-                <ProgressRing Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
-                <ListView
-                    SelectionMode="Single" ItemsSource="{x:Bind Collections, Mode=OneWay}" ItemTemplate="{StaticResource CollectionItemTemplate}"
-                    Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}" />
-            </StackPanel>
-        </ScrollView>
+            <ScrollView Grid.Row="1" x:Name="ScrollView" VerticalContentAlignment="Stretch">
+                <StackPanel Margin="8 0 36 0">
+                    <ProgressRing Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
+                    <ListView
+                        SelectionMode="Single" ItemsSource="{x:Bind Collections, Mode=OneWay}" ItemTemplate="{StaticResource CollectionItemTemplate}"
+                        Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}" />
+                </StackPanel>
+            </ScrollView>
+        </Grid>
+
+        <StackPanel
+            VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16"
+            Visibility="{x:Bind LoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}">
+            <TextBlock Text="无法获取用户信息, 请先登录" Style="{ThemeResource SubtitleTextBlockStyle}" />
+            <Button Click="LoginButtonClick" HorizontalAlignment="Center">
+                <StackPanel Orientation="Horizontal" >
+                    <TextBlock Text="登录" />
+                    <Viewbox Height="16" Margin="8 0 0 0">
+                        <FontIcon Glyph="&#xE76C;" Width="15" />
+                    </Viewbox>
+                </StackPanel>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>

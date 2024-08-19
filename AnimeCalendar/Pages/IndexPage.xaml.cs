@@ -37,8 +37,16 @@ public sealed partial class IndexPage : Page {
 
         if (tag is string itemTag) {
             ignoreSelectionChanged = true;
-            NavView.SelectedItem = Calendar.MenuItems.Cast<NavigationViewItem>()
-                .First(i => itemTag.Equals(i.Tag));
+
+            if (itemTag.StartsWith("TimelinePage"))
+                NavView.SelectedItem = Calendar.MenuItems
+                    .Cast<NavigationViewItem>()
+                    .First(i => itemTag.Equals(i.Tag));
+            else NavView.SelectedItem = NavView.MenuItems
+                    .Concat(NavView.FooterMenuItems)
+                    .Cast<NavigationViewItem>()
+                    .First(i => itemTag.Equals(i.Tag));
+
             ignoreSelectionChanged = false; // ±ØÒª²Ù×÷
         }
         

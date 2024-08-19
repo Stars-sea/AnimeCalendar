@@ -1,4 +1,3 @@
-using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Auth;
 using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Storage;
@@ -7,8 +6,6 @@ using AnimeCalendar.Data;
 using AnimeCalendar.UI;
 using AnimeCalendar.Storage;
 using AnimeCalendar.Utils;
-
-using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -20,11 +17,7 @@ using System.Threading.Tasks;
 
 namespace AnimeCalendar.Pages;
 
-[ObservableObject]
 public sealed partial class AccountSettingsPage : Page {
-    [ObservableProperty]
-    private User? bgmUser;
-
     public AccountSettingsPage() {
         InitializeComponent();
 
@@ -32,7 +25,7 @@ public sealed partial class AccountSettingsPage : Page {
         Unloaded += AccountSettingsPage_Unloaded;
     }
 
-    partial void OnBgmUserChanged(User? value) {
+    private void OnBgmUserChanged(User? value) {
         if (value == null) {
             BgmCard.Content    = new TextBlock { Text = "在浏览器上登录 Bangumi 并授权", VerticalAlignment = VerticalAlignment.Center };
             BgmCard.IconSource = new BitmapImage(new Uri("https://bgm.tv/img/favicon.ico"));
@@ -40,20 +33,6 @@ public sealed partial class AccountSettingsPage : Page {
         else {
             BgmCard.Content    = new BgmUserInfo() { User = value };
             BgmCard.IconSource = new BitmapImage(value.Avatar.Medium);
-        }
-    }
-
-    public async void FetchBgmUser(IAuthTokenStorage? token) {
-        if (token == null || await token.IsExpired()) {
-            BgmUser = null;
-            return;
-        }
-
-        try {
-            BgmUser = await BgmApiServices.UserApi.GetMe();
-        } catch (Exception ex) {
-            App.MainWindow.Pop(PopInfo.Fail("Bangumi 登录", "拉取用户信息错误", ex));
-            BgmUser = null;
         }
     }
 
@@ -94,20 +73,24 @@ public sealed partial class AccountSettingsPage : Page {
     }
 
     private void AccountSettingsPage_Loaded(object sender, RoutedEventArgs e) {
-        FetchBgmUser(App.MainWindow.BgmTokenStorage);
-        App.MainWindow.BgmTokenChanged += FetchBgmUser;
+        OnBgmUserChanged(BgmUserCache.Instance.User);
+
+        BgmUserCache.UserChanged += OnBgmUserChanged;
+        BgmUserCache.Instance.UpdateUserAsync();
     }
 
     private void AccountSettingsPage_Unloaded(object sender, RoutedEventArgs e) {
-        App.MainWindow.BgmTokenChanged -= FetchBgmUser;
+        BgmUserCache.UserChanged -= OnBgmUserChanged;
     }
 
     private async void BangumiLoginCard_Click(object sender, RoutedEventArgs e) {
-        if (App.MainWindow.BgmTokenStorage == null || await App.MainWindow.BgmTokenStorage.IsExpired()) {
+        BgmUserCache cache = BgmUserCache.Instance;
+
+        if (await BgmUserCache.IsTokenNullOrExpired()) {
             if (await StartBgmAuth() is IAuthTokenStorage authToken)
-                App.MainWindow.BgmTokenStorage = authToken;
-        } else if (BgmUser != null) {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri($"https://bgm.tv/user/{BgmUser.Username}"));
+                cache.TokenStorage = authToken;
+        } else if (cache.User != null) {
+            await Windows.System.Launcher.LaunchUriAsync(new Uri($"https://bgm.tv/user/{cache.User.Username}"));
         }
     }
 

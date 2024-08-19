@@ -1,6 +1,4 @@
-using AnimeCalendar.Api.Bangumi;
-using AnimeCalendar.Api.Storage;
-using AnimeCalendar.Storage;
+using AnimeCalendar.Data;
 using AnimeCalendar.UI;
 
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,11 +17,6 @@ namespace AnimeCalendar;
 
 [ObservableObject]
 public sealed partial class MainWindow : Window {
-    [ObservableProperty]
-    private IAuthTokenStorage? bgmTokenStorage;
-
-    internal event Action<IAuthTokenStorage?>? BgmTokenChanged;
-
     public MainWindow() {
         InitializeComponent();
 
@@ -55,18 +48,11 @@ public sealed partial class MainWindow : Window {
         }
     }
 
-    partial void OnBgmTokenStorageChanged(IAuthTokenStorage? value) {
-        BgmApiServices.UpdateTokenStorage(value);
-        BgmTokenChanged?.Invoke(value);
-    }
-
     private async void MainWindow_Activated(object sender, WindowActivatedEventArgs args) {
-        BgmTokenStorage = await BgmAuthTokenStorage.Load();
         try {
-            if (BgmTokenStorage != null)
-                await BgmTokenStorage.RefreshIfExpired();
-        } catch {
-            Pop(PopInfo.Warn("Bangumi  ⁄»®", "¡Ó≈∆À¢–¬ ß∞‹"));
+            await BgmUserCache.LoadTokenAsync();
+        } catch (Exception ex) {
+            Pop(PopInfo.Fail("Bangumi ¡Ó≈∆", "ªÒ»°¡Ó≈∆ ß∞‹", ex));
         }
     }
 
