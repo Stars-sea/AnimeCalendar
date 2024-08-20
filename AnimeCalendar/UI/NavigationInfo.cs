@@ -6,8 +6,7 @@ namespace AnimeCalendar.UI;
 
 internal record NavigationInfo(
     Type    PageType, 
-    string? Title, 
- // bool    Inherited, 
+    string? Title,
     object? Param,
     object? Tag,
     NavigationTransitionInfo? TransitionInfo = null

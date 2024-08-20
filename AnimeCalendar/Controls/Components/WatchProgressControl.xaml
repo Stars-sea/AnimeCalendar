@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <base:TasksCountableControl
-    x:Class="AnimeCalendar.Controls.WatchProgressControl"
+    x:Class="AnimeCalendar.Controls.Components.WatchProgressControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:AnimeCalendar.Controls"
+    xmlns:local="using:AnimeCalendar.Controls.Components"
     xmlns:base="using:AnimeCalendar.Controls.Base"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:controls="using:CommunityToolkit.WinUI.Controls"

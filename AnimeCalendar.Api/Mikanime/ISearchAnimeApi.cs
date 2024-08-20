@@ -26,7 +26,7 @@ public interface ISearchAnimeApi {
             searchStr = searchStr[..spaceIndex];
 
         HtmlDocument document = await SearchHtml(searchStr);
-        
+
         var nodes = document.DocumentNode.SelectNodes("//ul[@class=\"list-inline an-ul\"]/li/a");
         if (nodes == null) return [];
 

@@ -1,14 +1,14 @@
-﻿using System;
-using System.Diagnostics;
-using System.Threading.Channels;
-
-using AnimeCalendar.Data;
+﻿using AnimeCalendar.Data;
 using AnimeCalendar.UI;
 
 using H.NotifyIcon;
 
 using Microsoft.UI.Xaml;
 using Microsoft.Windows.AppLifecycle;
+
+using System;
+using System.Diagnostics;
+using System.Threading.Channels;
 
 using Windows.ApplicationModel.Activation;
 
@@ -45,7 +45,8 @@ public partial class App : Application {
 
         try {
             await CallbackUriChannel.Writer.WriteAsync(uri);
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             Trace.TraceWarning(ex.ToString());
             MainWindow.Pop(PopInfo.Warn("Warning", ex.ToString()));
         }

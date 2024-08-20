@@ -5,7 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Controls"
     xmlns:base="using:AnimeCalendar.Controls.Base"
-    xmlns:controls="using:AnimeCalendar.Controls"
+    xmlns:card="using:AnimeCalendar.Controls.Cards"
     xmlns:ms="using:AnimeCalendar.Api.Mikanime.Schemas"
     xmlns:wcontrols="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -15,7 +15,7 @@
     <base:TasksCountableControl.Resources>
         <DataTemplate x:Key="EpisodeTemplate" x:DataType="ms:SimpleEpisode">
             <ListViewItem Margin="0 2" Padding="0">
-                <controls:EpisodeInfoCard Episode="{x:Bind}" Margin="4 2" />
+                <card:EpisodeInfoCard Episode="{x:Bind}" Margin="4 2" />
             </ListViewItem>
         </DataTemplate>
     </base:TasksCountableControl.Resources>

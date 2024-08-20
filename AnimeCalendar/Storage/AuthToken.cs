@@ -27,10 +27,10 @@ internal record AuthToken(
 
     public static AuthToken Create(AccessTokenResponse response)
         => new AuthToken(
-            response.AccessToken, 
-            response.RefreshToken, 
-            DateTime.Now, 
-            response.ExpiresIn, 
+            response.AccessToken,
+            response.RefreshToken,
+            DateTime.Now,
+            response.ExpiresIn,
             response.UserId
         );
 }

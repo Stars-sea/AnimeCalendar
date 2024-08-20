@@ -4,13 +4,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
-    xmlns:controls="using:AnimeCalendar.Controls"
+    xmlns:card="using:AnimeCalendar.Controls.Cards"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style x:Key="CardStyle" TargetType="controls:ImageCard">
+        <Style x:Key="CardStyle" TargetType="card:ImageCard">
             <Setter Property="Margin" Value="0 5" />
             <Setter Property="Width" Value="380" />
             <Setter Property="Height" Value="80" />
@@ -19,12 +19,12 @@
     </Page.Resources>
 
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
-        <controls:ImageCard x:Name="BgmCard" Style="{StaticResource CardStyle}" Click="BangumiLoginCard_Click">
+        <card:ImageCard x:Name="BgmCard" Style="{StaticResource CardStyle}" Click="BangumiLoginCard_Click">
             <ProgressRing />
-        </controls:ImageCard>
-        <controls:ImageCard x:Name="MikanCard" Style="{StaticResource CardStyle}" Click="MikanimeLoginCard_Click"
+        </card:ImageCard>
+        <card:ImageCard x:Name="MikanCard" Style="{StaticResource CardStyle}" Click="MikanimeLoginCard_Click"
                             IconSource="https://mikanime.tv/images/favicon.ico?v=2">
             <TextBlock Text="登录 Mikanime" VerticalAlignment="Center" />
-        </controls:ImageCard>
+        </card:ImageCard>
     </StackPanel>
 </Page>

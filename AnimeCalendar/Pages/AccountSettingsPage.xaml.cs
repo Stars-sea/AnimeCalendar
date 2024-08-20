@@ -1,10 +1,10 @@
 using AnimeCalendar.Api.Bangumi.Auth;
 using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Api.Storage;
-using AnimeCalendar.Controls;
+using AnimeCalendar.Controls.Cards;
 using AnimeCalendar.Data;
-using AnimeCalendar.UI;
 using AnimeCalendar.Storage;
+using AnimeCalendar.UI;
 using AnimeCalendar.Utils;
 
 using Microsoft.UI.Xaml;
@@ -31,7 +31,7 @@ public sealed partial class AccountSettingsPage : Page {
             BgmCard.IconSource = new BitmapImage(new Uri("https://bgm.tv/img/favicon.ico"));
         }
         else {
-            BgmCard.Content    = new BgmUserInfo() { User = value };
+            BgmCard.Content    = new BgmUserCard() { User = value };
             BgmCard.IconSource = new BitmapImage(value.Avatar.Medium);
         }
     }
@@ -89,7 +89,8 @@ public sealed partial class AccountSettingsPage : Page {
         if (await BgmUserCache.IsTokenNullOrExpired()) {
             if (await StartBgmAuth() is IAuthTokenStorage authToken)
                 cache.TokenStorage = authToken;
-        } else if (cache.User != null) {
+        }
+        else if (cache.User != null) {
             await Windows.System.Launcher.LaunchUriAsync(new Uri($"https://bgm.tv/user/{cache.User.Username}"));
         }
     }

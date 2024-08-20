@@ -5,7 +5,7 @@ namespace AnimeCalendar.UI;
 
 internal class NavigationInfoCollection : ObservableCollection<NavigationInfo>, INotifyPropertyChanged {
     private int index = -1;
-    public int Index { 
+    public int Index {
         get => index;
         private set {
             index = value;

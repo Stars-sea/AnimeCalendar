@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace AnimeCalendar.Api.Converter;

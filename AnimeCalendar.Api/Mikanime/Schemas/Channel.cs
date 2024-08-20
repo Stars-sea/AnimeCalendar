@@ -12,17 +12,19 @@ public partial class Channel : IAnime {
     [XmlElement("link")]
     public string? Link { get; set; }
 
-    [XmlElement("description")] 
+    [XmlElement("description")]
     public string? Description { get; set; }
 
     [XmlElement("item", Type = typeof(Episode))]
     public Episode[]? Items { get; set; }
 
-    [XmlIgnore] public string Name => Title != null 
+    [XmlIgnore]
+    public string Name => Title != null
         ? Title.Replace("Mikan Project - ", "").Replace("搜索结果:", "").Trim()
         : "";
 
-    [XmlIgnore] public int? Id {
+    [XmlIgnore]
+    public int? Id {
         get {
             if (Link != null && BangumiId().Match(Link).Groups.TryGetValue("id", out var id))
                 return int.Parse(id.Value);

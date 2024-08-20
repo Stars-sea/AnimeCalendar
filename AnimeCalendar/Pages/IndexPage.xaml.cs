@@ -49,7 +49,7 @@ public sealed partial class IndexPage : Page {
 
             ignoreSelectionChanged = false; // ±ØÒª²Ù×÷
         }
-        
+
         NavView.Header = title;
         ContentFrame.Navigate(page, param, transitionInfo);
         if (newPage) navigations.Navigate(navigation);
@@ -84,9 +84,9 @@ public sealed partial class IndexPage : Page {
         string[] tags = ((string)container.Tag).Split('#');
 
         Type page = Type.GetType(
-            tags[0].EndsWith("Page") 
+            tags[0].EndsWith("Page")
                 ? $"AnimeCalendar.Pages.{tags[0]}"
-                : $"AnimeCalendar.Pages.{tags[0]}Page", 
+                : $"AnimeCalendar.Pages.{tags[0]}Page",
             true
         )!;
         string? param = tags.Length > 1 ? tags[1] : null;
@@ -101,7 +101,7 @@ public sealed partial class IndexPage : Page {
     private void NavView_PointerPressed(object sender, PointerRoutedEventArgs e) {
         PointerPointProperties properties = e.GetCurrentPoint(NavView).Properties;
 
-        if (properties.IsLeftButtonPressed || 
+        if (properties.IsLeftButtonPressed ||
             properties.IsRightButtonPressed ||
             properties.IsMiddleButtonPressed)
             return;

@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-using System.Diagnostics;
 using System.Text.RegularExpressions;
 
 namespace AnimeCalendar.Api.Converter;
@@ -17,7 +16,7 @@ internal partial class DateOnlyConverter : JsonConverter<DateOnly?> {
         string year  = groups["year"].Value;
         string month = GetGroupValueOrDefault(groups, "month", "1");
         string day   = GetGroupValueOrDefault(groups, "day", "1");
-        
+
         return new DateOnly(int.Parse(year), int.Parse(month), int.Parse(day));
     }
 

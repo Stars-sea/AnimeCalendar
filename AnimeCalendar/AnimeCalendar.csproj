@@ -17,9 +17,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <Content Remove="Assets\Square44x44Logo.targetsize-48.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Remove="Assets\Icon.ico" />
     <None Remove="Assets\Icon.scale-200.png" />
     <None Remove="Assets\LargeTile.scale-200.png" />
@@ -27,17 +24,18 @@
     <None Remove="Assets\SplashScreen.scale-200.png" />
     <None Remove="Assets\Square150x150Logo.scale-200.png" />
     <None Remove="Assets\Square44x44Logo.scale-200.png" />
+    <None Remove="Assets\Square44x44Logo.targetsize-48.png" />
     <None Remove="Assets\StoreLogo.scale-200.png" />
     <None Remove="Assets\Wide310x150Logo.scale-200.png" />
-    <None Remove="Controls\AbstractSubjectTitle.xaml" />
-    <None Remove="Controls\BgmUserInfo.xaml" />
-    <None Remove="Controls\EpCollectionButton.xaml" />
-    <None Remove="Controls\EpisodeInfoCard.xaml" />
-    <None Remove="Controls\ImageCard.xaml" />
+    <None Remove="Controls\Cards\BgmUserCard.xaml" />
+    <None Remove="Controls\Cards\EpisodeInfoCard.xaml" />
+    <None Remove="Controls\Cards\ImageCard.xaml" />
+    <None Remove="Controls\Components\AbstractSubjectTitle.xaml" />
+    <None Remove="Controls\Components\EpCollectionButton.xaml" />
+    <None Remove="Controls\Components\WatchProgressControl.xaml" />
     <None Remove="Controls\MikanimeView.xaml" />
     <None Remove="Controls\SubjectListItem.xaml" />
     <None Remove="Controls\UserCollectionListItem.xaml" />
-    <None Remove="Controls\WatchProgressControl.xaml" />
     <None Remove="Pages\AccountSettingsPage.xaml" />
     <None Remove="Pages\CollectionPage.xaml" />
     <None Remove="Pages\IndexPage.xaml" />
@@ -70,38 +68,62 @@
   <ItemGroup>
     <ProjectReference Include="..\AnimeCalendar.Api\AnimeCalendar.Api.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Page Update="Controls\MikanimeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
   <ItemGroup>
     <Page Update="Controls\SubjectListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\SubjectDetailPage.xaml">
+    <Page Update="Controls\UserCollectionListItem.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\AbstractSubjectTitle.xaml">
+    <Page Update="Controls\SubjectListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Components\AbstractSubjectTitle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\BgmUserInfo.xaml">
+    <Page Update="Controls\Components\EpCollectionButton.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Controls\ImageCard.xaml">
+    <Page Update="Controls\Components\WatchProgressControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Controls\Cards\BgmUserCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\SettingsPage.xaml">
+    <Page Update="Controls\Cards\EpisodeInfoCard.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\TimelinePage.xaml">
+    <Page Update="Controls\Cards\ImageCard.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Pages\AccountSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -111,12 +133,22 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\AccountSettingsPage.xaml">
+    <Page Update="Pages\IndexPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Pages\IndexPage.xaml">
+    <Page Update="Pages\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\SubjectDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Pages\TimelinePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
@@ -129,26 +161,4 @@
   <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
     <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
   </PropertyGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\UserCollectionListItem.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\UserCollectionListItem.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\WatchProgressControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Update="Controls\EpisodeInfoCard.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\MikanimeView.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\MikanimeView.xaml" />
-  </ItemGroup>
 </Project>

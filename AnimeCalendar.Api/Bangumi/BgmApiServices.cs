@@ -1,9 +1,11 @@
-﻿using Newtonsoft.Json.Serialization;
-using Newtonsoft.Json;
-using Refit;
-using AnimeCalendar.Api.Bangumi.Auth;
-using AnimeCalendar.Api.Storage;
+﻿using AnimeCalendar.Api.Bangumi.Auth;
 using AnimeCalendar.Api.Converter;
+using AnimeCalendar.Api.Storage;
+
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+
+using Refit;
 
 namespace AnimeCalendar.Api.Bangumi;
 

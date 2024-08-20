@@ -42,7 +42,7 @@ public sealed partial class MainWindow : Window {
 
         if (info.Duration != System.TimeSpan.Zero) {
             await Task.Delay(info.Duration);
-            infoBar.Translation = new System.Numerics.Vector3(450, 0 , 0);
+            infoBar.Translation = new System.Numerics.Vector3(450, 0, 0);
             await Task.Delay(300);
             InfoQueue.Children.Remove(infoBar);
         }
@@ -51,7 +51,8 @@ public sealed partial class MainWindow : Window {
     private async void MainWindow_Activated(object sender, WindowActivatedEventArgs args) {
         try {
             await BgmUserCache.LoadTokenAsync();
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             Pop(PopInfo.Fail("Bangumi ¡Ó≈∆", "ªÒ»°¡Ó≈∆ ß∞‹", ex));
         }
     }
@@ -66,7 +67,7 @@ public sealed partial class MainWindow : Window {
         if (Visible)
             this.Hide();
         else this.Show();
-       
+
     }
 
     [RelayCommand]

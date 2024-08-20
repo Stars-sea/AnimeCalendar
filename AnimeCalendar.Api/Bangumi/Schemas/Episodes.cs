@@ -31,7 +31,8 @@ public record Episode(
     int         Disc, // 音乐曲目的碟片数
     int         DurationSeconds
 ) {
-    [JsonIgnore] public string EpString {
+    [JsonIgnore]
+    public string EpString {
         get {
             if (Ep % 1 == 0 && Ep < 100)
                 return Ep.ToString("00");

@@ -1,6 +1,6 @@
 using AnimeCalendar.Api.Data;
-using AnimeCalendar.Api.Mikanime.Schemas;
 using AnimeCalendar.Api.Mikanime;
+using AnimeCalendar.Api.Mikanime.Schemas;
 using AnimeCalendar.Controls.Base;
 using AnimeCalendar.UI;
 
@@ -10,10 +10,10 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using System;
-using System.Linq;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AnimeCalendar.Controls;

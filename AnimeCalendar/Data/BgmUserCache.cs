@@ -25,7 +25,7 @@ internal sealed partial class BgmUserCache : ObservableObject {
     public static event Action<User?>? UserChanged;
 
     public static async Task<bool> IsTokenNullOrExpired()
-        => Instance.TokenStorage == null || await Instance.TokenStorage.IsExpired(); 
+        => Instance.TokenStorage == null || await Instance.TokenStorage.IsExpired();
 
     public static async Task LoadTokenAsync() {
         Instance.TokenStorage = await BgmAuthTokenStorage.Load();
@@ -34,10 +34,10 @@ internal sealed partial class BgmUserCache : ObservableObject {
             await Instance.TokenStorage.RefreshTokenAsync();
     }
 
-    public async void UpdateUserAsync() 
+    public async void UpdateUserAsync()
         => User = !await IsTokenNullOrExpired()
             ? await BgmApiServices.UserApi.GetMe()
-            : null; 
+            : null;
 
     partial void OnTokenStorageChanged(IAuthTokenStorage? value) {
         BgmApiServices.UpdateTokenStorage(value);

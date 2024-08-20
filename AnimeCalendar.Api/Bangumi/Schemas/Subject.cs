@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace AnimeCalendar.Api.Bangumi.Schemas;
 
-public enum SubjectType: int {
+public enum SubjectType : int {
     Book    = 1,
     Anime   = 2,
     Music   = 3,
@@ -28,7 +28,7 @@ public record BaseSubject(
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        if (Website == other.Website && Id == other.Id) 
+        if (Website == other.Website && Id == other.Id)
             return true;
         return Website != other.Website &&
             (string.Equals(Name.Trim(), other.Name.Trim()) ||

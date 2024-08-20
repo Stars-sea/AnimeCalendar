@@ -9,7 +9,7 @@ public record Identifier(string Name, int Id) {
 }
 
 public record AnimeIdentifier(string Name, int? Id, Website Website) : IAnime, IEquatable<IAnime> {
-    public AnimeIdentifier(IAnime anime) : this(anime.Name, anime.Id, anime.Website) { } 
+    public AnimeIdentifier(IAnime anime) : this(anime.Name, anime.Id, anime.Website) { }
 
     public bool Equals(IAnime? other) {
         if (other == null) return false;

@@ -11,7 +11,7 @@ public static class AuthService {
 
     private static readonly IAuthApi api = RestService.For<IAuthApi>(AUTH_ADDRESS, ServiceSettings);
 
-    public static Task<AccessTokenResponse> Request(string callbackCode) 
+    public static Task<AccessTokenResponse> Request(string callbackCode)
         => api.RequestToken(new("authorization_code", APP_ID, APP_SECRET, callbackCode, REDIRECT_URI));
 
     public static Task<AccessTokenResponse> Refresh(string refreshToken)

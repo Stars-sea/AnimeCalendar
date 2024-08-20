@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.System;
 
-namespace AnimeCalendar.Controls;
+namespace AnimeCalendar.Controls.Cards;
 
 [ObservableObject]
 public sealed partial class EpisodeInfoCard : UserControl {

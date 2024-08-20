@@ -4,14 +4,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml.Controls;
 
-namespace AnimeCalendar.Controls;
+namespace AnimeCalendar.Controls.Cards;
 
 [ObservableObject]
-public sealed partial class BgmUserInfo : UserControl {
+public sealed partial class BgmUserCard : UserControl {
     [ObservableProperty]
     private User? user;
 
-    public BgmUserInfo() {
+    public BgmUserCard() {
         InitializeComponent();
     }
 }

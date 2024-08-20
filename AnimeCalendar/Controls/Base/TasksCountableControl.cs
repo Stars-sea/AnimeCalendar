@@ -11,5 +11,5 @@ public class TasksCountableControl : UserControl {
 
     public static readonly DependencyProperty RunningTasksCountProperty =
         DependencyProperty.Register("RunningTasksCount", typeof(int),
-            typeof(WatchProgressControl), new PropertyMetadata(0));
+            typeof(TasksCountableControl), new PropertyMetadata(0));
 }

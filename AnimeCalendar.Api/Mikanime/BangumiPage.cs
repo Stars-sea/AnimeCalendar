@@ -13,7 +13,7 @@ public partial class BangumiPage {
 
     public HtmlNode RootNode => Document.DocumentNode;
 
-    internal BangumiPage(HtmlDocument document) { 
+    internal BangumiPage(HtmlDocument document) {
         Document = document;
     }
 

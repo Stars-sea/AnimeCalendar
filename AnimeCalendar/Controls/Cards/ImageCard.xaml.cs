@@ -4,7 +4,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 
-namespace AnimeCalendar.Controls;
+namespace AnimeCalendar.Controls.Cards;
 
 [ObservableObject]
 public sealed partial class ImageCard : ContentControl {

@@ -24,7 +24,7 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
         if (item is not StorageFile file) return null;
 
         string content = await FileIO.ReadTextAsync(file);
-        return JsonConvert.DeserializeObject<AuthToken>(content) switch { 
+        return JsonConvert.DeserializeObject<AuthToken>(content) switch {
             AuthToken token => new BgmAuthTokenStorage(token),
             _               => null
         };
@@ -34,7 +34,7 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
         var response = await AuthService.Request(callbackCode);
 
         var token = AuthToken.Create(response);
-        
+
         BgmAuthTokenStorage storage = new(token);
         await storage.Store();
         return storage;

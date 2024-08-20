@@ -5,11 +5,10 @@ using AnimeCalendar.Controls.Base;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
 
 using System.Collections.Generic;
 
-namespace AnimeCalendar.Controls;
+namespace AnimeCalendar.Controls.Components;
 
 [ObservableObject]
 public sealed partial class WatchProgressControl : TasksCountableControl {

@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-namespace AnimeCalendar.Api.Bangumi.Schemas;
+﻿namespace AnimeCalendar.Api.Bangumi.Schemas;
 
 public enum CollectionType : int {
     Wish    = 1, // 想看

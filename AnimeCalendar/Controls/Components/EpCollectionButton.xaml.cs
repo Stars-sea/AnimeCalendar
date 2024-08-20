@@ -10,7 +10,7 @@ using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Threading.Tasks;
 
-namespace AnimeCalendar.Controls;
+namespace AnimeCalendar.Controls.Components;
 
 [ObservableObject]
 public sealed partial class EpCollectionButton : UserControl {

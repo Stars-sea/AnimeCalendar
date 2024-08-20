@@ -29,7 +29,8 @@ public sealed partial class TimelinePage : Page {
                 cache = await BgmApiServices.SubjectApi.GetCalendar();
             }
             return cache.First(c => c.Weekday.Id == weekday.ToString());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             App.MainWindow.Pop(PopInfo.Fail("新番时间表", "拉取数据失败", ex));
         }
         return null;
@@ -44,7 +45,7 @@ public sealed partial class TimelinePage : Page {
 
         LoadingRing.Visibility = Visibility.Collapsed;
         SubjectList.Visibility = Visibility.Visible;
-        
+
         // TODO: Filter
         SubjectList.ItemsSource = Calendar.Items
             .OrderBy(i => i.Rank == 0 ? int.MaxValue : i.Rank)
