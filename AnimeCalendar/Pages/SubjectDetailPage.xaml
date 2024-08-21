@@ -47,14 +47,20 @@
                     <Image Source="{x:Bind Subject.Images.Common, Mode=OneWay}" MinHeight="260" />
                 </Border>
 
-                <StackPanel Grid.Column="1" Margin="12 0 0 0">
+                <StackPanel Grid.Column="1" Margin="12 0 0 0" Spacing="16">
                     <comp:AbstractSubjectTitle
                         Subject="{x:Bind Subject, Mode=OneWay}"
-                        Wrap="True" IsShowNameCn="True" Padding="0 0 0 16" />
-                    
-                    <comp:WatchProgressControl
-                        Margin="0 0 0 12" SubjectId="{x:Bind Subject.Id, Mode=OneWay}"
+                        Wrap="True" IsShowNameCn="True" />
+
+                    <comp:CollectionStatusSelector
+                        x:Name="CollectionStatusSelector"
+                        SubjectId="{x:Bind Subject.Id, Mode=OneWay}"
                         RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}" />
+
+                    <comp:WatchProgressControl
+                        SubjectId="{x:Bind Subject.Id, Mode=OneWay}"
+                        RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}"
+                        Visibility="{x:Bind CollectionStatusSelector.SubControlVisibility, Mode=OneWay}" />
 
                     <Expander x:Name="Expander" HorizontalAlignment="Stretch"
                               Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">

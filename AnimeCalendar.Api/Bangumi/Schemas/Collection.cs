@@ -23,14 +23,14 @@ public record UserCollection(
 );
 
 
-public record ModifyCollectionRequest(
-    CollectionType? Type,
-    int?            Rate,
-    int?            VolStatus,
-    string?         Comment,
-    bool?           Private,
-    Tag[]?          Tags
-) {
+public class ModifyCollectionRequest {
+    public CollectionType? Type      { get; init; }
+    public int?            Rate      { get; init; }
+    public int?            VolStatus { get; init; }
+    public string?         Comment   { get; init; }
+    public bool?           Private   { get; init; }
+    public Tag[]?          Tags      { get; init; }
+
     [Obsolete("不能修改剧集条目的完成度")]
     public int? EpStatus { get; set; }
 }

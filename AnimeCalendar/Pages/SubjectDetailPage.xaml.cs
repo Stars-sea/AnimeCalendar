@@ -19,44 +19,12 @@ public sealed partial class SubjectDetailPage : Page {
     private int runningTasksCount;
     public bool IsLoading => RunningTasksCount > 0;
 
-    #region Fields & Props
     [ObservableProperty]
     private Subject? subject;
-
-    private string CollectionStatus => SubjectCollection?.Type switch {
-        CollectionType.Do       => "在看",
-        CollectionType.Wish     => "想看",
-        CollectionType.Collect  => "看过",
-        CollectionType.OnHold   => "搁置",
-        CollectionType.Dropped  => "抛弃",
-        _ => ""
-    };
-
-    [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CollectionStatus))]
-    private UserCollection? subjectCollection;
-    #endregion
 
     public SubjectDetailPage() {
         InitializeComponent();
     }
-
-    #region Updaters
-    private async void UpdateSubjectCollection(int subjectId) {
-        if (BgmUserCache.Instance.User == null)
-            return;
-        string username = BgmUserCache.Instance.User.Username;
-
-        RunningTasksCount++;
-        try {
-            SubjectCollection = await BgmApiServices.CollectionApi.GetCollection(username, subjectId);
-        }
-        catch {
-            SubjectCollection = null;
-        }
-        RunningTasksCount--;
-    }
-    #endregion
 
     protected async override void OnNavigatedTo(NavigationEventArgs e) {
         base.OnNavigatedTo(e);
@@ -70,11 +38,4 @@ public sealed partial class SubjectDetailPage : Page {
         }
         RunningTasksCount--;
     }
-
-    #region Listeners
-    partial void OnSubjectChanged(Subject? value) {
-        if (value == null) return;
-        UpdateSubjectCollection(value.Id);
-    }
-    #endregion
 }

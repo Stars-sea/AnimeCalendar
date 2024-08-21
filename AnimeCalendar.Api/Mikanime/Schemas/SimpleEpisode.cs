@@ -22,17 +22,15 @@ public partial record SimpleEpisode(
         get {
             string subgroup = SubgroupRegex().Match(Name).Value;
             var    attrib   = AttributeRegex().Matches(Name.Replace(subgroup, ""))
-                .Select(x => x.Value).Distinct().Where(NotContainsBangumiName);
+                .Select(x => x.Value).Distinct().Where(a => BangumiName != null
+                    ? !BangumiName.Split(' ').Any(s => a.Contains(s))
+                    : true
+                );
             return new string[] { subgroup }.Concat(attrib).ToArray();
         }
     }
 
     public static readonly char[] Brackets = ['[', ']', '(', ')', '（', '）', ' '];
-
-    private bool NotContainsBangumiName(string attr) {
-        if (BangumiName == null) return true;
-        return !BangumiName.Split(' ').Any(s => attr.Contains(s));
-    }
 
     [GeneratedRegex(@"【[^\n/_]+?】|\[[^\n/_]+?\]")]
     private static partial Regex SubgroupRegex();

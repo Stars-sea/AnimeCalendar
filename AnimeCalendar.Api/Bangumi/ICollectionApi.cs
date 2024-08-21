@@ -4,7 +4,10 @@ using Refit;
 
 namespace AnimeCalendar.Api.Bangumi;
 
-[Headers(ModuleSettings.USER_AGENT)]
+[Headers(
+    ModuleSettings.USER_AGENT,
+    "Content-Type: application/json"
+)]
 public interface ICollectionApi {
     [Get("/v0/users/{username}/collections")]
     Task<PagedObject<UserCollection>> GetCollections(
@@ -49,7 +52,6 @@ public interface ICollectionApi {
     [Get("/v0/users/-/collections/-/episodes/{episode_id}")]
     Task<EpCollection> GetEpisode(int episode_id);
 
-    [Headers("Content-Type: application/json")]
     [Put("/v0/users/-/collections/-/episodes/{episode_id}")]
     Task PutEpCollectionType(int episode_id, [Body] ModifyEpRequest _);
 }
