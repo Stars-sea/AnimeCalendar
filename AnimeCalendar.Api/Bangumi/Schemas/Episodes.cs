@@ -34,9 +34,9 @@ public record Episode(
     [JsonIgnore]
     public string EpString {
         get {
-            if (Ep % 1 == 0 && Ep < 100)
-                return Ep.ToString("00");
-            return Ep.ToString();
+            if (Sort % 1 == 0 && Sort < 100)
+                return Sort.ToString("00");
+            return Sort.ToString();
         }
     }
 }

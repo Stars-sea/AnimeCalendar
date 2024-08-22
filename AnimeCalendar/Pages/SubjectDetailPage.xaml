@@ -8,7 +8,7 @@
     xmlns:comp="using:AnimeCalendar.Controls.Components"
     xmlns:bs="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:winui="using:CommunityToolkit.WinUI.Controls"
-    xmlns:converters="using:CommunityToolkit.WinUI.Converters"
+    xmlns:cvrt="using:CommunityToolkit.WinUI.Converters"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -21,7 +21,7 @@
             </Border>
         </DataTemplate>
 
-        <converters:BoolToObjectConverter
+        <cvrt:BoolToObjectConverter
             x:Key="ExpanderHeaderConverter"
             TrueValue="收起标签" FalseValue="展开标签" />
     </Page.Resources>

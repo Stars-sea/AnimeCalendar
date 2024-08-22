@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace AnimeCalendar.UI;
+namespace AnimeCalendar.Data;
 
 internal class NavigationInfoCollection : ObservableCollection<NavigationInfo>, INotifyPropertyChanged {
     private int index = -1;

@@ -2,7 +2,7 @@
 
 using System;
 
-namespace AnimeCalendar.UI;
+namespace AnimeCalendar.Data;
 
 internal record NavigationInfo(
     Type    PageType, 

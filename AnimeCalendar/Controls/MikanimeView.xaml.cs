@@ -2,7 +2,7 @@ using AnimeCalendar.Api.Data;
 using AnimeCalendar.Api.Mikanime;
 using AnimeCalendar.Api.Mikanime.Schemas;
 using AnimeCalendar.Controls.Base;
-using AnimeCalendar.UI;
+using AnimeCalendar.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 

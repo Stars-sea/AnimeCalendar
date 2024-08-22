@@ -4,7 +4,6 @@ using AnimeCalendar.Api.Storage;
 using AnimeCalendar.Controls.Cards;
 using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
-using AnimeCalendar.UI;
 using AnimeCalendar.Utils;
 
 using Microsoft.UI.Xaml;

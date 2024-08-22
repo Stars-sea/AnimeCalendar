@@ -1,4 +1,4 @@
-using AnimeCalendar.UI;
+using AnimeCalendar.Data;
 
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml.Controls;

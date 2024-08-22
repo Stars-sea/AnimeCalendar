@@ -103,5 +103,5 @@ public sealed record Subject(
     bool        Locked,
     string      Platform,
     Infobox[]   Infobox,
-    int         TotleEpisodes
+    int         TotalEpisodes
 ) : AbstractSubject(Id, Type, Name, NameCn, Summary, Rating, Images, Collection);

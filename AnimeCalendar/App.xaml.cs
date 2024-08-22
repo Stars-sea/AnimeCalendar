@@ -1,5 +1,4 @@
 ﻿using AnimeCalendar.Data;
-using AnimeCalendar.UI;
 
 using H.NotifyIcon;
 

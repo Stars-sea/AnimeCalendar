@@ -1,5 +1,5 @@
 using AnimeCalendar.Api.Mikanime.Schemas;
-using AnimeCalendar.UI;
+using AnimeCalendar.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;

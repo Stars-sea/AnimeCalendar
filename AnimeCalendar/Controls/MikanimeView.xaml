@@ -7,7 +7,7 @@
     xmlns:base="using:AnimeCalendar.Controls.Base"
     xmlns:card="using:AnimeCalendar.Controls.Cards"
     xmlns:ms="using:AnimeCalendar.Api.Mikanime.Schemas"
-    xmlns:wcontrols="using:CommunityToolkit.WinUI.Controls"
+    xmlns:controls="using:CommunityToolkit.WinUI.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -38,7 +38,7 @@
                           SelectionChanged="OnSelectedSubgroupChanged" />
             </StackPanel>
 
-            <wcontrols:TokenizingTextBox
+            <controls:TokenizingTextBox
                 Grid.Column="1" x:Name="AttributeSelector" VerticalAlignment="Center"
                 ItemsSource="{x:Bind SelectedAttributes, Mode=TwoWay}"
                 IsItemClickEnabled="False" Visibility="Collapsed"
