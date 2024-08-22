@@ -6,6 +6,7 @@
     xmlns:local="using:AnimeCalendar.Pages"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:controls="using:AnimeCalendar.Controls"
+    xmlns:comp="using:AnimeCalendar.Controls.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -13,7 +14,9 @@
     <Page.Resources>
         <DataTemplate x:Key="AirSubjectTemplate" x:DataType="schemas:AbstractSubject">
             <ItemContainer Margin="8 4 24 4">
-                <controls:SubjectListItem x:Name="Item" Subject="{x:Bind}" />
+                <controls:SubjectListItem Subject="{x:Bind}">
+                    <comp:CollectionStatusTag SubjectId="{x:Bind Id}" HorizontalAlignment="Left" />
+                </controls:SubjectListItem>
             </ItemContainer>
         </DataTemplate>
     </Page.Resources>

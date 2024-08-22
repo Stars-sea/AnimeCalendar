@@ -13,14 +13,6 @@ namespace AnimeCalendar.Controls.Components;
 
 [ObservableObject]
 public sealed partial class CollectionStatusSelector : TasksCountableControl {
-    private readonly CollectionStatus[] Statuses = [
-        new("在看", CollectionType.Do),
-        new("想看", CollectionType.Wish),
-        new("看过", CollectionType.Collect),
-        new("搁置", CollectionType.OnHold),
-        new("抛弃", CollectionType.Dropped)
-    ];
-
     [ObservableProperty]
     private int subjectId;
 
@@ -28,7 +20,7 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl {
     [NotifyPropertyChangedFor(nameof(SubControlVisibility))]
     private CollectionStatus? collectionStatus;
 
-    public Visibility SubControlVisibility 
+    private Visibility SubControlVisibility 
         => CollectionStatus == null
             ? Visibility.Collapsed
             : Visibility.Visible;
@@ -47,7 +39,7 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl {
         RunningTasksCount++;
         try {
             var collection = await BgmApiServices.CollectionApi.GetCollection(username, SubjectId);
-            CollectionStatus = Statuses.FirstOrDefault(t => t.Type == collection.Type);
+            CollectionStatus = CollectionStatus.Wrap(collection.Type);
         }
         catch {
             CollectionStatus = null;

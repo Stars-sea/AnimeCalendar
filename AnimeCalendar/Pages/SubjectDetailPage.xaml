@@ -57,8 +57,7 @@
 
                     <comp:WatchProgressControl
                         SubjectId="{x:Bind Subject.Id, Mode=OneWay}"
-                        RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}"
-                        Visibility="{x:Bind CollectionStatusSelector.SubControlVisibility, Mode=OneWay}" />
+                        RunningTasksCount="{x:Bind RunningTasksCount, Mode=TwoWay}" />
 
                     <Expander x:Name="Expander" HorizontalAlignment="Stretch"
                               Header="{x:Bind Expander.IsExpanded, Mode=OneWay, Converter={StaticResource ExpanderHeaderConverter}}">

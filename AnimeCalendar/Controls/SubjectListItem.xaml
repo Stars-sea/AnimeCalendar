@@ -23,7 +23,7 @@
                     <Image Source="{x:Bind Subject.Images.Common, Mode=OneWay}" CacheMode="BitmapCache" />
                 </Border>
 
-                <StackPanel Grid.Column="1" Margin="12 0">
+                <StackPanel Grid.Column="1" Margin="12 0" Spacing="8">
                     <comp:AbstractSubjectTitle Subject="{x:Bind Subject, Mode=OneWay}" />
                     
                     <ContentPresenter />
