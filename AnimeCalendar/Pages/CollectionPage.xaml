@@ -18,8 +18,6 @@
                 <controls:UserCollectionListItem Collection="{x:Bind}" />
             </ListViewItem>
         </DataTemplate>
-
-        <converters:BoolToVisibilityConverter x:Name="VisibilityConverter" />
     </Page.Resources>
 
     <Grid Padding="36 0 0 0">

@@ -24,8 +24,6 @@
         <converters:BoolToObjectConverter
             x:Key="ExpanderHeaderConverter"
             TrueValue="收起标签" FalseValue="展开标签" />
-
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
     <ScrollView>
@@ -33,7 +31,7 @@
             <Border Height="3">
                 <ProgressBar
                     IsIndeterminate="{x:Bind IsLoading, Mode=OneWay}"
-                    Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                    Visibility="{x:Bind IsLoading, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
             </Border>
             
             <Grid Padding="36 36 36 0">

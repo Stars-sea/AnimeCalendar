@@ -2,6 +2,7 @@ using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Controls.Base;
 using AnimeCalendar.Data;
+using AnimeCalendar.UI;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -70,9 +71,8 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl {
         => Visibility = obj == null ? Visibility.Collapsed : Visibility.Visible;
 
     private void CancelCollectionClick(object sender, RoutedEventArgs e) {
-        // TODO
-        CollectionStatus = null;
-        UploadCollectionType(null);
+        // TODO: see https://github.com/bangumi/server/pull/556
+        App.MainWindow.Pop(PopInfo.Info("无法操作", "Bangumi API 尚不支持此操作, 请转到网页操作"));
     }
 
     partial void OnSubjectIdChanged(int value) => DownloadCollectionType();

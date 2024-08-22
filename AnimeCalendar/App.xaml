@@ -14,7 +14,7 @@
             
             <!-- Other app resources here -->
             <converters:StringFormatConverter x:Key="FormatConverter" />
-            
+            <converters:BoolToVisibilityConverter x:Name="VisibilityConverter" />
         </ResourceDictionary>
     </Application.Resources>
 </Application>

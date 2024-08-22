@@ -11,10 +11,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </UserControl.Resources>
-
     <Grid Padding="16" CornerRadius="{ThemeResource ControlCornerRadius}"
           Background="{ThemeResource CardBackgroundFillColorDefault}">
         <Grid.ColumnDefinitions>
@@ -26,10 +22,10 @@
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                        Text="{x:Bind Episode.PureName, Mode=OneWay}" TextWrapping="NoWrap"
                        ToolTipService.ToolTip="{x:Bind Episode.Name, Mode=OneWay}"
-                       Visibility="{x:Bind IsShowPureName, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=False}" />
+                       Visibility="{x:Bind IsShowPureName, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=False}" />
             <TextBlock Style="{ThemeResource BodyTextBlockStyle}"
                        Text="{x:Bind Episode.Name, Mode=OneWay}" TextWrapping="NoWrap"
-                       Visibility="{x:Bind IsShowPureName, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=True}" />
+                       Visibility="{x:Bind IsShowPureName, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}" />
 
             <controls:MetadataControl
                 Separator="  " FontSize="12"

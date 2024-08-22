@@ -1,9 +1,14 @@
 using AnimeCalendar.Api.Bangumi.Schemas;
+using AnimeCalendar.UI;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+
+using System;
+
+using Windows.System;
 
 namespace AnimeCalendar.Controls.Components;
 
@@ -27,6 +32,14 @@ public sealed partial class AbstractSubjectTitle : UserControl {
 
     public AbstractSubjectTitle() {
         InitializeComponent();
+    }
+
+    private async void HyperlinkButton_Click(object sender, RoutedEventArgs e) {
+        try {
+            await Launcher.LaunchUriAsync(new($"https://bgm.tv/subject/{Subject!.Id}"));
+        } catch (Exception ex) {
+            App.MainWindow.Pop(PopInfo.Fail(ex));
+        }
     }
 
     partial void OnSubjectChanged(AbstractSubject? value) {
