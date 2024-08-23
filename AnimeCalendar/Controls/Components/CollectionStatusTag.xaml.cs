@@ -3,6 +3,8 @@ using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -10,7 +12,7 @@ using Microsoft.UI.Xaml.Controls;
 namespace AnimeCalendar.Controls.Components;
 
 [ObservableObject]
-public sealed partial class CollectionStatusTag : UserControl {
+public sealed partial class CollectionStatusTag : UserControl, IRecipient<PropertyChangedMessage<User?>> {
     [ObservableProperty]
     private int subjectId;
 
@@ -29,8 +31,7 @@ public sealed partial class CollectionStatusTag : UserControl {
 
     public CollectionStatusTag() {
         InitializeComponent();
-        Loaded                   += CollectionStatusTag_Loaded;
-        BgmUserCache.UserChanged += BgmUserCache_UserChanged;
+        Loaded += CollectionStatusTag_Loaded;
     }
 
     private async void UpdateStatus() {
@@ -44,15 +45,15 @@ public sealed partial class CollectionStatusTag : UserControl {
         } catch { }
     }
 
-    private void CollectionStatusTag_Loaded(object sender, RoutedEventArgs e) {
-        BgmUserCache_UserChanged(BgmUserCache.Instance.User);
-    }
-
-    private void BgmUserCache_UserChanged(User? obj) {
-        Visibility = obj == null
+    private void CollectionStatusTag_Loaded(object sender, RoutedEventArgs e)
+        => Visibility = BgmUserCache.Instance.User == null
             ? Visibility.Collapsed
             : Visibility.Visible;
-    }
+
+    public void Receive(PropertyChangedMessage<User?> message)
+        => Visibility = message.NewValue == null
+            ? Visibility.Collapsed
+            : Visibility.Visible;
 
     partial void OnSubjectIdChanged(int value) => UpdateStatus();
 }

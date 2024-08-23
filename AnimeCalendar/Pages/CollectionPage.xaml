@@ -23,7 +23,7 @@
     </Page.Resources>
 
     <Grid Padding="36 0 0 0">
-        <Grid Visibility="{x:Bind LoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
+        <Grid Visibility="{x:Bind IsLoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="1*" />
@@ -50,7 +50,7 @@
 
         <StackPanel
             VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16"
-            Visibility="{x:Bind LoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}">
+            Visibility="{x:Bind IsLoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}">
             <TextBlock Text="无法获取用户信息, 请先登录" Style="{ThemeResource SubtitleTextBlockStyle}" />
             <Button Click="OnLoginButtonClick" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" >

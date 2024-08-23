@@ -5,12 +5,11 @@ using AnimeCalendar.Storage;
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-using System;
 using System.Threading.Tasks;
 
 namespace AnimeCalendar.Data;
 
-internal sealed partial class BgmUserCache : ObservableObject {
+internal sealed partial class BgmUserCache : ObservableRecipient {
     public static readonly BgmUserCache Instance = new();
 
     private BgmUserCache() { }
@@ -20,9 +19,6 @@ internal sealed partial class BgmUserCache : ObservableObject {
 
     [ObservableProperty]
     private User? user;
-
-    public static event Action<IAuthTokenStorage?>? TokenChanged;
-    public static event Action<User?>? UserChanged;
 
     public static async Task<bool> IsTokenNullOrExpired()
         => Instance.TokenStorage == null || await Instance.TokenStorage.IsExpired();
@@ -39,13 +35,14 @@ internal sealed partial class BgmUserCache : ObservableObject {
             ? await BgmApiServices.UserApi.GetMe()
             : null;
 
-    partial void OnTokenStorageChanged(IAuthTokenStorage? value) {
-        BgmApiServices.UpdateTokenStorage(value);
+    partial void OnTokenStorageChanged(IAuthTokenStorage? oldValue, IAuthTokenStorage? newValue) {
+        BgmApiServices.UpdateTokenStorage(newValue);
+
+        Broadcast(oldValue, newValue, nameof(TokenStorage));
 
         UpdateUserAsync();
-
-        TokenChanged?.Invoke(value);
     }
 
-    partial void OnUserChanged(User? value) => UserChanged?.Invoke(value);
+    partial void OnUserChanged(User? oldValue, User? newValue)
+        => Broadcast(oldValue, newValue, nameof(User));
 }

@@ -3,6 +3,8 @@ using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -13,11 +15,11 @@ using System.Linq;
 namespace AnimeCalendar.Pages;
 
 [ObservableObject]
-public sealed partial class CollectionPage : Page {
+public sealed partial class CollectionPage : Page, IRecipient<PropertyChangedMessage<User?>> {
     [ObservableProperty]
     private IEnumerable<UserCollection> collections = [];
 
-    private bool LoggedIn => BgmUserCache.Instance.User != null;
+    private bool IsLoggedIn => BgmUserCache.Instance.User != null;
 
     private bool isFetchingData;
     public bool IsFetchingData {
@@ -29,17 +31,20 @@ public sealed partial class CollectionPage : Page {
         InitializeComponent();
     }
 
+    public void Receive(PropertyChangedMessage<User?> message)
+        => OnPropertyChanged(nameof(IsLoggedIn));
+
     private async void SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args) {
         var type = (CollectionType)int.Parse((string)sender.SelectedItem.Tag);
 
         IsFetchingData = true;
-
         Collections = [];
+
         User user = BgmUserCache.Instance.User!;
-        var pagedCollections = await BgmApiServices.CollectionApi.GetCollections(user.Username, type: type);
+        var collections = await BgmApiServices.CollectionApi.GetCollections(user.Username, type: type);
 
         IsFetchingData = false;
-        Collections = pagedCollections.Data;
+        Collections = collections.Data;
     }
 
     private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) {

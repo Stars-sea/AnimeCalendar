@@ -6,6 +6,9 @@ using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
 using AnimeCalendar.Utils;
 
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media.Imaging;
@@ -16,13 +19,15 @@ using System.Threading.Tasks;
 
 namespace AnimeCalendar.Pages;
 
-public sealed partial class AccountSettingsPage : Page {
+public sealed partial class AccountSettingsPage : Page, IRecipient<PropertyChangedMessage<User?>> {
     public AccountSettingsPage() {
         InitializeComponent();
 
-        Loaded   += AccountSettingsPage_Loaded;
-        Unloaded += AccountSettingsPage_Unloaded;
+        Loaded += AccountSettingsPage_Loaded;
     }
+
+    public void Receive(PropertyChangedMessage<User?> message)
+        => OnBgmUserChanged(message.NewValue);
 
     private void OnBgmUserChanged(User? value) {
         if (value == null) {
@@ -71,16 +76,8 @@ public sealed partial class AccountSettingsPage : Page {
         return null;
     }
 
-    private void AccountSettingsPage_Loaded(object sender, RoutedEventArgs e) {
-        OnBgmUserChanged(BgmUserCache.Instance.User);
-
-        BgmUserCache.UserChanged += OnBgmUserChanged;
-        BgmUserCache.Instance.UpdateUserAsync();
-    }
-
-    private void AccountSettingsPage_Unloaded(object sender, RoutedEventArgs e) {
-        BgmUserCache.UserChanged -= OnBgmUserChanged;
-    }
+    private void AccountSettingsPage_Loaded(object sender, RoutedEventArgs e)
+        => OnBgmUserChanged(BgmUserCache.Instance.User);
 
     private async void BangumiLoginCard_Click(object sender, RoutedEventArgs e) {
         BgmUserCache cache = BgmUserCache.Instance;

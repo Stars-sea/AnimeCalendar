@@ -4,15 +4,15 @@ using AnimeCalendar.Controls.Base;
 using AnimeCalendar.Data;
 
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 using Microsoft.UI.Xaml;
-
-using System.Linq;
 
 namespace AnimeCalendar.Controls.Components;
 
 [ObservableObject]
-public sealed partial class CollectionStatusSelector : TasksCountableControl {
+public sealed partial class CollectionStatusSelector : TasksCountableControl, IRecipient<PropertyChangedMessage<User?>> {
     [ObservableProperty]
     private int subjectId;
 
@@ -27,8 +27,7 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl {
 
     public CollectionStatusSelector() {
         InitializeComponent();
-        Loaded                   += OnLoaded;
-        BgmUserCache.UserChanged += BgmUserCache_UserChanged;
+        Loaded += OnLoaded;
     }
 
     private async void DownloadCollectionType() {
@@ -56,10 +55,14 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl {
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
-        => BgmUserCache_UserChanged(BgmUserCache.Instance.User);
+        => Visibility = BgmUserCache.Instance.User == null
+            ? Visibility.Collapsed 
+            : Visibility.Visible;
 
-    private void BgmUserCache_UserChanged(User? obj)
-        => Visibility = obj == null ? Visibility.Collapsed : Visibility.Visible;
+    public void Receive(PropertyChangedMessage<User?> message)
+        => Visibility = message.NewValue == null
+            ? Visibility.Collapsed
+            : Visibility.Visible;
 
     private void CancelCollectionClick(object sender, RoutedEventArgs e) {
         // TODO: see https://github.com/bangumi/server/pull/556
