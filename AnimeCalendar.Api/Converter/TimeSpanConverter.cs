@@ -14,7 +14,7 @@ internal partial class TimeSpanConverter : JsonConverter<TimeSpan?> {
 
         if ((match = NormalRegex().Match(value)).Success) {
             GroupCollection groups = match.Groups;
-            hours   = int.Parse(groups.Values.FirstOrDefault(g => g.Name == "h")?.Value ?? "0");
+            hours   = int.Parse(groups.GetValueOrDefault("h", "0"));
             minutes = int.Parse(groups["m"].Value);
             seconds = int.Parse(groups["s"].Value);
         }

@@ -24,6 +24,9 @@ public partial class Channel : IAnime {
         : "";
 
     [XmlIgnore]
+    public string AutoName => Name;
+
+    [XmlIgnore]
     public int? Id {
         get {
             if (Link != null && BangumiId().Match(Link).Groups.TryGetValue("id", out var id))

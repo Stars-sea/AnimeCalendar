@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AnimeCalendar.Pages;
 
@@ -41,7 +42,15 @@ public sealed partial class CollectionPage : Page {
         Collections = pagedCollections.Data;
     }
 
-    private void LoginButtonClick(object sender, RoutedEventArgs e) {
+    private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) {
+        var collection = e.AddedItems.FirstOrDefault() as UserCollection;
+        if (collection == null) return;
+
+        NavigationInfo navigation = new(typeof(SubjectDetailPage), null, collection.SubjectId, null);
+        IndexPage.Current!.Navigate(navigation);
+    }
+
+    private void OnLoginButtonClick(object sender, RoutedEventArgs e) {
         NavigationInfo navigation = new(typeof(AccountSettingsPage), null, null, "AccountSettings");
         IndexPage.Current!.Navigate(navigation, false);
     }

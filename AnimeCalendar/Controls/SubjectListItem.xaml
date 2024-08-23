@@ -20,11 +20,11 @@
 
                 <Border Grid.Column="0" Background="{ThemeResource CardBackgroundFillColorDefault}"
                         CornerRadius="{ThemeResource ControlCornerRadius}" HorizontalAlignment="Center">
-                    <Image Source="{x:Bind Subject.Images.Common, Mode=OneWay}" CacheMode="BitmapCache" />
+                    <Image Source="{x:Bind Subject.Images.Small, Mode=OneWay}" />
                 </Border>
 
                 <StackPanel Grid.Column="1" Margin="12 0" Spacing="8">
-                    <comp:AbstractSubjectTitle Subject="{x:Bind Subject, Mode=OneWay}" />
+                    <comp:RatedAnimeTitle Anime="{x:Bind Subject, Mode=OneWay}" />
                     
                     <ContentPresenter />
                 </StackPanel>

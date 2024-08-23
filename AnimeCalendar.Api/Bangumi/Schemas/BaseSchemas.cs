@@ -12,7 +12,7 @@ public record Infobox(string Key, object Value);
 
 public record RatingType(
     int     Rank,
-    int     Totle,
+    int     Total,
     float   Score,
     IReadOnlyDictionary<string, int> Count
 );

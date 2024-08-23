@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
     xmlns:controls="using:AnimeCalendar.Controls"
+    xmlns:comp="using:AnimeCalendar.Controls.Components"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -14,7 +15,9 @@
     <Page.Resources>
         <DataTemplate x:Key="CollectionItemTemplate" x:DataType="schemas:UserCollection">
             <ListViewItem Margin="0 2 20 2" Padding="4 2">
-                <controls:UserCollectionListItem Collection="{x:Bind}" />
+                <controls:UserCollectionListItem Collection="{x:Bind}">
+                    <comp:WatchProgressControl SubjectId="{x:Bind SubjectId}" />
+                </controls:UserCollectionListItem>
             </ListViewItem>
         </DataTemplate>
     </Page.Resources>
@@ -34,11 +37,12 @@
                 <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
             </SelectorBar>
 
-            <ScrollView Grid.Row="1" x:Name="ScrollView" VerticalContentAlignment="Stretch">
-                <StackPanel Margin="8 0 36 0">
+            <ScrollView Grid.Row="1">
+                <StackPanel Margin="8 0 36 0" VerticalAlignment="Center">
                     <ProgressRing Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}}" />
                     <ListView
-                        SelectionMode="Single" ItemsSource="{x:Bind Collections, Mode=OneWay}" ItemTemplate="{StaticResource CollectionItemTemplate}"
+                        SelectionMode="Single" SelectionChanged="OnSelectionChanged"
+                        ItemsSource="{x:Bind Collections, Mode=OneWay}" ItemTemplate="{StaticResource CollectionItemTemplate}"
                         Visibility="{x:Bind IsFetchingData, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}" />
                 </StackPanel>
             </ScrollView>
@@ -48,7 +52,7 @@
             VerticalAlignment="Center" HorizontalAlignment="Center" Spacing="16"
             Visibility="{x:Bind LoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}, ConverterParameter=True}">
             <TextBlock Text="无法获取用户信息, 请先登录" Style="{ThemeResource SubtitleTextBlockStyle}" />
-            <Button Click="LoginButtonClick" HorizontalAlignment="Center">
+            <Button Click="OnLoginButtonClick" HorizontalAlignment="Center">
                 <StackPanel Orientation="Horizontal" >
                     <TextBlock Text="登录" />
                     <Viewbox Height="16" Margin="8 0 0 0">

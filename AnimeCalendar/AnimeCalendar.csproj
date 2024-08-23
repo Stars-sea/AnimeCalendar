@@ -30,10 +30,10 @@
     <None Remove="Controls\Cards\BgmUserCard.xaml" />
     <None Remove="Controls\Cards\EpisodeInfoCard.xaml" />
     <None Remove="Controls\Cards\ImageCard.xaml" />
-    <None Remove="Controls\Components\AbstractSubjectTitle.xaml" />
     <None Remove="Controls\Components\CollectionStatusSelector.xaml" />
     <None Remove="Controls\Components\CollectionStatusTag.xaml" />
     <None Remove="Controls\Components\EpCollectionButton.xaml" />
+    <None Remove="Controls\Components\RatedAnimeTitle.xaml" />
     <None Remove="Controls\Components\WatchProgressControl.xaml" />
     <None Remove="Controls\MikanimeView.xaml" />
     <None Remove="Controls\SubjectListItem.xaml" />
@@ -92,7 +92,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="Controls\Components\AbstractSubjectTitle.xaml">
+    <Page Update="Controls\Components\RatedAnimeTitle.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

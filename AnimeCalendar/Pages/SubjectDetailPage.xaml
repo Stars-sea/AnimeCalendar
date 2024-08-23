@@ -16,7 +16,7 @@
     <Page.Resources>
         <DataTemplate x:Key="TagTemplate" x:DataType="bs:Tag">
             <Border Padding="4 0" CornerRadius="{ThemeResource ControlCornerRadius}"
-            Background="{ThemeResource SystemColorHotlightColor}">
+                    Background="{ThemeResource SystemColorHotlightColor}">
                 <TextBlock Style="{ThemeResource BodyTextBlockStyle}" Text="{x:Bind Name}" />
             </Border>
         </DataTemplate>
@@ -46,9 +46,9 @@
                 </Border>
 
                 <StackPanel Grid.Column="1" Margin="12 0 0 0" Spacing="16">
-                    <comp:AbstractSubjectTitle
-                        Subject="{x:Bind Subject, Mode=OneWay}"
-                        Wrap="True" IsShowNameCn="True" />
+                    <comp:RatedAnimeTitle
+                        Anime="{x:Bind Subject, Mode=OneWay}" IsWrap="True"
+                        IsShowAutoName="True" IsShowHyperlink="True" />
 
                     <comp:CollectionStatusSelector
                         x:Name="CollectionStatusSelector"

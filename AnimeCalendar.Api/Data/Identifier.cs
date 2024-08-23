@@ -11,6 +11,8 @@ public record Identifier(string Name, int Id) {
 public record AnimeIdentifier(string Name, int? Id, Website Website) : IAnime, IEquatable<IAnime> {
     public AnimeIdentifier(IAnime anime) : this(anime.Name, anime.Id, anime.Website) { }
 
+    public string AutoName => Name;
+
     public bool Equals(IAnime? other) {
         if (other == null) return false;
         if (Equals(this, other)) return true;
