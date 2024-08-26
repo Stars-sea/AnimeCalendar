@@ -16,6 +16,7 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
     public static StorageFolder StorageFolder => ApplicationData.Current.LocalFolder;
 
     private AuthToken AuthToken { get; set; }
+    public  bool      IsDeleted { get; private set; }
 
     private BgmAuthTokenStorage(AuthToken token) => AuthToken = token;
 
@@ -48,7 +49,7 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
         return response.Expires;
     }
 
-    Task<bool> IAuthTokenStorage.IsExpired() => Task.FromResult(AuthToken.IsExpired());
+    Task<bool> IAuthTokenStorage.IsExpired() => Task.FromResult(IsDeleted || AuthToken.IsExpired());
 
     public Task<string?> GetTokenAsync()
         => Task.FromResult(AuthToken?.AccessToken);
@@ -76,5 +77,13 @@ internal sealed class BgmAuthTokenStorage : IAuthTokenStorage {
         await FileIO.WriteTextAsync(file, content);
 
         return true;
+    }
+
+    public async Task<bool> Delete() {
+        IStorageItem? item = await StorageFolder.TryGetItemAsync(FILE_NAME);
+        if (item != null)
+            await item.DeleteAsync(StorageDeleteOption.PermanentDelete);
+        IsDeleted = item == null || StorageFolder.TryGetItemAsync(FILE_NAME) == null;
+        return IsDeleted;
     }
 }

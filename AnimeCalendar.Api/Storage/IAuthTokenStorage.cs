@@ -22,4 +22,6 @@ public interface IAuthTokenStorage {
     }
 
     Task<bool> Store();
+
+    Task<bool> Delete();
 }

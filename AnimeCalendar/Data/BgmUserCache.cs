@@ -26,8 +26,17 @@ internal sealed partial class BgmUserCache : ObservableRecipient {
     public static async Task LoadTokenAsync() {
         Instance.TokenStorage = await BgmAuthTokenStorage.Load();
 
-        if (Instance.TokenStorage != null && await Instance.TokenStorage.IsExpired())
-            await Instance.TokenStorage.RefreshTokenAsync();
+        try {
+            if (Instance.TokenStorage != null && await Instance.TokenStorage.IsExpired())
+                await Instance.TokenStorage.RefreshTokenAsync();
+        }
+        catch {
+            if (Instance.TokenStorage != null) {
+                await Instance.TokenStorage.Delete();
+                Instance.TokenStorage = null;
+            }
+            throw;
+        }
     }
 
     public async void UpdateUserAsync()
