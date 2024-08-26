@@ -51,12 +51,12 @@ public sealed partial class CollectionPage : Page, IRecipient<PropertyChangedMes
         var collection = e.AddedItems.FirstOrDefault() as UserCollection;
         if (collection == null) return;
 
-        NavigationInfo navigation = new(typeof(SubjectDetailPage), null, collection.SubjectId, null);
+        NavigationInfo navigation = new(typeof(SubjectDetailPage), collection.SubjectId, null);
         IndexPage.Current!.Navigate(navigation);
     }
 
     private void OnLoginButtonClick(object sender, RoutedEventArgs e) {
-        NavigationInfo navigation = new(typeof(AccountSettingsPage), null, null, "AccountSettings");
+        NavigationInfo navigation = new(typeof(AccountSettingsPage), null, "AccountSettings");
         IndexPage.Current!.Navigate(navigation, false);
     }
 }

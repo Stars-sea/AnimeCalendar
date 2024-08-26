@@ -22,20 +22,24 @@
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Padding="36 0 0 0">
+    <Grid Padding="36 36 0 0">
         <Grid Visibility="{x:Bind IsLoggedIn, Mode=OneWay, Converter={StaticResource VisibilityConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="1*" />
             </Grid.RowDefinitions>
         
-            <SelectorBar Grid.Row="0" SelectionChanged="SelectorBar_SelectionChanged">
-                <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="3" IsSelected="True" />
-                <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="1" />
-                <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="2" />
-                <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="4" />
-                <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
-            </SelectorBar>
+            <StackPanel Grid.Row="0" Spacing="8">
+                <TextBlock Text="收藏" Margin="12 0" Style="{ThemeResource TitleTextBlockStyle}" />
+                
+                <SelectorBar SelectionChanged="SelectorBar_SelectionChanged">
+                    <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="3" IsSelected="True" />
+                    <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="1" />
+                    <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="2" />
+                    <SelectorBarItem Text="搁置" Icon="{ui:FontIcon Glyph=&#xE777;}" Tag="4" />
+                    <SelectorBarItem Text="抛弃" Icon="{ui:FontIcon Glyph=&#xEA92;}" Tag="5" />
+                </SelectorBar>
+            </StackPanel>
 
             <ScrollView Grid.Row="1">
                 <StackPanel Margin="8 0 36 0" VerticalAlignment="Center">

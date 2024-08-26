@@ -6,7 +6,7 @@
     xmlns:local="using:AnimeCalendar.Pages"
     xmlns:schemas="using:AnimeCalendar.Api.Bangumi.Schemas"
     xmlns:controls="using:AnimeCalendar.Controls"
-    xmlns:comp="using:AnimeCalendar.Controls.Components"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -14,18 +14,35 @@
     <Page.Resources>
         <DataTemplate x:Key="AirSubjectTemplate" x:DataType="schemas:AbstractSubject">
             <ItemContainer Margin="8 4 24 4">
-                <controls:SubjectListItem Subject="{x:Bind}">
-                    <comp:CollectionStatusTag SubjectId="{x:Bind Id}" HorizontalAlignment="Left" />
-                </controls:SubjectListItem>
+                <controls:SubjectListItem Subject="{x:Bind}" />
             </ItemContainer>
         </DataTemplate>
     </Page.Resources>
 
-    <Grid Padding="36 0 0 0">
-        <ItemsView x:Name="SubjectList" SelectionMode="Single"
+    <Grid Padding="36 36 0 0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        
+        <Grid Padding="8 0 24 8">
+            <TextBlock Text="{x:Bind WeekdayCn}" Style="{ThemeResource TitleTextBlockStyle}" />
+            
+            <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{ui:SymbolIcon FontSize=16, Symbol=Setting}">
+                <Button.Flyout>
+                    <Flyout Placement="BottomEdgeAlignedRight">
+                        <ToggleSwitch
+                            Toggled="ToggleSwitch_Toggled"
+                            OnContent="展示收藏" OffContent="展示全部" />
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+        </Grid>
+        
+        <ItemsView x:Name="SubjectList" Grid.Row="1" SelectionMode="Single"
                    ItemTemplate="{StaticResource AirSubjectTemplate}"
                    SelectionChanged="SubjectList_SelectionChanged" />
         
-        <ProgressRing x:Name="LoadingRing" />
+        <ProgressRing x:Name="LoadingRing" Grid.Row="1" />
     </Grid>
 </Page>

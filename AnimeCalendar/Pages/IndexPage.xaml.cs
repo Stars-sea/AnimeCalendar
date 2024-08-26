@@ -33,7 +33,7 @@ public sealed partial class IndexPage : Page {
     }
 
     internal void Navigate(NavigationInfo navigation, bool newPage = true) {
-        var (page, title, param, tag, transitionInfo) = navigation;
+        var (page, param, tag, transitionInfo) = navigation;
 
         if (tag is string itemTag) {
             ignoreSelectionChanged = true;
@@ -50,7 +50,6 @@ public sealed partial class IndexPage : Page {
             ignoreSelectionChanged = false; // ±ØÒª²Ù×÷
         }
 
-        NavView.Header = title;
         ContentFrame.Navigate(page, param, transitionInfo);
         if (newPage) navigations.Navigate(navigation);
     }
@@ -91,7 +90,7 @@ public sealed partial class IndexPage : Page {
         )!;
         string? param = tags.Length > 1 ? tags[1] : null;
 
-        Navigate(new NavigationInfo(page, (string)container.Content, param, null));
+        Navigate(new NavigationInfo(page, param, null));
     }
 
     private void NavView_BackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) {

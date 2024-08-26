@@ -20,6 +20,8 @@ public class ApiTestSetup : IAuthTokenStorage {
 
     public Task<bool> Store() => Task.FromResult(true);
 
+    public Task<bool> Delete() => Task.FromResult(false);
+
     static ApiTestSetup() {
         BgmApiServices.UpdateTokenStorage(new ApiTestSetup());
 

@@ -31,7 +31,6 @@
     <None Remove="Controls\Cards\EpisodeInfoCard.xaml" />
     <None Remove="Controls\Cards\ImageCard.xaml" />
     <None Remove="Controls\Components\CollectionStatusSelector.xaml" />
-    <None Remove="Controls\Components\CollectionStatusTag.xaml" />
     <None Remove="Controls\Components\EpCollectionButton.xaml" />
     <None Remove="Controls\Components\RatedAnimeTitle.xaml" />
     <None Remove="Controls\Components\WatchProgressControl.xaml" />
@@ -167,11 +166,5 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Remove="Controls\Components\CollectionStatusSelector.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <CustomAdditionalCompileInputs Remove="Controls\Components\CollectionStatusTag.xaml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Remove="Controls\Components\CollectionStatusTag.xaml" />
   </ItemGroup>
 </Project>
