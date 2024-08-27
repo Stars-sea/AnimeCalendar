@@ -9,6 +9,8 @@ using CommunityToolkit.Mvvm.Messaging.Messages;
 
 using Microsoft.UI.Xaml;
 
+using System.Threading.Tasks;
+
 namespace AnimeCalendar.Controls.Components;
 
 [ObservableObject]
@@ -28,9 +30,10 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl, IR
     public CollectionStatusSelector() {
         InitializeComponent();
         Loaded += OnLoaded;
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
-    private async void DownloadCollectionType() {
+    private async Task DownloadCollectionTypeAsync() {
         if (BgmUserCache.Instance.User == null)
             return;
         string username = BgmUserCache.Instance.User.Username;
@@ -46,7 +49,7 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl, IR
         RunningTasksCount--;
     }
 
-    private async void UploadCollectionType(CollectionType? type) {
+    private async Task UploadCollectionTypeAsync(CollectionType? type) {
         RunningTasksCount++;
         await BgmApiServices.CollectionApi.PostCollection(SubjectId, new() {
             Type = type
@@ -56,7 +59,7 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl, IR
 
     private void OnLoaded(object sender, RoutedEventArgs e)
         => Visibility = BgmUserCache.Instance.User == null
-            ? Visibility.Collapsed 
+            ? Visibility.Collapsed
             : Visibility.Visible;
 
     public void Receive(PropertyChangedMessage<User?> message)
@@ -69,9 +72,9 @@ public sealed partial class CollectionStatusSelector : TasksCountableControl, IR
         App.MainWindow.Pop(PopInfo.Info("无法操作", "Bangumi API 尚不支持此操作, 请转到网页操作"));
     }
 
-    partial void OnSubjectIdChanged(int value) => DownloadCollectionType();
+    partial void OnSubjectIdChanged(int value)
+        => DownloadCollectionTypeAsync().ConfigureAwait(false);
 
-    partial void OnCollectionStatusChanged(CollectionStatus? value) {
-        UploadCollectionType(value?.Type);
-    }
+    partial void OnCollectionStatusChanged(CollectionStatus? value)
+        => UploadCollectionTypeAsync(value?.Type).ConfigureAwait(false);
 }

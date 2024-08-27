@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:AnimeCalendar.Pages"
     xmlns:card="using:AnimeCalendar.Controls.Cards"
+    xmlns:ui="using:CommunityToolkit.WinUI"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -21,9 +22,16 @@
     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
         <card:ImageCard x:Name="BgmCard" Style="{StaticResource CardStyle}" Click="BangumiLoginCard_Click">
             <ProgressRing />
+            
+            <card:ImageCard.ContextFlyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE77B;}" Text="访问主页" Command="{x:Bind OpenLinkCommand}" />
+                    <MenuFlyoutItem Icon="{ui:FontIcon Glyph=&#xE711;}" Text="退出登录" Command="{x:Bind LogoutCommand}"/>
+                </MenuFlyout>
+            </card:ImageCard.ContextFlyout>
         </card:ImageCard>
         <card:ImageCard x:Name="MikanCard" Style="{StaticResource CardStyle}" Click="MikanimeLoginCard_Click"
-                            IconSource="https://mikanime.tv/images/favicon.ico?v=2">
+                        IconSource="https://mikanime.tv/images/favicon.ico?v=2">
             <TextBlock Text="登录 Mikanime" VerticalAlignment="Center" />
         </card:ImageCard>
     </StackPanel>

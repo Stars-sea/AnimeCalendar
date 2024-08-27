@@ -29,12 +29,13 @@ public sealed partial class CollectionPage : Page, IRecipient<PropertyChangedMes
 
     public CollectionPage() {
         InitializeComponent();
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public void Receive(PropertyChangedMessage<User?> message)
         => OnPropertyChanged(nameof(IsLoggedIn));
 
-    private async void SelectorBar_SelectionChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args) {
+    private async void OnSelectedCollectionTypeChanged(SelectorBar sender, SelectorBarSelectionChangedEventArgs args) {
         var type = (CollectionType)int.Parse((string)sender.SelectedItem.Tag);
 
         IsFetchingData = true;

@@ -44,7 +44,7 @@ public sealed partial class MikanimeView : TasksCountableControl {
     }
 
     #region Updaters
-    private async void UpdateMikanBangumisAsync() {
+    private async Task UpdateMikanBangumisAsync() {
         RunningTasksCount++;
         try {
             MikanBangumis = SubjectName != null
@@ -95,7 +95,8 @@ public sealed partial class MikanimeView : TasksCountableControl {
     #endregion
 
     #region Listeners
-    partial void OnSubjectNameChanged(string? value) => UpdateMikanBangumisAsync();
+    partial void OnSubjectNameChanged(string? value)
+        => UpdateMikanBangumisAsync().ConfigureAwait(false);
 
     partial void OnMikanBangumisChanged(IEnumerable<Identifier> value) {
         BangumiSelector.ItemsSource = value;

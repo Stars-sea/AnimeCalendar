@@ -2,6 +2,8 @@ using AnimeCalendar.Api.Bangumi;
 using AnimeCalendar.Api.Bangumi.Schemas;
 using AnimeCalendar.Data;
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Navigation;
@@ -13,9 +15,12 @@ using System.Threading.Tasks;
 
 namespace AnimeCalendar.Pages;
 
+[ObservableObject]
 public sealed partial class TimelinePage : Page {
     private static Calendar[]? cache;
-    private static bool IsShowFiltered = false;
+
+    [ObservableProperty]
+    private static bool isShowFiltered = false;
 
     public Calendar? Calendar { get; private set; }
     public int       Weekday  { get; private set; }
@@ -53,7 +58,7 @@ public sealed partial class TimelinePage : Page {
 
         List<AirSubject> subjects = new();
         foreach (AirSubject subject in items) {
-            if (!isShowFiltered || (isShowFiltered && await IsCollected(subject.Id)))
+            if (!isShowFiltered || await IsCollected(subject.Id))
                 subjects.Add(subject);
         }
 
@@ -89,8 +94,7 @@ public sealed partial class TimelinePage : Page {
         IndexPage.Current?.Navigate(navigationInfo);
     }
 
-    private async void ToggleSwitch_Toggled(object sender, RoutedEventArgs e) {
-        var toggleSwitch = (ToggleSwitch)sender;
-        await Reload(IsShowFiltered = toggleSwitch.IsOn);
+    partial void OnIsShowFilteredChanged(bool value) {
+        Reload(value).ConfigureAwait(false);
     }
 }

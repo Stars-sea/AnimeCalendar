@@ -30,11 +30,9 @@
             
             <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Content="{ui:SymbolIcon FontSize=16, Symbol=Setting}">
                 <Button.Flyout>
-                    <Flyout Placement="BottomEdgeAlignedRight">
-                        <ToggleSwitch
-                            Toggled="ToggleSwitch_Toggled"
-                            OnContent="展示收藏" OffContent="展示全部" />
-                    </Flyout>
+                    <MenuFlyout Placement="BottomEdgeAlignedRight">
+                        <ToggleMenuFlyoutItem Text="仅展示收藏" IsChecked="{x:Bind IsShowFiltered, Mode=TwoWay}" />
+                    </MenuFlyout>
                 </Button.Flyout>
             </Button>
         </Grid>

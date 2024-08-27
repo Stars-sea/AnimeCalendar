@@ -15,9 +15,11 @@ internal sealed partial class BgmUserCache : ObservableRecipient {
     private BgmUserCache() { }
 
     [ObservableProperty]
+    [NotifyPropertyChangedRecipients]
     private IAuthTokenStorage? tokenStorage;
 
     [ObservableProperty]
+    [NotifyPropertyChangedRecipients]
     private User? user;
 
     public static async Task<bool> IsTokenNullOrExpired()
@@ -39,19 +41,20 @@ internal sealed partial class BgmUserCache : ObservableRecipient {
         }
     }
 
-    public async void UpdateUserAsync()
+    public async ValueTask LogoutAsync() {
+        if (TokenStorage == null) return;
+
+        await TokenStorage.Delete();
+        TokenStorage = null;
+    }
+
+    public async Task UpdateUserAsync()
         => User = !await IsTokenNullOrExpired()
             ? await BgmApiServices.UserApi.GetMe()
             : null;
 
     partial void OnTokenStorageChanged(IAuthTokenStorage? oldValue, IAuthTokenStorage? newValue) {
         BgmApiServices.UpdateTokenStorage(newValue);
-
-        Broadcast(oldValue, newValue, nameof(TokenStorage));
-
-        UpdateUserAsync();
+        UpdateUserAsync().ConfigureAwait(false);
     }
-
-    partial void OnUserChanged(User? oldValue, User? newValue)
-        => Broadcast(oldValue, newValue, nameof(User));
 }

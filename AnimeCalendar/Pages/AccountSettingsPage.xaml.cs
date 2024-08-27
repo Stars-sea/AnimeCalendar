@@ -6,6 +6,7 @@ using AnimeCalendar.Data;
 using AnimeCalendar.Storage;
 using AnimeCalendar.Utils;
 
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 
@@ -17,13 +18,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
+using Launcher = Windows.System.Launcher;
+
 namespace AnimeCalendar.Pages;
 
 public sealed partial class AccountSettingsPage : Page, IRecipient<PropertyChangedMessage<User?>> {
     public AccountSettingsPage() {
         InitializeComponent();
-
-        Loaded += AccountSettingsPage_Loaded;
+        Loaded += OnLoaded;
+        WeakReferenceMessenger.Default.RegisterAll(this);
     }
 
     public void Receive(PropertyChangedMessage<User?> message)
@@ -76,7 +79,7 @@ public sealed partial class AccountSettingsPage : Page, IRecipient<PropertyChang
         return null;
     }
 
-    private void AccountSettingsPage_Loaded(object sender, RoutedEventArgs e)
+    private void OnLoaded(object sender, RoutedEventArgs e)
         => OnBgmUserChanged(BgmUserCache.Instance.User);
 
     private async void BangumiLoginCard_Click(object sender, RoutedEventArgs e) {
@@ -87,11 +90,20 @@ public sealed partial class AccountSettingsPage : Page, IRecipient<PropertyChang
                 cache.TokenStorage = authToken;
         }
         else if (cache.User != null) {
-            await Windows.System.Launcher.LaunchUriAsync(new Uri($"https://bgm.tv/user/{cache.User.Username}"));
+            await OpenLinkAsync();
         }
     }
 
     private void MikanimeLoginCard_Click(object sender, RoutedEventArgs e) {
         App.MainWindow.Pop(PopInfo.Info("功能开发中...", "敬请期待"));
     }
+
+    private static bool IsLoggedIn() => BgmUserCache.Instance.User != null;
+
+    [RelayCommand(CanExecute = nameof(IsLoggedIn))]
+    private async Task OpenLinkAsync()
+        => await Launcher.LaunchUriAsync(new Uri($"https://bgm.tv/user/{BgmUserCache.Instance.User!.Username}"));
+
+    [RelayCommand(CanExecute = nameof(IsLoggedIn))]
+    private async Task LogoutAsync() => await BgmUserCache.Instance.LogoutAsync();
 }

@@ -32,7 +32,7 @@
             <StackPanel Grid.Row="0" Spacing="8">
                 <TextBlock Text="收藏" Margin="12 0" Style="{ThemeResource TitleTextBlockStyle}" />
                 
-                <SelectorBar SelectionChanged="SelectorBar_SelectionChanged">
+                <SelectorBar SelectionChanged="OnSelectedCollectionTypeChanged">
                     <SelectorBarItem Text="在看" Icon="{ui:FontIcon Glyph=&#xE93E;}" Tag="3" IsSelected="True" />
                     <SelectorBarItem Text="想看" Icon="{ui:FontIcon Glyph=&#xE890;}" Tag="1" />
                     <SelectorBarItem Text="看过" Icon="{ui:FontIcon Glyph=&#xEE92;}" Tag="2" />
