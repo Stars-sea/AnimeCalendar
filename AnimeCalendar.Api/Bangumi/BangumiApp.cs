@@ -4,9 +4,7 @@
 internal static class BangumiApp {
     public const string APP_ID        = "...";
     public const string APP_SECRET    = "...";
-    public const string REDIRECT_URI  = "ac://...";
-
-    public const string USER_AGENT = "...";
+    public const string REDIRECT_URI  = "ac://callback/bgm";
 
     public static (string, string) Get() => (APP_ID, APP_SECRET);
 
