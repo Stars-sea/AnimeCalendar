@@ -9,6 +9,12 @@
     mc:Ignorable="d">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
 
+        <TextBlock Grid.Row="0" Text="设置" Style="{ThemeResource TitleTextBlockStyle}" />
+        
     </Grid>
 </Page>

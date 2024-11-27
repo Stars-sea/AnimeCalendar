@@ -5,12 +5,13 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap rescap">
+  xmlns:uap18="http://schemas.microsoft.com/appx/manifest/uap/windows10/18"
+  IgnorableNamespaces="uap rescap uap18">
 
   <Identity
     Name="0b6fee14-4046-4a8c-9ff4-af35a9d55f5a"
-    Publisher="CN=Stars"
-    Version="1.0.0.0" />
+    Publisher="CN=Stars sea"
+    Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="0b6fee14-4046-4a8c-9ff4-af35a9d55f5a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
