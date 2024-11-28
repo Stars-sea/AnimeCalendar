@@ -10,7 +10,7 @@
 
   <Identity
     Name="0b6fee14-4046-4a8c-9ff4-af35a9d55f5a"
-    Publisher="CN=Stars sea"
+    Publisher="CN=Stars-sea"
     Version="0.1.0.0" />
 
   <mp:PhoneIdentity PhoneProductId="0b6fee14-4046-4a8c-9ff4-af35a9d55f5a" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>

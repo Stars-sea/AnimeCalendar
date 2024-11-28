@@ -17,10 +17,9 @@
     <Nullable>enable</Nullable>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
-    <PackageCertificateThumbprint>02D267B8AA25E8CBD02AF61249A67F856074905C</PackageCertificateThumbprint>
+	<PackageCertificateThumbprint>ebad779ec0257f81fe3c081c84eb4493364b4026</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>D:\Dev\Repos\AnimeCalendar\Publish</AppxPackageDir>
     <AppxSymbolPackageEnabled>True</AppxSymbolPackageEnabled>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
     <AppxBundle>Auto</AppxBundle>
@@ -28,6 +27,8 @@
     <AppInstallerUri>https://github.com/Stars-sea/AnimeCalendar</AppInstallerUri>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
     <CreateMSIXPackage>True</CreateMSIXPackage>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
   <ItemGroup>
     <None Remove="Assets\Icon.ico" />
